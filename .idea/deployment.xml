@@ -135,6 +135,13 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="root@36.103.203.216:30030 password">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="root@36.103.203.216:30086 password">
         <serverdata>
           <mappings>
