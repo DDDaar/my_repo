@@ -792,3 +792,11 @@ CPU Virtual Memory:  used = 86.98 GB, percent = 5.8%
 [ERROR] 2026-01-19-01:14:35 (PID:226275, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception
 [ERROR] 2026-01-19-01:14:35 (PID:226278, Device:3, RankID:-1) ERR99999 UNKNOWN applicaiton exception
 [2026-01-19 01:14:38,862] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226275
+[2026-01-19 01:14:39,908] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226276
+[2026-01-19 01:14:40,210] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226277
+[2026-01-19 01:14:40,512] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226278
+[2026-01-19 01:14:41,693] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226279
+[2026-01-19 01:14:41,693] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226280
+[2026-01-19 01:14:41,697] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226281
+[2026-01-19 01:14:42,657] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226282
+[2026-01-19 01:14:42,661] [ERROR] [launch.py:341:sigkill_handler] ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json'] exits with return code = 1
