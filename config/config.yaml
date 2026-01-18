@@ -18,11 +18,11 @@ reasoning_stages:
   - name: "structure"
     steps: 3
     feature_key: "depth_map_encoded"
-    dim: 384
+    dim: 768
   - name: "boundaries"
     steps: 2
     feature_key: "segmentation_map_encoded"
-    dim: 256
+    dim: 512
 
 training:
   alpha_sft: 1.0
