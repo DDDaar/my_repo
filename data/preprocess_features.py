@@ -260,10 +260,9 @@
 # if __name__ == "__main__":
 #     extract_all_features()
 
-
 import os
 import torch
-import torch_npu.contrib.transfer_to_npu  # 保持 NPU 配置
+import torch_npu.contrib.transfer_to_npu 
 import gc
 from PIL import Image
 from tqdm import tqdm
@@ -272,126 +271,96 @@ from transformers import (
 	AutoImageProcessor,
 	AutoModel,
 	AutoModelForDepthEstimation,
-	AutoModelForSemanticSegmentation  # 改回 SemanticSegmentation 类用于 SegFormer
+	AutoModelForSemanticSegmentation 
 )
 
-# 配置
 DATASET_NAME = "derek-thomas/ScienceQA"
 OUTPUT_DIR = "./data_preprocessed/aligned_features"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-
 def pool_to_1d(hidden_state):
-	"""
-	强制将任何维度的隐藏层输出转换为 1D 全局特征向量 (C,)
-	- [B, C, H, W] -> Global Average Pooling -> (C,)
-	- [B, L, D] -> Sequence Mean Pooling -> (D,)
-	"""
 	if hidden_state.dim() == 4:
-		# 空间维度池化：对 H 和 W 求平均
 		return torch.mean(hidden_state, dim=[2, 3]).squeeze(0)
 	elif hidden_state.dim() == 3:
-		# 序列维度池化：对 L (token长度) 求平均
 		return torch.mean(hidden_state, dim=1).squeeze(0)
 	return hidden_state.flatten()
-
-
-def print_dims(stage_name, img, inputs, last_layer, final_feat):
-	print(f"\n{'-' * 20} {stage_name} Dimension Monitor {'-' * 20}")
-	print(f"1. Original Image Size : {img.size}")
-	print(f"2. Input Tensor Shape  : {inputs['pixel_values'].shape}")
-	print(f"3. Last Hidden Layer   : {last_layer.shape}")
-	print(f"4. Final 1D Feature    : {final_feat.shape}")
-	print(f"{'-' * 60}\n")
-
 
 def extract_all_features():
 	os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 	print(f"Loading dataset: {DATASET_NAME}...")
+	# 加载原始数据
 	full_dataset = load_dataset(DATASET_NAME, split="train")
+	
+	# 【关键修改】：在过滤前为每一条数据生成唯一 ID，格式为 "train_0", "train_1"...
+	# 这样即便后续过滤掉没有图片的样本，保留下来的样本 ID 依然是固定的
+	full_dataset = full_dataset.map(lambda x, idx: {'id': f"train_{idx}"}, with_indices=True)
+	
+	# 过滤掉没有图片的样本
 	dataset = full_dataset.filter(lambda x: x['image'] is not None)
 	total_items = len(dataset)
 
-	# ==================== 第一阶段：DINOv2 (语义特征) ====================
-	print("\nStage 1: Extracting DINOv2 (Semantic)...")
+	# 1. DINOv2
 	model_dino = AutoModel.from_pretrained("facebook/dinov2-base").to(DEVICE)
 	proc_dino = AutoImageProcessor.from_pretrained("facebook/dinov2-base")
 
 	for i in tqdm(range(total_items), desc="DINOv2"):
 		sample = dataset[i]
-		item_id = sample.get('id', f"idx_{i}")
+		item_id = sample['id'] # 获取我们生成的 ID
 		save_path = os.path.join(OUTPUT_DIR, f"{item_id}.pt")
+		
 		img = sample['image'].convert("RGB")
 		inputs = proc_dino(images=img, return_tensors="pt").to(DEVICE)
-
 		with torch.no_grad():
 			outputs = model_dino(**inputs)
-			last_layer = outputs.last_hidden_state
-			# DINOv2 官方推荐直接取 CLS Token (Index 0)
-			feat = last_layer[:, 0, :].squeeze(0).cpu()
-
-		if i == 0: print_dims("DINOv2 (CLS)", img, inputs, last_layer, feat)
+			feat = outputs.last_hidden_state[:, 0, :].squeeze(0).cpu()
 		torch.save({"id": item_id, "dino_v2_global": feat}, save_path)
 
 	del model_dino, proc_dino
-	torch.cuda.empty_cache();
-	gc.collect()
+	torch.cuda.empty_cache(); gc.collect()
 
-	# ==================== 第二阶段：Depth (深度几何特征) ====================
-	print("\nStage 2: Extracting Depth-Anything-V2 (Geometry)...")
-	model_path = "depth-anything/Depth-Anything-V2-Base-hf"
-	model_depth = AutoModelForDepthEstimation.from_pretrained(model_path).to(DEVICE)
-	proc_depth = AutoImageProcessor.from_pretrained(model_path)
+	# 2. Depth (同理使用 item_id)
+	model_depth = AutoModelForDepthEstimation.from_pretrained("depth-anything/Depth-Anything-V2-Base-hf").to(DEVICE)
+	proc_depth = AutoImageProcessor.from_pretrained("depth-anything/Depth-Anything-V2-Base-hf")
 
 	for i in tqdm(range(total_items), desc="Depth-V2"):
 		sample = dataset[i]
-		item_id = sample.get('id', f"idx_{i}")
+		item_id = sample['id']
 		save_path = os.path.join(OUTPUT_DIR, f"{item_id}.pt")
+		
 		img = sample['image'].convert("RGB")
 		inputs = proc_depth(images=img, return_tensors="pt").to(DEVICE)
-
 		with torch.no_grad():
 			outputs = model_depth(**inputs, output_hidden_states=True)
-			last_layer = outputs.hidden_states[-1]
-			feat = pool_to_1d(last_layer).cpu()
-
-		if i == 0: print_dims("Depth-V2 (Global Pool)", img, inputs, last_layer, feat)
-		data = torch.load(save_path) if os.path.exists(save_path) else {"id": item_id}
+			feat = pool_to_1d(outputs.hidden_states[-1]).cpu()
+		
+		data = torch.load(save_path)
 		data.update({"depth_map_encoded": feat})
 		torch.save(data, save_path)
 
 	del model_depth, proc_depth
-	torch.cuda.empty_cache();
-	gc.collect()
+	torch.cuda.empty_cache(); gc.collect()
 
-	# ==================== 第三阶段：SegFormer (类别分布特征) ====================
-	print("\nStage 3: Extracting SegFormer (Semantic Distribution)...")
-	# 使用 SegFormer B2
-	model_path = "nvidia/segformer-b2-finetuned-ade-512-512"
-	model_seg = AutoModelForSemanticSegmentation.from_pretrained(model_path).to(DEVICE)
-	proc_seg = AutoImageProcessor.from_pretrained(model_path)
+	# 3. SegFormer
+	model_seg = AutoModelForSemanticSegmentation.from_pretrained("nvidia/segformer-b2-finetuned-ade-512-512").to(DEVICE)
+	proc_seg = AutoImageProcessor.from_pretrained("nvidia/segformer-b2-finetuned-ade-512-512")
 
 	for i in tqdm(range(total_items), desc="SegFormer"):
 		sample = dataset[i]
-		item_id = sample.get('id', f"idx_{i}")
+		item_id = sample['id']
 		save_path = os.path.join(OUTPUT_DIR, f"{item_id}.pt")
+		
 		img = sample['image'].convert("RGB")
 		inputs = proc_seg(images=img, return_tensors="pt").to(DEVICE)
-
 		with torch.no_grad():
 			outputs = model_seg(**inputs, output_hidden_states=True)
-			# SegFormer 的最后隐藏层含有 256 或 512 维的语义特征
-			last_layer = outputs.hidden_states[-1]
-			feat = pool_to_1d(last_layer).cpu()
-
-		if i == 0: print_dims("SegFormer (Global Pool)", img, inputs, last_layer, feat)
-		data = torch.load(save_path) if os.path.exists(save_path) else {"id": item_id}
+			feat = pool_to_1d(outputs.hidden_states[-1]).cpu()
+		
+		data = torch.load(save_path)
 		data.update({"segmentation_map_encoded": feat})
 		torch.save(data, save_path)
 
-	print(f"\n[Success] All 1D SOTA features saved to {OUTPUT_DIR}")
-
+	print(f"\n[Success] Features saved to {OUTPUT_DIR}")
 
 if __name__ == "__main__":
 	extract_all_features()
