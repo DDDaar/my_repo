@@ -3,128 +3,177 @@ import torch.nn as nn
 import torch.nn.functional as F
 from transformers import Qwen2_5_VLForConditionalGeneration
 
+
 class LatentReasoningQwen(nn.Module):
     def __init__(self, config_obj):
         super().__init__()
         self.config = config_obj
+
         self.base_model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-            config_obj.base_model, 
+            config_obj.base_model,
             torch_dtype=torch.bfloat16,
             attn_implementation="sdpa"
         )
-        
+
         self.projectors = nn.ModuleDict({
             stage.name: nn.Linear(config_obj.hidden_size, stage.dim)
             for stage in config_obj.stages
         })
 
-    def forward(self, input_ids, labels, pixel_values, image_grid_thw, alignment_features):
-        batch_size = input_ids.shape[0]
-        device = input_ids.device
+    def forward(
+        self,
+        input_ids,
+        labels,
+        pixel_values,
+        image_grid_thw,
+        alignment_features,
+    ):
+        """
+        训练结构：
+        1. VL 主干 forward（有梯度）
+        2. latent reasoning（无梯度）
+        3. latent token 插入
+        4. CE + MSE loss
+        """
 
-        # 1. 基础 Pass
+        device = input_ids.device
+        batch_size = input_ids.size(0)
+
+        # ============================================================
+        # 1️⃣ VL 主干 forward（有梯度）
+        # ============================================================
         outputs = self.base_model(
             input_ids=input_ids,
             pixel_values=pixel_values,
             image_grid_thw=image_grid_thw,
-            output_hidden_states=True,
-            use_cache=True,
-            return_dict=True
+            output_hidden_states=False,   # ❌ 不要开
+            use_cache=False,              # ❌ 不要开
+            return_dict=True,
         )
-        
-        all_hidden_states = outputs.hidden_states[-1] 
-        past_key_values = outputs.past_key_values
 
+        hidden_states = outputs.last_hidden_state   # [B, L, H]
+
+        # latent 起始位置
         start_indices = (input_ids == self.config.latent_start_id).int().argmax(dim=1)
 
-        prefixes = []
-        suffixes = []
+        prefixes, suffixes = [], []
         for b in range(batch_size):
             idx = start_indices[b]
-            prefixes.append(all_hidden_states[b:b+1, :idx+1, :])
-            suffixes.append(all_hidden_states[b:b+1, idx+1:, :])
+            prefixes.append(hidden_states[b:b+1, :idx+1])
+            suffixes.append(hidden_states[b:b+1, idx+1:])
 
-        total_mse_loss = torch.tensor(0.0, device=device, dtype=torch.float32)
-        mse_stages = 0
-        latent_tokens_list = [[] for _ in range(batch_size)]
+        # 初始 latent hidden（从 <LATENT> token 取）
+        current_latent_h = torch.stack(
+            [hidden_states[b, start_indices[b]] for b in range(batch_size)],
+            dim=0
+        ).unsqueeze(1)  # [B, 1, H]
 
-        current_latent_h = []
+        latent_tokens = [[] for _ in range(batch_size)]
+
+        # ============================================================
+        # 2️⃣ latent reasoning（无梯度，防 OOM）
+        # ============================================================
+        total_mse_loss = torch.tensor(0.0, device=device)
+        mse_stage_cnt = 0
+
+        with torch.no_grad():
+            for stage in self.config.stages:
+                target_feat = alignment_features[stage.feature_key]  # [B, D]
+                stage_hiddens = []
+
+                for _ in range(stage.steps):
+                    step_out = self.base_model.model(
+                        inputs_embeds=current_latent_h,
+                        use_cache=False,
+                        return_dict=True,
+                    )
+
+                    current_latent_h = step_out.last_hidden_state  # [B, 1, H]
+                    stage_hiddens.append(current_latent_h)
+
+                    for b in range(batch_size):
+                        latent_tokens[b].append(
+                            current_latent_h[b:b+1].detach()
+                        )
+
+                stage_cat = torch.cat(stage_hiddens, dim=1).mean(dim=1)  # [B, H]
+
+                # 维度对齐
+                resized = F.interpolate(
+                    stage_cat.float().unsqueeze(1),
+                    size=target_feat.shape[-1],
+                    mode="linear",
+                    align_corners=False
+                ).squeeze(1)
+
+                total_mse_loss += F.mse_loss(resized, target_feat.float())
+                mse_stage_cnt += 1
+
+        avg_mse_loss = total_mse_loss / max(mse_stage_cnt, 1)
+
+        # ============================================================
+        # 3️⃣ 拼接 latent token
+        # ============================================================
+        final_hidden = []
         for b in range(batch_size):
-            idx = start_indices[b]
-            current_latent_h.append(all_hidden_states[b:b+1, idx:idx+1, :])
-        current_latent_h = torch.cat(current_latent_h, dim=0)
+            seq = torch.cat(
+                [prefixes[b]] + latent_tokens[b] + [suffixes[b]],
+                dim=1
+            )
+            final_hidden.append(seq)
 
-        for stage in self.config.stages:
-            target_feat = alignment_features[stage.feature_key] 
-            target_dim = target_feat.shape[-1]
-            stage_step_hiddens = []
+        combined_hidden = torch.cat(final_hidden, dim=0)
 
-            for _ in range(stage.steps):
-                # 增量推理：此时不需要 pixel_values，信息已在 past_key_values 中
-                step_outputs = self.base_model.model(
-                    inputs_embeds=current_latent_h,
-                    past_key_values=past_key_values,
-                    use_cache=True,
-                    return_dict=True
-                )
-                
-                current_latent_h = step_outputs.last_hidden_state
-                past_key_values = step_outputs.past_key_values
-                
-                stage_step_hiddens.append(current_latent_h)
-                for b in range(batch_size):
-                    latent_tokens_list[b].append(current_latent_h[b:b+1, :, :])
-
-            stage_h_cat = torch.cat(stage_step_hiddens, dim=1)
-            stage_avg_hidden = stage_h_cat.mean(dim=1)
-
-            resized = F.interpolate(
-                stage_avg_hidden.float().unsqueeze(1), 
-                size=target_dim,
-                mode="linear",
-                align_corners=False
-            ).squeeze(1)
-
-            total_mse_loss += F.mse_loss(resized, target_feat.float())
-            mse_stages += 1
-
-        avg_mse_loss = total_mse_loss / mse_stages if mse_stages > 0 else 0.0
-
-        final_embeddings = []
-        for b in range(batch_size):
-            sample_full_seq = torch.cat([prefixes[b]] + latent_tokens_list[b] + [suffixes[b]], dim=1)
-            final_embeddings.append(sample_full_seq)
-
-        combined_hidden = torch.cat(final_embeddings, dim=0)
+        # ============================================================
+        # 4️⃣ SFT loss
+        # ============================================================
         logits = self.base_model.lm_head(combined_hidden)
 
-        total_latent_steps = sum(stage.steps for stage in self.config.stages)
+        total_latent_steps = sum(s.steps for s in self.config.stages)
         new_labels = self._expand_labels(labels, start_indices, total_latent_steps)
 
-        shift_logits = logits[..., :-1, :].contiguous()
-        shift_labels = new_labels[..., 1:].contiguous()
+        shift_logits = logits[:, :-1].contiguous()
+        shift_labels = new_labels[:, 1:].contiguous()
 
         loss_fct = nn.CrossEntropyLoss()
-        sft_loss = loss_fct(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1))
+        sft_loss = loss_fct(
+            shift_logits.view(-1, shift_logits.size(-1)),
+            shift_labels.view(-1),
+        )
 
-        total_loss = self.config.alpha_sft * sft_loss + self.config.beta_mse * avg_mse_loss
-        
+        total_loss = (
+            self.config.alpha_sft * sft_loss
+            + self.config.beta_mse * avg_mse_loss
+        )
+
         return {
-            "loss": total_loss, 
-            "sft_loss": sft_loss, 
-            "mse_loss": avg_mse_loss
+            "loss": total_loss,
+            "sft_loss": sft_loss.detach(),
+            "mse_loss": avg_mse_loss.detach(),
         }
 
     def _expand_labels(self, labels, start_indices, num_new_tokens):
-        batch_size, seq_len = labels.shape
         device = labels.device
-        new_labels_list = []
-        for b in range(batch_size):
+        new_labels = []
+
+        for b in range(labels.size(0)):
             idx = start_indices[b]
-            prefix_l = labels[b, :idx+1]
-            suffix_l = labels[b, idx+1:]
-            latent_l = torch.full((num_new_tokens,), -100, device=device, dtype=labels.dtype)
-            new_labels_list.append(torch.cat([prefix_l, latent_l, suffix_l]))
-        
-        # 统一长度进行 padding，防止 batch 内序列长度不一
-        return torch.nn.utils.rnn.pad_sequence(new_labels_list, batch_first=True, padding_value=-100)
+            latent_pad = torch.full(
+                (num_new_tokens,),
+                -100,
+                device=device,
+                dtype=labels.dtype
+            )
+            new_labels.append(
+                torch.cat([
+                    labels[b, :idx+1],
+                    latent_pad,
+                    labels[b, idx+1:]
+                ])
+            )
+
+        return nn.utils.rnn.pad_sequence(
+            new_labels,
+            batch_first=True,
+            padding_value=-100
+        )

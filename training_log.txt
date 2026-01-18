@@ -1,0 +1,794 @@
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+[2026-01-19 01:12:59,088] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2026-01-19 01:12:59,089] [INFO] [runner.py:630:main] cmd = /home/ma-user/anaconda3/envs/my_repo/bin/python3.1 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train.py --feature_dir ./data/data_preprocessed/aligned_features --deepspeed --deepspeed_config config/zero2_config.json
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+[2026-01-19 01:13:10,834] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
+[2026-01-19 01:13:10,834] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=8, node_rank=0
+[2026-01-19 01:13:10,834] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
+[2026-01-19 01:13:10,834] [INFO] [launch.py:180:main] dist_world_size=8
+[2026-01-19 01:13:10,834] [INFO] [launch.py:184:main] Setting ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+[2026-01-19 01:13:10,835] [INFO] [launch.py:272:main] process 226275 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=0', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-19 01:13:10,836] [INFO] [launch.py:272:main] process 226276 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=1', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-19 01:13:10,837] [INFO] [launch.py:272:main] process 226277 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=2', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-19 01:13:10,838] [INFO] [launch.py:272:main] process 226278 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=3', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-19 01:13:10,839] [INFO] [launch.py:272:main] process 226279 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=4', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-19 01:13:10,840] [INFO] [launch.py:272:main] process 226280 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=5', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-19 01:13:10,841] [INFO] [launch.py:272:main] process 226281 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=6', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-19 01:13:10,842] [INFO] [launch.py:272:main] process 226282 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/contrib/transfer_to_npu.py:298: ImportWarning: 
+    *************************************************************************************************************
+    The torch.Tensor.cuda and torch.nn.Module.cuda are replaced with torch.Tensor.npu and torch.nn.Module.npu now..
+    The torch.cuda.DoubleTensor is replaced with torch.npu.FloatTensor cause the double type is not supported now..
+    The backend in torch.distributed.init_process_group set to hccl now..
+    The torch.cuda.* and torch.cuda.amp.* are replaced with torch.npu.* and torch.npu.amp.* now..
+    The device parameters have been replaced with npu in the function below:
+    torch.logspace, torch.randint, torch.hann_window, torch.rand, torch.full_like, torch.ones_like, torch.rand_like, torch.randperm, torch.arange, torch.frombuffer, torch.normal, torch._empty_per_channel_affine_quantized, torch.empty_strided, torch.empty_like, torch.scalar_tensor, torch.tril_indices, torch.bartlett_window, torch.ones, torch.sparse_coo_tensor, torch.randn, torch.kaiser_window, torch.tensor, torch.triu_indices, torch.as_tensor, torch.zeros, torch.randint_like, torch.full, torch.eye, torch._sparse_csr_tensor_unsafe, torch.empty, torch._sparse_coo_tensor_unsafe, torch.blackman_window, torch.zeros_like, torch.range, torch.sparse_csr_tensor, torch.randn_like, torch.from_file, torch._cudnn_init_dropout_state, torch._empty_affine_quantized, torch.linspace, torch.hamming_window, torch.empty_quantized, torch._pin_memory, torch.autocast, torch.load, torch.set_default_device, torch.Tensor.new_empty, torch.Tensor.new_empty_strided, torch.Tensor.new_full, torch.Tensor.new_ones, torch.Tensor.new_tensor, torch.Tensor.new_zeros, torch.Tensor.to, torch.Tensor.pin_memory, torch.nn.Module.to, torch.nn.Module.to_empty
+    *************************************************************************************************************
+    
+  warnings.warn(msg, ImportWarning)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/contrib/transfer_to_npu.py:255: RuntimeWarning: torch.jit.script and torch.jit.script_method will be disabled by transfer_to_npu, which currently does not support them, if you need to enable them, please do not use transfer_to_npu.
+  warnings.warn(msg, RuntimeWarning)
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.05it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.99it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.04it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.83it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.54it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.21it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.22it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.98it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.60it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.96it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.54it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.20it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.64it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.29it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.83it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.03it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.42it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.07it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.60it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.27it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.18it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.87it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.51it/s]
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+[rank0]:[W119 01:14:21.316594025 compiler_depend.ts:65] Warning: Warning: The torch.npu.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='npu') to create tensors. (function operator())
+[rank4]: Traceback (most recent call last):
+[rank4]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 84, in <module>
+[rank4]:     main()
+[rank4]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 79, in main
+[rank4]:     outputs = model_engine(input_ids, labels, pixel_values, image_grid_thw, alignment_features)
+[rank4]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank4]:     return self._call_impl(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank4]:     return forward_call(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank4]:     ret_val = func(*args, **kwargs)
+[rank4]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/engine.py", line 2236, in forward
+[rank4]:     loss = self.module(*inputs, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank4]:     return self._call_impl(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1845, in _call_impl
+[rank4]:     return inner()
+[rank4]:            ^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1793, in inner
+[rank4]:     result = forward_call(*args, **kwargs)
+[rank4]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/work/lbx/my_repo/model/modeling_latent_qwen.py", line 45, in forward
+[rank4]:     outputs = self.base_model(
+[rank4]:               ^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank4]:     return self._call_impl(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank4]:     return forward_call(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
+[rank4]:     output = func(self, *args, **kwargs)
+[rank4]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1509, in forward
+[rank4]:     outputs = self.model(
+[rank4]:               ^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank4]:     return self._call_impl(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank4]:     return forward_call(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1330, in forward
+[rank4]:     outputs = self.language_model(
+[rank4]:               ^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank4]:     return self._call_impl(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank4]:     return forward_call(*args, **kwargs)
+[rank4]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 900, in forward
+[rank4]:     "full_attention": create_causal_mask(**mask_kwargs),
+[rank4]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 753, in create_causal_mask
+[rank4]:     early_exit, attention_mask, packed_sequence_mask, kv_length, kv_offset = _preprocess_mask_arguments(
+[rank4]:                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 704, in _preprocess_mask_arguments
+[rank4]:     position_ids = position_ids.expand(batch_size, -1)
+[rank4]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank4]: RuntimeError: expand(npuLongType{[3, 4, 279]}, size=[4, -1]): the number of sizes provided (2) must be greater or equal to the number of dimensions in the tensor (3)
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 84, in <module>
+[rank2]:     main()
+[rank2]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 79, in main
+[rank2]:     outputs = model_engine(input_ids, labels, pixel_values, image_grid_thw, alignment_features)
+[rank2]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank2]:     ret_val = func(*args, **kwargs)
+[rank2]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/engine.py", line 2236, in forward
+[rank2]:     loss = self.module(*inputs, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1845, in _call_impl
+[rank2]:     return inner()
+[rank2]:            ^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1793, in inner
+[rank2]:     result = forward_call(*args, **kwargs)
+[rank2]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/work/lbx/my_repo/model/modeling_latent_qwen.py", line 45, in forward
+[rank2]:     outputs = self.base_model(
+[rank2]:               ^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
+[rank2]:     output = func(self, *args, **kwargs)
+[rank2]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1509, in forward
+[rank2]:     outputs = self.model(
+[rank2]:               ^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1330, in forward
+[rank2]:     outputs = self.language_model(
+[rank2]:               ^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 900, in forward
+[rank2]:     "full_attention": create_causal_mask(**mask_kwargs),
+[rank2]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 753, in create_causal_mask
+[rank2]:     early_exit, attention_mask, packed_sequence_mask, kv_length, kv_offset = _preprocess_mask_arguments(
+[rank2]:                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 704, in _preprocess_mask_arguments
+[rank2]:     position_ids = position_ids.expand(batch_size, -1)
+[rank2]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]: RuntimeError: expand(npuLongType{[3, 4, 258]}, size=[4, -1]): the number of sizes provided (2) must be greater or equal to the number of dimensions in the tensor (3)
+Before initializing optimizer states
+MA 8.75 GB         Max_MA 9.63 GB         CA 9.63 GB         Max_CA 10 GB 
+CPU Virtual Memory:  used = 86.92 GB, percent = 5.8%
+[rank5]: Traceback (most recent call last):
+[rank5]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 84, in <module>
+[rank5]:     main()
+[rank5]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 79, in main
+[rank5]:     outputs = model_engine(input_ids, labels, pixel_values, image_grid_thw, alignment_features)
+[rank5]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank5]:     return self._call_impl(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank5]:     return forward_call(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank5]:     ret_val = func(*args, **kwargs)
+[rank5]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/engine.py", line 2236, in forward
+[rank5]:     loss = self.module(*inputs, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank5]:     return self._call_impl(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1845, in _call_impl
+[rank5]:     return inner()
+[rank5]:            ^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1793, in inner
+[rank5]:     result = forward_call(*args, **kwargs)
+[rank5]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/work/lbx/my_repo/model/modeling_latent_qwen.py", line 45, in forward
+[rank5]:     outputs = self.base_model(
+[rank5]:               ^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank5]:     return self._call_impl(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank5]:     return forward_call(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
+[rank5]:     output = func(self, *args, **kwargs)
+[rank5]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1509, in forward
+[rank5]:     outputs = self.model(
+[rank5]:               ^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank5]:     return self._call_impl(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank5]:     return forward_call(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1330, in forward
+[rank5]:     outputs = self.language_model(
+[rank5]:               ^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank5]:     return self._call_impl(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank5]:     return forward_call(*args, **kwargs)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 900, in forward
+[rank5]:     "full_attention": create_causal_mask(**mask_kwargs),
+[rank5]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 753, in create_causal_mask
+[rank5]:     early_exit, attention_mask, packed_sequence_mask, kv_length, kv_offset = _preprocess_mask_arguments(
+[rank5]:                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 704, in _preprocess_mask_arguments
+[rank5]:     position_ids = position_ids.expand(batch_size, -1)
+[rank5]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]: RuntimeError: expand(npuLongType{[3, 4, 399]}, size=[4, -1]): the number of sizes provided (2) must be greater or equal to the number of dimensions in the tensor (3)
+After initializing optimizer states
+MA 8.75 GB         Max_MA 10.5 GB         CA 11.39 GB         Max_CA 11 GB 
+CPU Virtual Memory:  used = 86.97 GB, percent = 5.8%
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 84, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 79, in main
+[rank1]:     outputs = model_engine(input_ids, labels, pixel_values, image_grid_thw, alignment_features)
+[rank1]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank1]:     ret_val = func(*args, **kwargs)
+[rank1]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/engine.py", line 2236, in forward
+[rank1]:     loss = self.module(*inputs, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1845, in _call_impl
+[rank1]:     return inner()
+[rank1]:            ^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1793, in inner
+[rank1]:     result = forward_call(*args, **kwargs)
+[rank1]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/work/lbx/my_repo/model/modeling_latent_qwen.py", line 45, in forward
+[rank1]:     outputs = self.base_model(
+[rank1]:               ^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
+[rank1]:     output = func(self, *args, **kwargs)
+[rank1]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1509, in forward
+[rank1]:     outputs = self.model(
+[rank1]:               ^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1330, in forward
+[rank1]:     outputs = self.language_model(
+[rank1]:               ^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 900, in forward
+[rank1]:     "full_attention": create_causal_mask(**mask_kwargs),
+[rank1]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 753, in create_causal_mask
+[rank1]:     early_exit, attention_mask, packed_sequence_mask, kv_length, kv_offset = _preprocess_mask_arguments(
+[rank1]:                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 704, in _preprocess_mask_arguments
+[rank1]:     position_ids = position_ids.expand(batch_size, -1)
+[rank1]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]: RuntimeError: expand(npuLongType{[3, 4, 396]}, size=[4, -1]): the number of sizes provided (2) must be greater or equal to the number of dimensions in the tensor (3)
+[rank7]: Traceback (most recent call last):
+[rank7]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 84, in <module>
+[rank7]:     main()
+[rank7]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 79, in main
+[rank7]:     outputs = model_engine(input_ids, labels, pixel_values, image_grid_thw, alignment_features)
+[rank7]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank7]:     return self._call_impl(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank7]:     return forward_call(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank7]:     ret_val = func(*args, **kwargs)
+[rank7]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/engine.py", line 2236, in forward
+[rank7]:     loss = self.module(*inputs, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank7]:     return self._call_impl(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1845, in _call_impl
+[rank7]:     return inner()
+[rank7]:            ^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1793, in inner
+[rank7]:     result = forward_call(*args, **kwargs)
+[rank7]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/work/lbx/my_repo/model/modeling_latent_qwen.py", line 45, in forward
+[rank7]:     outputs = self.base_model(
+[rank7]:               ^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank7]:     return self._call_impl(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank7]:     return forward_call(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
+[rank7]:     output = func(self, *args, **kwargs)
+[rank7]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1509, in forward
+[rank7]:     outputs = self.model(
+[rank7]:               ^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank7]:     return self._call_impl(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank7]:     return forward_call(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1330, in forward
+[rank7]:     outputs = self.language_model(
+[rank7]:               ^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank7]:     return self._call_impl(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank7]:     return forward_call(*args, **kwargs)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 900, in forward
+[rank7]:     "full_attention": create_causal_mask(**mask_kwargs),
+[rank7]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 753, in create_causal_mask
+[rank7]:     early_exit, attention_mask, packed_sequence_mask, kv_length, kv_offset = _preprocess_mask_arguments(
+[rank7]:                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 704, in _preprocess_mask_arguments
+[rank7]:     position_ids = position_ids.expand(batch_size, -1)
+[rank7]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]: RuntimeError: expand(npuLongType{[3, 4, 562]}, size=[4, -1]): the number of sizes provided (2) must be greater or equal to the number of dimensions in the tensor (3)
+After initializing ZeRO optimizer
+MA 8.75 GB         Max_MA 8.75 GB         CA 11.39 GB         Max_CA 11 GB 
+CPU Virtual Memory:  used = 86.98 GB, percent = 5.8%
+  0%|          | 0/195 [00:00<?, ?it/s][ERROR] 2026-01-19-01:14:31 (PID:226279, Device:4, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+[rank6]: Traceback (most recent call last):
+[rank6]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 84, in <module>
+[rank6]:     main()
+[rank6]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 79, in main
+[rank6]:     outputs = model_engine(input_ids, labels, pixel_values, image_grid_thw, alignment_features)
+[rank6]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank6]:     return self._call_impl(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank6]:     return forward_call(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank6]:     ret_val = func(*args, **kwargs)
+[rank6]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/engine.py", line 2236, in forward
+[rank6]:     loss = self.module(*inputs, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank6]:     return self._call_impl(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1845, in _call_impl
+[rank6]:     return inner()
+[rank6]:            ^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1793, in inner
+[rank6]:     result = forward_call(*args, **kwargs)
+[rank6]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/work/lbx/my_repo/model/modeling_latent_qwen.py", line 45, in forward
+[rank6]:     outputs = self.base_model(
+[rank6]:               ^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank6]:     return self._call_impl(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank6]:     return forward_call(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
+[rank6]:     output = func(self, *args, **kwargs)
+[rank6]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1509, in forward
+[rank6]:     outputs = self.model(
+[rank6]:               ^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank6]:     return self._call_impl(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank6]:     return forward_call(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1250, in forward
+[rank6]:     image_embeds = self.get_image_features(pixel_values, image_grid_thw)
+[rank6]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1200, in get_image_features
+[rank6]:     image_embeds = self.visual(pixel_values, grid_thw=image_grid_thw)
+[rank6]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank6]:     return self._call_impl(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank6]:     return forward_call(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 492, in forward
+[rank6]:     hidden_states = blk(
+[rank6]:                     ^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/modeling_layers.py", line 83, in __call__
+[rank6]:     return super().__call__(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank6]:     return self._call_impl(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank6]:     return forward_call(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 286, in forward
+[rank6]:     hidden_states = hidden_states + self.attn(
+[rank6]:                                     ^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank6]:     return self._call_impl(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank6]:     return forward_call(*args, **kwargs)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 248, in forward
+[rank6]:     attn_output, _ = attention_interface(
+[rank6]:                      ^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/integrations/sdpa_attention.py", line 66, in sdpa_attention_forward
+[rank6]:     attn_output = torch.nn.functional.scaled_dot_product_attention(
+[rank6]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]: RuntimeError: NPU out of memory. Tried to allocate 1.76 GiB (NPU 6; 60.96 GiB total capacity; 59.07 GiB already allocated; 59.07 GiB current active; 316.39 MiB free; 59.80 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.
+  0%|          | 0/195 [00:02<?, ?it/s]
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 84, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 79, in main
+[rank0]:     outputs = model_engine(input_ids, labels, pixel_values, image_grid_thw, alignment_features)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank0]:     ret_val = func(*args, **kwargs)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/engine.py", line 2236, in forward
+[rank0]:     loss = self.module(*inputs, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1845, in _call_impl
+[rank0]:     return inner()
+[rank0]:            ^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1793, in inner
+[rank0]:     result = forward_call(*args, **kwargs)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/work/lbx/my_repo/model/modeling_latent_qwen.py", line 45, in forward
+[rank0]:     outputs = self.base_model(
+[rank0]:               ^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
+[rank0]:     output = func(self, *args, **kwargs)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1509, in forward
+[rank0]:     outputs = self.model(
+[rank0]:               ^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1330, in forward
+[rank0]:     outputs = self.language_model(
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 900, in forward
+[rank0]:     "full_attention": create_causal_mask(**mask_kwargs),
+[rank0]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 753, in create_causal_mask
+[rank0]:     early_exit, attention_mask, packed_sequence_mask, kv_length, kv_offset = _preprocess_mask_arguments(
+[rank0]:                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/masking_utils.py", line 704, in _preprocess_mask_arguments
+[rank0]:     position_ids = position_ids.expand(batch_size, -1)
+[rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]: RuntimeError: expand(npuLongType{[3, 4, 465]}, size=[4, -1]): the number of sizes provided (2) must be greater or equal to the number of dimensions in the tensor (3)
+[ERROR] 2026-01-19-01:14:32 (PID:226276, Device:1, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+[ERROR] 2026-01-19-01:14:32 (PID:226277, Device:2, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+[ERROR] 2026-01-19-01:14:33 (PID:226282, Device:7, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+[ERROR] 2026-01-19-01:14:33 (PID:226280, Device:5, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 84, in <module>
+[rank3]:     main()
+[rank3]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 79, in main
+[rank3]:     outputs = model_engine(input_ids, labels, pixel_values, image_grid_thw, alignment_features)
+[rank3]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank3]:     ret_val = func(*args, **kwargs)
+[rank3]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/engine.py", line 2236, in forward
+[rank3]:     loss = self.module(*inputs, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1845, in _call_impl
+[rank3]:     return inner()
+[rank3]:            ^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1793, in inner
+[rank3]:     result = forward_call(*args, **kwargs)
+[rank3]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/work/lbx/my_repo/model/modeling_latent_qwen.py", line 45, in forward
+[rank3]:     outputs = self.base_model(
+[rank3]:               ^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
+[rank3]:     output = func(self, *args, **kwargs)
+[rank3]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1509, in forward
+[rank3]:     outputs = self.model(
+[rank3]:               ^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1250, in forward
+[rank3]:     image_embeds = self.get_image_features(pixel_values, image_grid_thw)
+[rank3]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 1200, in get_image_features
+[rank3]:     image_embeds = self.visual(pixel_values, grid_thw=image_grid_thw)
+[rank3]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 492, in forward
+[rank3]:     hidden_states = blk(
+[rank3]:                     ^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/modeling_layers.py", line 83, in __call__
+[rank3]:     return super().__call__(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 286, in forward
+[rank3]:     hidden_states = hidden_states + self.attn(
+[rank3]:                                     ^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/models/qwen2_5_vl/modeling_qwen2_5_vl.py", line 248, in forward
+[rank3]:     attn_output, _ = attention_interface(
+[rank3]:                      ^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/transformers/integrations/sdpa_attention.py", line 66, in sdpa_attention_forward
+[rank3]:     attn_output = torch.nn.functional.scaled_dot_product_attention(
+[rank3]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]: RuntimeError: NPU out of memory. Tried to allocate 2.80 GiB (NPU 3; 60.96 GiB total capacity; 57.17 GiB already allocated; 57.17 GiB current active; 2.53 GiB free; 57.58 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.
+[ERROR] 2026-01-19-01:14:34 (PID:226281, Device:6, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+[ERROR] 2026-01-19-01:14:35 (PID:226275, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+[ERROR] 2026-01-19-01:14:35 (PID:226278, Device:3, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+[2026-01-19 01:14:38,862] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 226275
