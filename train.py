@@ -7,6 +7,7 @@ from modeling_latent_qwen import LatentReasoningQwen
 from dataset_latent import LatentReasoningDataset, collate_fn
 import argparse
 
+# deepspeed --num_gpus=8 train.py --deepspeed ds_config.json
 
 def parse_args():
 	parser = argparse.ArgumentParser(description="Deepspeed Training")
