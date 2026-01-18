@@ -2,6 +2,7 @@ import os
 import torch
 import deepspeed
 import argparse
+import gc
 from tqdm import tqdm
 from datasets import load_dataset
 from torch.utils.data import DataLoader, DistributedSampler
@@ -12,13 +13,15 @@ from configuration_latent import LatentConfig
 from modeling_latent_qwen import LatentReasoningQwen
 from dataset_latent import LatentReasoningDataset, collate_fn
 
-# 配置环境变量以优化 NPU/GPU 性能
+# 环境配置
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Latent Reasoning Training on ScienceQA")
+    parser = argparse.ArgumentParser(description="Latent Reasoning Training (Sequence Expansion Mode)")
     parser.add_argument("--local_rank", type=int, default=-1, help="local rank for distributed training")
-    parser.add_argument("--feature_dir", type=str, default="./data_preprocessed/aligned_features", help="Path to pre-extracted .pt features")
+    parser.add_argument("--feature_dir", type=str, default="./data_preprocessed/aligned_features", help="预处理特征路径")
+    parser.add_argument("--epochs", type=int, default=3)
+    parser.add_argument("--save_path", type=str, default="./checkpoints/latent_qwen_expanded")
     parser = deepspeed.add_config_arguments(parser)
     return parser.parse_args()
 
@@ -27,81 +30,87 @@ def main():
 
     # 1. 加载配置与处理器
     config = LatentConfig.load("config.yaml")
-    # Qwen2.5-VL 的处理器负责处理图像补丁（Patches）和文本分词
     processor = Qwen2_5_VLProcessor.from_pretrained(config.base_model)
 
     # 2. 注册并准备特殊 Token
-    # 这里的逻辑是：给模型添加 <|latent_start|> 和 <|vision_extract_0|> 等 token
-    special_tokens = [config.latent_start_token] + [
-        f"{config.type1_base_token}{i}|>" for i in range(config.type1_count)
-    ]
+    # 注意：这里的 Token 顺序和数量必须与建模代码中的逻辑严格对应
+    special_tokens = [config.latent_start_token]
+    for i in range(config.type1_count):
+        special_tokens.append(f"{config.type1_base_token}{i}|>")
+    
     num_added_tokens = processor.tokenizer.add_special_tokens({"additional_special_tokens": special_tokens})
     config.latent_start_id = processor.tokenizer.convert_tokens_to_ids(config.latent_start_token)
+    
+    print(f"Added {num_added_tokens} tokens. Latent Start ID: {config.latent_start_id}")
 
-    # 3. 准备 ScienceQA 数据集并确保 ID 对齐
-    print(f"Loading ScienceQA and aligning IDs...")
+    # 3. 加载 ScienceQA 数据集并注入 ID (用于匹配预处理特征)
     raw_dataset = load_dataset("derek-thomas/ScienceQA", split="train")
     
-    # 【核心对齐逻辑】：先通过 map 赋予物理索引 ID，再过滤有图片的样本
-    # 这确保了 Dataset[idx] 获取到的 id 与预处理保存的 {id}.pt 文件名完全一致
-    indexed_dataset = raw_dataset.map(lambda x, idx: {'id': f"train_{idx}"}, with_indices=True)
-    train_data = indexed_dataset.filter(lambda x: x['image'] is not None)
-
-    train_dataset = LatentReasoningDataset(
-        train_data, 
-        processor, 
-        config, 
-        args.feature_dir
-    )
+    # 为每条数据添加索引，确保能找到对应的 .pt 特征文件
+    def add_idx(example, idx):
+        example.update({"id": f"train_{idx}"})
+        return example
+    indexed_dataset = raw_dataset.map(add_idx, with_indices=True)
 
     # 4. 初始化模型
-    # 模型会将 Qwen2.5-VL 封装在内，并在 forward 中执行隐藏层的“思考”循环
     model = LatentReasoningQwen(config)
-    # 必须根据新添加的特殊 token 调整 Embedding 层大小
+    
+    # 必须 Resize Embedding 使得新 Token 生效
     model.base_model.resize_token_embeddings(len(processor.tokenizer))
+    
+    # 启用梯度检查点以节省显存 (序列扩展模式开销较大)
+    model.base_model.gradient_checkpointing_enable()
 
-    # 5. DeepSpeed 初始化
-    # 自动管理 ZeRO 优化、混合精度 (BF16) 和 Adam 优化器
-    model_engine, optimizer, _, _ = deepspeed.initialize(
-        args=args,
-        model=model,
-        model_parameters=model.parameters(),
-        # 需确保目录下有 ds_config.json
-        config="ds_config.json" 
+    # 5. 准备 Dataset 和 DataLoader
+    train_dataset = LatentReasoningDataset(
+        data_list=indexed_dataset,
+        processor=processor,
+        config=config,
+        feature_dir=args.feature_dir
     )
 
-    # 6. 数据加载器 (支持多卡分布式)
-    sampler = DistributedSampler(train_dataset)
+    sampler = DistributedSampler(train_dataset) if args.local_rank != -1 else None
     dataloader = DataLoader(
         train_dataset,
         batch_size=config.batch_size,
-        collate_fn=collate_fn,
         sampler=sampler,
+        collate_fn=collate_fn,
         num_workers=4,
         pin_memory=True
     )
 
+    # 6. DeepSpeed 初始化
+    # 使用 zero2_config.json 中的优化策略
+    model_engine, optimizer, _, _ = deepspeed.initialize(
+        args=args,
+        model=model,
+        model_parameters=model.parameters(),
+        config="zero2_config.json"
+    )
+
     # 7. 训练循环
     model_engine.train()
-    epochs = 5
-    for epoch in range(epochs):
-        sampler.set_epoch(epoch)
+    for epoch in range(args.epochs):
+        if sampler:
+            sampler.set_epoch(epoch)
+        
         pbar = tqdm(dataloader, desc=f"Epoch {epoch}", disable=(args.local_rank != 0))
         
         for step, batch in enumerate(pbar):
-            # 将数据搬运至 NPU/GPU
+            # 将数据搬运至设备
             input_ids = batch["input_ids"].to(model_engine.device)
             labels = batch["labels"].to(model_engine.device)
             pixel_values = batch["pixel_values"].to(model_engine.device, dtype=torch.bfloat16)
             image_grid_thw = batch["image_grid_thw"].to(model_engine.device)
             
-            # 这里的对齐特征是预处理好的 DINO/Depth/Seg 特征
+            # 准备对齐特征
             alignment_features = {
                 k: v.to(model_engine.device, dtype=torch.bfloat16)
                 for k, v in batch["alignment_features"].items() if isinstance(v, torch.Tensor)
             }
 
-            # 前向传播：返回组合 Loss (SFT Loss + MSE Alignment Loss)
+            # 前向传播
+            # 这里的输出是修改后的 modeling_latent_qwen 返回的字典
             outputs = model_engine(
                 input_ids=input_ids,
                 labels=labels,
@@ -111,17 +120,28 @@ def main():
             )
 
             loss = outputs["loss"]
+            sft_loss = outputs["sft_loss"]
+            mse_loss = outputs["mse_loss"]
             
-            # 反向传播与优化
+            # 反向传播
             model_engine.backward(loss)
             model_engine.step()
 
-            if args.local_rank == 0:
-                pbar.set_postfix({"loss": loss.item()})
+            # 日志监控
+            if args.local_rank <= 0 and step % 5 == 0:
+                pbar.set_postfix({
+                    "Total": f"{loss.item():.3f}",
+                    "SFT": f"{sft_loss.item():.3f}",
+                    "MSE": f"{mse_loss.item():.4f}"
+                })
 
-        # 每个 Epoch 保存一次权重
-        if args.local_rank == 0:
-            model_engine.save_checkpoint(f"checkpoints/epoch_{epoch}")
+        # 保存每个 Epoch 的 Checkpoint
+        if args.local_rank <= 0:
+            save_dir = os.path.join(args.save_path, f"epoch_{epoch}")
+            model_engine.save_checkpoint(save_dir)
+            print(f"Saved checkpoint to {save_dir}")
+
+    print("Training Complete.")
 
 if __name__ == "__main__":
     main()
