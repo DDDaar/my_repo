@@ -1,55 +1,40 @@
 model:
   base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
-  hidden_size: 2560 # Qwen2.5-VL-3B default
+  hidden_size: 2560
 
 tokens:
-  type1_count: 16 # 第一类：自适应提取视觉信息的Token数量 K
-  latent_steps: 8 # 潜在推理的步数 N
-  special_tokens:
-    latent_start: "<|latent_start|>"
-    type1_base: "<|vision_extract_"
+  extract_token: "<|vision_extract_pad|>"
+  extract_count: 16 # 提取层分配 16 个 Token 用于压缩视觉信息
 
-# 定义有序的对齐阶段
+# 推理对齐阶段 (MSE Loss)
 reasoning_stages:
   - name: "semantic"
-    steps: 3
+    token: "<|dino_pad|>"
+    count: 8
     feature_key: "dino_v2_global"
     dim: 768
+    
   - name: "structure"
-    steps: 3
+    token: "<|depth_pad|>"
+    count: 8
     feature_key: "depth_map_encoded"
     dim: 768
+    
   - name: "boundaries"
-    steps: 2
+    token: "<|seg_pad|>"
+    count: 8
     feature_key: "segmentation_map_encoded"
     dim: 512
 
 training:
   alpha_sft: 1.0
-  beta_mse: 0.5
+  beta_mse: 2.0
   batch_size: 4
   learning_rate: 1e-4
 
-alignment:
-  # 定义 latent_steps 中每一步对齐的目标 (mse_target)
-  # 索引从 0 到 latent_steps-1
-  targets:
-    0: "dino_v2_global"
-    1: "dino_v2_patch_mean"
-    2: "depth_map_encoded"
-    3: "segmentation_map_encoded"
-    # 后续步骤可以不强制对齐，或者对齐到其他高层语义
-  projection_dim: 1024 # 外部编码器(如DINO大模型)的维度，需要投影对齐
-
-visibility_mask:
-  # 控制各部分能否看到原始输入图像 (True/False)
-  prompt_sees_image: True
-  type1_sees_image: True
-  latent_sees_image: False # 强制 Latent 过程脱离原始像素，依靠 Type1 提取的信息
-  answer_sees_image: False # Answer 只能看到 Prompt + Type1 + Latent
-
-training:
-  alpha_sft: 1.0
-  beta_mse: 0.5
-  batch_size: 4
-  learning_rate: 1e-4
+# 注意力控制：定义谁能看图片
+attention_control:
+  image_visible_to:
+    - "extract_token"
+    - "reasoning_tokens" 
+    # explicitly EXCLUDE "text_tokens" (Question/Answer)
