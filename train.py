@@ -1,5 +1,6 @@
 import os
 import torch
+from torch_npu.contrib import transfer_to_npu
 import torch.distributed as dist
 import argparse
 from tqdm import tqdm
@@ -82,5 +83,5 @@ def main():
         model_engine.save_checkpoint("./checkpoints/latent_qwen_blind")
 
 if __name__ == "__main__":
-    
+
     main()
