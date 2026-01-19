@@ -107,6 +107,7 @@ class LatentReasoningDataset(Dataset):
 def collate_fn(batch):
     from torch.nn.utils.rnn import pad_sequence
     
+    # 1. 基础数据堆叠
     input_ids = pad_sequence([item['input_ids'] for item in batch], batch_first=True, padding_value=0)
     attention_mask = pad_sequence([item['attention_mask'] for item in batch], batch_first=True, padding_value=0)
     labels = pad_sequence([item['labels'] for item in batch], batch_first=True, padding_value=-100)
@@ -114,10 +115,22 @@ def collate_fn(batch):
     pixel_values = torch.cat([item['pixel_values'] for item in batch], dim=0)
     image_grid_thw = torch.cat([item['image_grid_thw'] for item in batch], dim=0)
 
+    # 2. 对齐特征处理 (修复报错的核心部分)
     alignment_features = {}
-    if batch[0]['alignment_features']:
+    
+    # 检查 batch 是否为空且包含 alignment_features
+    if batch and 'alignment_features' in batch[0] and batch[0]['alignment_features']:
+        # 遍历所有键 (如 'dino_v2_global', 'id', 'depth_map_encoded' 等)
         for k in batch[0]['alignment_features'].keys():
-             alignment_features[k] = torch.stack([item['alignment_features'][k] for item in batch])
+            first_val = batch[0]['alignment_features'][k]
+            
+            # 情况 A: 如果是 Tensor，则使用 torch.stack
+            if isinstance(first_val, torch.Tensor):
+                alignment_features[k] = torch.stack([item['alignment_features'][k] for item in batch])
+            
+            # 情况 B: 如果是其他类型 (如 'id' 是 str)，则保持为普通 List
+            else:
+                alignment_features[k] = [item['alignment_features'][k] for item in batch]
 
     return {
         "input_ids": input_ids,
