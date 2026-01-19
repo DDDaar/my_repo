@@ -9,7 +9,7 @@ class ReasoningStage:
     count: int
     feature_key: str
     dim: int
-    # 有默认值的放在最后
+    # 选填字段放在最后
     token_id: Optional[int] = None 
 
 @dataclass
@@ -26,7 +26,8 @@ class LatentConfig:
     beta_mse: float
     batch_size: int
     
-    # 2. 选填字段 (有默认值) - 必须放在必填字段之后
+    # 2. 选填字段 (有默认值)
+    gradient_checkpointing: bool = False
     extract_token_id: Optional[int] = None
     
     @classmethod
@@ -43,5 +44,6 @@ class LatentConfig:
             stages=stages,
             alpha_sft=cfg['training']['alpha_sft'],
             beta_mse=cfg['training']['beta_mse'],
-            batch_size=cfg['training']['batch_size']
+            batch_size=cfg['training']['batch_size'],
+            gradient_checkpointing=cfg['training'].get('gradient_checkpointing', False)
         )

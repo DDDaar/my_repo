@@ -33,19 +33,29 @@ def main():
     # 2. Tokenizer
     processor = Qwen2_5_VLProcessor.from_pretrained(config.base_model)
     
-    # 收集所有特殊 tokens
+    # 收集并添加特殊 Tokens
     new_tokens = [config.extract_token] + [stage.token for stage in config.stages]
+
+    print(f'添加special tokens前，len(tokenizer)={len(processor.tokenizer)}')
+
     processor.tokenizer.add_special_tokens({"additional_special_tokens": new_tokens})
     
-    # 回填 ID 到 config
     config.extract_token_id = processor.tokenizer.convert_tokens_to_ids(config.extract_token)
     for stage in config.stages:
         stage.token_id = processor.tokenizer.convert_tokens_to_ids(stage.token)
 
     # 3. Model
     model = LatentReasoningQwen(config)
+
+    print(f'添加special tokens后，resize前，len(tokenizer)={len(processor.tokenizer)}')
+
+
     model.base_model.resize_token_embeddings(len(processor.tokenizer))
 
+    print(f'添加special tokens后，len(tokenizer)={len(processor.tokenizer)}')
+    len_tokenizer = len(processor.tokenizer)
+    model.len_tokenizer = len_tokenizer
+    
     # 4. Dataset
     raw_dataset = load_dataset("derek-thomas/ScienceQA", split="train")
     raw_dataset = raw_dataset.map(lambda x, i: {"id": f"train_{i}"}, with_indices=True)
@@ -60,32 +70,26 @@ def main():
         args=args, model=model, model_parameters=[p for p in model.parameters() if p.requires_grad]
     )
 
-    # 6. Training
+    # 6. Training Loop
     for epoch in range(args.epochs):
         if sampler: sampler.set_epoch(epoch)
         pbar = tqdm(dataloader, disable=(args.local_rank > 0))
         
         for batch in pbar:
-            # === 核心修改开始 ===
-            # 更安全的 GPU 数据移动逻辑
+            # 安全移动数据到 GPU/NPU
             batch_gpu = {}
             for k, v in batch.items():
                 if isinstance(v, torch.Tensor):
-                    # 如果最外层是 Tensor，直接移动
                     batch_gpu[k] = v.to(model_engine.device)
-                elif isinstance(v, dict): 
-                    # 如果是字典 (alignment_features)，需要逐个检查内部的值
+                elif isinstance(v, dict): # alignment_features
                     batch_gpu[k] = {}
                     for sk, sv in v.items():
-                        # 关键判断：只有 Tensor 才调用 .to()，List/String 保持原样
                         if isinstance(sv, torch.Tensor):
                             batch_gpu[k][sk] = sv.to(model_engine.device, dtype=torch.bfloat16)
                         else:
-                            batch_gpu[k][sk] = sv
+                            batch_gpu[k][sk] = sv # 保持 ID 字符串原样
                 else:
-                    # 其他类型 (如 List) 保持原样
                     batch_gpu[k] = v
-            # === 核心修改结束 ===
 
             outputs = model_engine(**batch_gpu)
             model_engine.backward(outputs["loss"])

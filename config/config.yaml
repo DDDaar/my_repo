@@ -4,9 +4,8 @@ model:
 
 tokens:
   extract_token: "<|vision_extract_pad|>"
-  extract_count: 16 # 提取层分配 16 个 Token 用于压缩视觉信息
+  extract_count: 16 
 
-# 推理对齐阶段 (MSE Loss)
 reasoning_stages:
   - name: "semantic"
     token: "<|dino_pad|>"
@@ -18,7 +17,7 @@ reasoning_stages:
     token: "<|depth_pad|>"
     count: 8
     feature_key: "depth_map_encoded"
-    dim: 768
+    dim: 768 # 请确认这与你预处理时的特征维度一致(Base:768, Small:384)
     
   - name: "boundaries"
     token: "<|seg_pad|>"
@@ -29,12 +28,11 @@ reasoning_stages:
 training:
   alpha_sft: 1.0
   beta_mse: 2.0
-  batch_size: 4
+  batch_size: 1
   learning_rate: 1e-4
+  gradient_checkpointing: True # 建议开启，用时间换空间，避免OOM
 
-# 注意力控制：定义谁能看图片
 attention_control:
   image_visible_to:
     - "extract_token"
-    - "reasoning_tokens" 
-    # explicitly EXCLUDE "text_tokens" (Question/Answer)
+    - "reasoning_tokens"
