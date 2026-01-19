@@ -66,11 +66,26 @@ def main():
         pbar = tqdm(dataloader, disable=(args.local_rank > 0))
         
         for batch in pbar:
-            batch_gpu = {
-                k: v.to(model_engine.device) if isinstance(v, torch.Tensor) else 
-                   ({sk: sv.to(model_engine.device, dtype=torch.bfloat16) for sk, sv in v.items()} if isinstance(v, dict) else v)
-                for k, v in batch.items()
-            }
+            # === 核心修改开始 ===
+            # 更安全的 GPU 数据移动逻辑
+            batch_gpu = {}
+            for k, v in batch.items():
+                if isinstance(v, torch.Tensor):
+                    # 如果最外层是 Tensor，直接移动
+                    batch_gpu[k] = v.to(model_engine.device)
+                elif isinstance(v, dict): 
+                    # 如果是字典 (alignment_features)，需要逐个检查内部的值
+                    batch_gpu[k] = {}
+                    for sk, sv in v.items():
+                        # 关键判断：只有 Tensor 才调用 .to()，List/String 保持原样
+                        if isinstance(sv, torch.Tensor):
+                            batch_gpu[k][sk] = sv.to(model_engine.device, dtype=torch.bfloat16)
+                        else:
+                            batch_gpu[k][sk] = sv
+                else:
+                    # 其他类型 (如 List) 保持原样
+                    batch_gpu[k] = v
+            # === 核心修改结束 ===
 
             outputs = model_engine(**batch_gpu)
             model_engine.backward(outputs["loss"])
@@ -83,5 +98,4 @@ def main():
         model_engine.save_checkpoint("./checkpoints/latent_qwen_blind")
 
 if __name__ == "__main__":
-
     main()
