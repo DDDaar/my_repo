@@ -17,12 +17,25 @@ class LatentReasoningQwen(nn.Module):
             attn_implementation="sdpa" 
         )
         
+
+        # === 核心修复 1: 动态获取真实 Hidden Size ===
+        real_hidden_size = self.base_model.config.hidden_size
+        print(f"Real Model Hidden Size: {real_hidden_size} (Config says: {config_obj.hidden_size})")
+
+
+        if hasattr(self.base_model, "visual"):
+            print("❄️  Freezing Vision Encoder (NPU optimization)...")
+            # 将视觉部分设为无需梯度，DeepSpeed 将自动跳过该部分的梯度计算
+            self.base_model.visual.requires_grad_(False)
+            # 确保视觉部分处于 eval 模式 (关闭 Dropout/BatchNorm 更新)
+            self.base_model.visual.eval()
+
         # 开启梯度检查点 (如果配置要求)
         if config_obj.gradient_checkpointing:
             self.base_model.gradient_checkpointing_enable()
 
         self.projectors = nn.ModuleDict({
-            stage.name: nn.Linear(config_obj.hidden_size, stage.dim)
+            stage.name: nn.Linear(real_hidden_size, stage.dim)
             for stage in config_obj.stages
         })
         
@@ -121,7 +134,8 @@ class LatentReasoningQwen(nn.Module):
         # CrossEntropyLoss 自动忽略 index=-100
         loss_fct = nn.CrossEntropyLoss()
 
-        print(f'self.len_tokenizer={self.len_tokenizer}')
+        # print(f'self.len_tokenizer={self.len_tokenizer}')
+        self.len_tokenizer = self.len_tokenizer if self.len_tokenizer is not None else shift_logits.size(-1)
 
         sft_loss = loss_fct(
             shift_logits.view(-1, self.len_tokenizer), 

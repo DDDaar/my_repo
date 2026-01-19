@@ -6,8 +6,8 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-[2026-01-19 23:43:42,885] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
-[2026-01-19 23:43:42,886] [INFO] [runner.py:630:main] cmd = /home/ma-user/anaconda3/envs/my_repo/bin/python3.1 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train.py --feature_dir ./data/data_preprocessed/aligned_features --deepspeed --deepspeed_config config/zero2_config.json
+[2026-01-20 00:13:00,331] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2026-01-20 00:13:00,331] [INFO] [runner.py:630:main] cmd = /home/ma-user/anaconda3/envs/my_repo/bin/python3.1 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train.py --feature_dir ./data/data_preprocessed/aligned_features --deepspeed --deepspeed_config config/zero2_config.json
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
@@ -16,27 +16,19 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-[2026-01-19 23:43:54,977] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
-[2026-01-19 23:43:54,977] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=8, node_rank=0
-[2026-01-19 23:43:54,977] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
-[2026-01-19 23:43:54,977] [INFO] [launch.py:180:main] dist_world_size=8
-[2026-01-19 23:43:54,977] [INFO] [launch.py:184:main] Setting ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-[2026-01-19 23:43:54,979] [INFO] [launch.py:272:main] process 3229335 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=0', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
-[2026-01-19 23:43:54,980] [INFO] [launch.py:272:main] process 3229337 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=1', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
-[2026-01-19 23:43:54,980] [INFO] [launch.py:272:main] process 3229338 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=2', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
-[2026-01-19 23:43:54,981] [INFO] [launch.py:272:main] process 3229339 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=3', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
-[2026-01-19 23:43:54,982] [INFO] [launch.py:272:main] process 3229340 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=4', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
-[2026-01-19 23:43:54,983] [INFO] [launch.py:272:main] process 3229342 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=5', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
-[2026-01-19 23:43:54,984] [INFO] [launch.py:272:main] process 3229344 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=6', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
-[2026-01-19 23:43:54,985] [INFO] [launch.py:272:main] process 3229345 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+[2026-01-20 00:13:12,768] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
+[2026-01-20 00:13:12,768] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=8, node_rank=0
+[2026-01-20 00:13:12,769] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
+[2026-01-20 00:13:12,769] [INFO] [launch.py:180:main] dist_world_size=8
+[2026-01-20 00:13:12,769] [INFO] [launch.py:184:main] Setting ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+[2026-01-20 00:13:12,770] [INFO] [launch.py:272:main] process 3327159 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=0', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-20 00:13:12,771] [INFO] [launch.py:272:main] process 3327160 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=1', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-20 00:13:12,772] [INFO] [launch.py:272:main] process 3327161 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=2', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-20 00:13:12,773] [INFO] [launch.py:272:main] process 3327162 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=3', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-20 00:13:12,774] [INFO] [launch.py:272:main] process 3327163 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=4', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-20 00:13:12,775] [INFO] [launch.py:272:main] process 3327164 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=5', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-20 00:13:12,775] [INFO] [launch.py:272:main] process 3327165 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=6', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
+[2026-01-20 00:13:12,776] [INFO] [launch.py:272:main] process 3327166 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--feature_dir', './data/data_preprocessed/aligned_features', '--deepspeed', '--deepspeed_config', 'config/zero2_config.json']
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
@@ -63,9 +55,13 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
@@ -106,6 +102,14 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
@@ -114,31 +118,27 @@
   if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
   """
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
   """
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
-  """
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
@@ -169,28 +169,423 @@ You have video processor config saved in `preprocessor.json` file which is depre
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+添加special tokens前，len(tokenizer)=151665
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 添加special tokens前，len(tokenizer)=151665
 添加special tokens前，len(tokenizer)=151665
 添加special tokens前，len(tokenizer)=151665
 添加special tokens前，len(tokenizer)=151665
 添加special tokens前，len(tokenizer)=151665
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.18it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.16it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.96it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.49it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.30it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.91it/s]
 添加special tokens前，len(tokenizer)=151665
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.17it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.76it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.43it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Real Model Hidden Size: 2048 (Config says: 2048)
+❄️  Freezing Vision Encoder (NPU optimization)...
+添加special tokens后，resize前，len(tokenizer)=151669
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.22it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.98it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.60it/s]
+Real Model Hidden Size: 2048 (Config says: 2048)
+❄️  Freezing Vision Encoder (NPU optimization)...
+Real Model Hidden Size: 2048 (Config says: 2048)
+❄️  Freezing Vision Encoder (NPU optimization)...
 添加special tokens前，len(tokenizer)=151665
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.13it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.40it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.13it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.34it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.33it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.09it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.10it/s]
-Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.15it/s]
-Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.89it/s]
-添加special tokens前，len(tokenizer)=151665
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.26it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.03it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.65it/s]
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.26it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.97it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.60it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]添加special tokens后，resize前，len(tokenizer)=151669
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.32it/s]添加special tokens后，resize前，len(tokenizer)=151669
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.27it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.08it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.70it/s]
-Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.64it/s]
 添加special tokens后，resize前，len(tokenizer)=151669
 添加special tokens后，resize前，len(tokenizer)=151669
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.17it/s]Real Model Hidden Size: 2048 (Config says: 2048)
+❄️  Freezing Vision Encoder (NPU optimization)...
 添加special tokens后，resize前，len(tokenizer)=151669
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.75it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.42it/s]
+Real Model Hidden Size: 2048 (Config says: 2048)
+❄️  Freezing Vision Encoder (NPU optimization)...
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]添加special tokens后，resize前，len(tokenizer)=151669
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.24it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.94it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.58it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.22it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.92it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.55it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Real Model Hidden Size: 2048 (Config says: 2048)
+❄️  Freezing Vision Encoder (NPU optimization)...
 添加special tokens后，resize前，len(tokenizer)=151669
+Real Model Hidden Size: 2048 (Config says: 2048)
+❄️  Freezing Vision Encoder (NPU optimization)...
 添加special tokens后，resize前，len(tokenizer)=151669
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.08it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.64it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.31it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.33it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.05it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.68it/s]
+Real Model Hidden Size: 2048 (Config says: 2048)
+❄️  Freezing Vision Encoder (NPU optimization)...
 添加special tokens后，resize前，len(tokenizer)=151669
+添加special tokens后，len(tokenizer)=151669
+添加special tokens后，len(tokenizer)=151669
+添加special tokens后，len(tokenizer)=151669
+添加special tokens后，len(tokenizer)=151669
+添加special tokens后，len(tokenizer)=151669
+添加special tokens后，len(tokenizer)=151669
+添加special tokens后，len(tokenizer)=151669
+添加special tokens后，len(tokenizer)=151669
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+[rank0]:[W120 00:14:25.323594283 compiler_depend.ts:65] Warning: Warning: The torch.npu.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='npu') to create tensors. (function operator())
+Before initializing optimizer states
+MA 8.45 GB         Max_MA 9.16 GB         CA 9.26 GB         Max_CA 9 GB 
+CPU Virtual Memory:  used = 77.31 GB, percent = 5.1%
+After initializing optimizer states
+MA 8.45 GB         Max_MA 9.88 GB         CA 10.7 GB         Max_CA 11 GB 
+CPU Virtual Memory:  used = 77.46 GB, percent = 5.1%
+After initializing ZeRO optimizer
+MA 8.45 GB         Max_MA 8.45 GB         CA 10.7 GB         Max_CA 11 GB 
+CPU Virtual Memory:  used = 77.6 GB, percent = 5.1%
+  0%|          | 0/778 [00:00<?, ?it/s]Logits shape: torch.Size([1, 128, 151669])
+Logits shape: torch.Size([1, 219, 151669])
+Logits shape: torch.Size([1, 243, 151669])
+Logits shape: torch.Size([1, 419, 151669])
+Logits shape: torch.Size([1, 419, 151669])
+Logits shape: torch.Size([1, 585, 151669])
+Logits shape: torch.Size([1, 125, 151669])
+Shifted Logits shape: torch.Size([1, 127, 151669])
+Shifted labels shape: torch.Size([1, 127])
+Shifted Logits shape: torch.Size([1, 218, 151669])
+Shifted labels shape: torch.Size([1, 218])
+Shifted Logits shape: torch.Size([1, 242, 151669])
+Shifted labels shape: torch.Size([1, 242])
+Shifted Logits shape: torch.Size([1, 418, 151669])
+Shifted labels shape: torch.Size([1, 418])
+Shifted Logits shape: torch.Size([1, 418, 151669])
+Shifted labels shape: torch.Size([1, 418])
+Shifted Logits shape: torch.Size([1, 584, 151669])
+Shifted labels shape: torch.Size([1, 584])
+Shifted Logits shape: torch.Size([1, 124, 151669])
+Shifted labels shape: torch.Size([1, 124])
+Logits shape: torch.Size([1, 488, 151669])
+Shifted Logits shape: torch.Size([1, 487, 151669])
+Shifted labels shape: torch.Size([1, 487])
+[rank0]:[W120 00:14:34.653611578 compiler_depend.ts:164] Warning: Warning: Device do not support double dtype now, dtype cast repalce with float. (function operator())
+Loss: 23.5000 (SFT: 7.7500, MSE: 7.8438):   0%|          | 0/778 [00:12<?, ?it/s]Loss: 23.5000 (SFT: 7.7500, MSE: 7.8438):   0%|          | 1/778 [00:12<2:36:49, 12.11s/it]Logits shape: torch.Size([1, 140, 151669])
+Logits shape: torch.Size([1, 150, 151669])
+Logits shape: torch.Size([1, 182, 151669])
+Logits shape: torch.Size([1, 108, 151669])
+Logits shape: torch.Size([1, 302, 151669])
+Logits shape: torch.Size([1, 187, 151669])
+Logits shape: torch.Size([1, 422, 151669])
+Logits shape: torch.Size([1, 488, 151669])
+Shifted Logits shape: torch.Size([1, 139, 151669])
+Shifted labels shape: torch.Size([1, 139])
+Shifted Logits shape: torch.Size([1, 149, 151669])
+Shifted labels shape: torch.Size([1, 149])
+Shifted Logits shape: torch.Size([1, 181, 151669])
+Shifted labels shape: torch.Size([1, 181])
+Shifted Logits shape: torch.Size([1, 107, 151669])
+Shifted labels shape: torch.Size([1, 107])
+Shifted Logits shape: torch.Size([1, 301, 151669])
+Shifted labels shape: torch.Size([1, 301])
+Shifted Logits shape: torch.Size([1, 186, 151669])
+Shifted labels shape: torch.Size([1, 186])
+Shifted Logits shape: torch.Size([1, 421, 151669])
+Shifted labels shape: torch.Size([1, 421])
+Shifted Logits shape: torch.Size([1, 487, 151669])
+Shifted labels shape: torch.Size([1, 487])
+Loss: 23.2500 (SFT: 1.1406, MSE: 11.0625):   0%|          | 1/778 [00:13<2:36:49, 12.11s/it]Loss: 23.2500 (SFT: 1.1406, MSE: 11.0625):   0%|          | 2/778 [00:13<1:18:38,  6.08s/it]Logits shape: torch.Size([1, 139, 151669])
+Logits shape: torch.Size([1, 132, 151669])
+Logits shape: torch.Size([1, 139, 151669])
+Logits shape: torch.Size([1, 281, 151669])
+Logits shape: torch.Size([1, 217, 151669])
+Logits shape: torch.Size([1, 406, 151669])
+Logits shape: torch.Size([1, 661, 151669])
+Logits shape: torch.Size([1, 661, 151669])
+Shifted Logits shape: torch.Size([1, 138, 151669])
+Shifted labels shape: torch.Size([1, 138])
+Shifted Logits shape: torch.Size([1, 131, 151669])
+Shifted labels shape: torch.Size([1, 131])
+Shifted Logits shape: torch.Size([1, 138, 151669])
+Shifted labels shape: torch.Size([1, 138])
+Shifted Logits shape: torch.Size([1, 280, 151669])
+Shifted labels shape: torch.Size([1, 280])
+Shifted Logits shape: torch.Size([1, 216, 151669])
+Shifted labels shape: torch.Size([1, 216])
+Shifted Logits shape: torch.Size([1, 405, 151669])
+Shifted labels shape: torch.Size([1, 405])
+Shifted Logits shape: torch.Size([1, 660, 151669])
+Shifted labels shape: torch.Size([1, 660])
+Shifted Logits shape: torch.Size([1, 660, 151669])
+Shifted labels shape: torch.Size([1, 660])
+Loss: 20.1250 (SFT: 5.2188, MSE: 7.4688):   0%|          | 2/778 [00:16<1:18:38,  6.08s/it] Loss: 20.1250 (SFT: 5.2188, MSE: 7.4688):   0%|          | 3/778 [00:16<54:58,  4.26s/it]  Logits shape: torch.Size([1, 193, 151669])
+Logits shape: torch.Size([1, 143, 151669])
+Logits shape: torch.Size([1, 240, 151669])
+Logits shape: torch.Size([1, 263, 151669])
+Logits shape: torch.Size([1, 269, 151669])
+Logits shape: torch.Size([1, 286, 151669])
+Logits shape: torch.Size([1, 488, 151669])
+Logits shape: torch.Size([1, 678, 151669])
+Shifted Logits shape: torch.Size([1, 192, 151669])
+Shifted labels shape: torch.Size([1, 192])
+Shifted Logits shape: torch.Size([1, 142, 151669])
+Shifted labels shape: torch.Size([1, 142])
+Shifted Logits shape: torch.Size([1, 239, 151669])
+Shifted labels shape: torch.Size([1, 239])
+Shifted Logits shape: torch.Size([1, 262, 151669])
+Shifted labels shape: torch.Size([1, 262])
+Shifted Logits shape: torch.Size([1, 268, 151669])
+Shifted labels shape: torch.Size([1, 268])
+Shifted Logits shape: torch.Size([1, 285, 151669])
+Shifted labels shape: torch.Size([1, 285])
+Shifted Logits shape: torch.Size([1, 487, 151669])
+Shifted labels shape: torch.Size([1, 487])
+Shifted Logits shape: torch.Size([1, 677, 151669])
+Shifted labels shape: torch.Size([1, 677])
+Loss: 21.2500 (SFT: 8.1875, MSE: 6.5312):   0%|          | 3/778 [00:18<54:58,  4.26s/it]Loss: 21.2500 (SFT: 8.1875, MSE: 6.5312):   1%|          | 4/778 [00:18<43:58,  3.41s/it]Logits shape: torch.Size([1, 137, 151669])
+Logits shape: torch.Size([1, 202, 151669])
+Logits shape: torch.Size([1, 420, 151669])
+Logits shape: torch.Size([1, 420, 151669])
+Logits shape: torch.Size([1, 405, 151669])
+Logits shape: torch.Size([1, 488, 151669])
+Logits shape: torch.Size([1, 491, 151669])
+Logits shape: torch.Size([1, 576, 151669])
+Shifted Logits shape: torch.Size([1, 136, 151669])
+Shifted labels shape: torch.Size([1, 136])
+Shifted Logits shape: torch.Size([1, 201, 151669])
+Shifted labels shape: torch.Size([1, 201])
+Shifted Logits shape: torch.Size([1, 419, 151669])
+Shifted labels shape: torch.Size([1, 419])
+Shifted Logits shape: torch.Size([1, 419, 151669])
+Shifted labels shape: torch.Size([1, 419])
+Shifted Logits shape: torch.Size([1, 404, 151669])
+Shifted labels shape: torch.Size([1, 404])
+Shifted Logits shape: torch.Size([1, 487, 151669])
+Shifted labels shape: torch.Size([1, 487])
+Shifted Logits shape: torch.Size([1, 490, 151669])
+Shifted labels shape: torch.Size([1, 490])
+Shifted Logits shape: torch.Size([1, 575, 151669])
+Shifted labels shape: torch.Size([1, 575])
+Loss: 22.2500 (SFT: 10.5000, MSE: 5.8438):   1%|          | 4/778 [00:20<43:58,  3.41s/it]Loss: 22.2500 (SFT: 10.5000, MSE: 5.8438):   1%|          | 5/778 [00:20<37:26,  2.91s/it]Logits shape: torch.Size([1, 137, 151669])
+Logits shape: torch.Size([1, 194, 151669])
+Logits shape: torch.Size([1, 223, 151669])
+Logits shape: torch.Size([1, 234, 151669])
+Logits shape: torch.Size([1, 487, 151669])
+Logits shape: torch.Size([1, 488, 151669])
+Logits shape: torch.Size([1, 487, 151669])
+Logits shape: torch.Size([1, 682, 151669])
+Shifted Logits shape: torch.Size([1, 136, 151669])
+Shifted labels shape: torch.Size([1, 136])
+Shifted Logits shape: torch.Size([1, 193, 151669])
+Shifted labels shape: torch.Size([1, 193])
+Shifted Logits shape: torch.Size([1, 222, 151669])
+Shifted labels shape: torch.Size([1, 222])
+Shifted Logits shape: torch.Size([1, 233, 151669])
+Shifted labels shape: torch.Size([1, 233])
+Shifted Logits shape: torch.Size([1, 486, 151669])
+Shifted labels shape: torch.Size([1, 486])
+Shifted Logits shape: torch.Size([1, 487, 151669])
+Shifted labels shape: torch.Size([1, 487])
+Shifted Logits shape: torch.Size([1, 486, 151669])
+Shifted labels shape: torch.Size([1, 486])
+Shifted Logits shape: torch.Size([1, 681, 151669])
+Shifted labels shape: torch.Size([1, 681])
+Loss: 10.0000 (SFT: 2.9375, MSE: 3.5469):   1%|          | 5/778 [00:22<37:26,  2.91s/it] Loss: 10.0000 (SFT: 2.9375, MSE: 3.5469):   1%|          | 6/778 [00:22<33:50,  2.63s/it]Logits shape: torch.Size([1, 134, 151669])
+Logits shape: torch.Size([1, 204, 151669])
+Logits shape: torch.Size([1, 175, 151669])
+Logits shape: torch.Size([1, 143, 151669])
+Logits shape: torch.Size([1, 172, 151669])
+Logits shape: torch.Size([1, 263, 151669])
+Logits shape: torch.Size([1, 487, 151669])
+Logits shape: torch.Size([1, 490, 151669])
+Shifted Logits shape: torch.Size([1, 133, 151669])
+Shifted labels shape: torch.Size([1, 133])
+Shifted Logits shape: torch.Size([1, 203, 151669])
+Shifted labels shape: torch.Size([1, 203])
+Shifted Logits shape: torch.Size([1, 174, 151669])
+Shifted labels shape: torch.Size([1, 174])
+Shifted Logits shape: torch.Size([1, 142, 151669])
+Shifted labels shape: torch.Size([1, 142])
+Shifted Logits shape: torch.Size([1, 171, 151669])
+Shifted labels shape: torch.Size([1, 171])
+Shifted Logits shape: torch.Size([1, 262, 151669])
+Shifted labels shape: torch.Size([1, 262])
+Shifted Logits shape: torch.Size([1, 486, 151669])
+Shifted labels shape: torch.Size([1, 486])
+Shifted Logits shape: torch.Size([1, 489, 151669])
+Shifted labels shape: torch.Size([1, 489])
+Loss: 13.7500 (SFT: 6.1562, MSE: 3.7969):   1%|          | 6/778 [00:24<33:50,  2.63s/it]Loss: 13.7500 (SFT: 6.1562, MSE: 3.7969):   1%|          | 7/778 [00:24<30:42,  2.39s/it]Logits shape: torch.Size([1, 102, 151669])
+Logits shape: torch.Size([1, 253, 151669])
+Logits shape: torch.Size([1, 215, 151669])
+Logits shape: torch.Size([1, 203, 151669])
+Logits shape: torch.Size([1, 199, 151669])
+Logits shape: torch.Size([1, 487, 151669])
+Logits shape: torch.Size([1, 489, 151669])
+Logits shape: torch.Size([1, 678, 151669])
+Shifted Logits shape: torch.Size([1, 101, 151669])
+Shifted labels shape: torch.Size([1, 101])
+Shifted Logits shape: torch.Size([1, 252, 151669])
+Shifted labels shape: torch.Size([1, 252])
+Shifted Logits shape: torch.Size([1, 214, 151669])
+Shifted labels shape: torch.Size([1, 214])
+Shifted Logits shape: torch.Size([1, 202, 151669])
+Shifted labels shape: torch.Size([1, 202])
+Shifted Logits shape: torch.Size([1, 198, 151669])
+Shifted labels shape: torch.Size([1, 198])
+Shifted Logits shape: torch.Size([1, 486, 151669])
+Shifted labels shape: torch.Size([1, 486])
+Shifted Logits shape: torch.Size([1, 488, 151669])
+Shifted labels shape: torch.Size([1, 488])
+Shifted Logits shape: torch.Size([1, 677, 151669])
+Shifted labels shape: torch.Size([1, 677])
+Loss: 5.9375 (SFT: 0.0591, MSE: 2.9375):   1%|          | 7/778 [00:26<30:42,  2.39s/it] Loss: 5.9375 (SFT: 0.0591, MSE: 2.9375):   1%|          | 8/778 [00:26<29:19,  2.28s/it]Logits shape: torch.Size([1, 126, 151669])
+Logits shape: torch.Size([1, 182, 151669])
+Logits shape: torch.Size([1, 228, 151669])
+Logits shape: torch.Size([1, 169, 151669])
+Logits shape: torch.Size([1, 217, 151669])
+Logits shape: torch.Size([1, 205, 151669])
+Logits shape: torch.Size([1, 461, 151669])
+Logits shape: torch.Size([1, 491, 151669])
+Shifted Logits shape: torch.Size([1, 125, 151669])
+Shifted labels shape: torch.Size([1, 125])
+Shifted Logits shape: torch.Size([1, 181, 151669])
+Shifted labels shape: torch.Size([1, 181])
+Shifted Logits shape: torch.Size([1, 227, 151669])
+Shifted labels shape: torch.Size([1, 227])
+Shifted Logits shape: torch.Size([1, 168, 151669])
+Shifted labels shape: torch.Size([1, 168])
+Shifted Logits shape: torch.Size([1, 216, 151669])
+Shifted labels shape: torch.Size([1, 216])
+Shifted Logits shape: torch.Size([1, 204, 151669])
+Shifted labels shape: torch.Size([1, 204])
+Shifted Logits shape: torch.Size([1, 460, 151669])
+Shifted labels shape: torch.Size([1, 460])
+Shifted Logits shape: torch.Size([1, 490, 151669])
+Shifted labels shape: torch.Size([1, 490])
+Loss: 7.5938 (SFT: 0.6992, MSE: 3.4531):   1%|          | 8/778 [00:28<29:19,  2.28s/it]Loss: 7.5938 (SFT: 0.6992, MSE: 3.4531):   1%|          | 9/778 [00:28<27:44,  2.16s/it]Logits shape: torch.Size([1, 134, 151669])
+Logits shape: torch.Size([1, 147, 151669])
+Logits shape: torch.Size([1, 131, 151669])
+Logits shape: torch.Size([1, 187, 151669])
+Logits shape: torch.Size([1, 174, 151669])
+Logits shape: torch.Size([1, 407, 151669])
+Logits shape: torch.Size([1, 489, 151669])
+Logits shape: torch.Size([1, 652, 151669])
+Shifted Logits shape: torch.Size([1, 133, 151669])
+Shifted labels shape: torch.Size([1, 133])
+Shifted Logits shape: torch.Size([1, 146, 151669])
+Shifted labels shape: torch.Size([1, 146])
+Shifted Logits shape: torch.Size([1, 130, 151669])
+Shifted labels shape: torch.Size([1, 130])
+Shifted Logits shape: torch.Size([1, 186, 151669])
+Shifted labels shape: torch.Size([1, 186])
+Shifted Logits shape: torch.Size([1, 173, 151669])
+Shifted labels shape: torch.Size([1, 173])
+Shifted Logits shape: torch.Size([1, 406, 151669])
+Shifted labels shape: torch.Size([1, 406])
+Shifted Logits shape: torch.Size([1, 488, 151669])
+Shifted labels shape: torch.Size([1, 488])
+Shifted Logits shape: torch.Size([1, 651, 151669])
+Shifted labels shape: torch.Size([1, 651])
+Loss: 10.5000 (SFT: 0.8398, MSE: 4.8438):   1%|          | 9/778 [00:30<27:44,  2.16s/it]Loss: 10.5000 (SFT: 0.8398, MSE: 4.8438):   1%|▏         | 10/778 [00:30<27:18,  2.13s/it]Logits shape: torch.Size([1, 138, 151669])
+Logits shape: torch.Size([1, 122, 151669])
+Logits shape: torch.Size([1, 145, 151669])
+Logits shape: torch.Size([1, 223, 151669])
+Logits shape: torch.Size([1, 118, 151669])
+Logits shape: torch.Size([1, 175, 151669])
+Logits shape: torch.Size([1, 399, 151669])
+Logits shape: torch.Size([1, 518, 151669])
+Shifted Logits shape: torch.Size([1, 137, 151669])
+Shifted labels shape: torch.Size([1, 137])
+Shifted Logits shape: torch.Size([1, 121, 151669])
+Shifted labels shape: torch.Size([1, 121])
+Shifted Logits shape: torch.Size([1, 144, 151669])
+Shifted labels shape: torch.Size([1, 144])
+Shifted Logits shape: torch.Size([1, 222, 151669])
+Shifted labels shape: torch.Size([1, 222])
+Shifted Logits shape: torch.Size([1, 117, 151669])
+Shifted labels shape: torch.Size([1, 117])
+Shifted Logits shape: torch.Size([1, 174, 151669])
+Shifted labels shape: torch.Size([1, 174])
+Shifted Logits shape: torch.Size([1, 398, 151669])
+Shifted labels shape: torch.Size([1, 398])
+Shifted Logits shape: torch.Size([1, 517, 151669])
+Shifted labels shape: torch.Size([1, 517])
+Loss: 11.6250 (SFT: 0.3672, MSE: 5.6250):   1%|▏         | 10/778 [00:32<27:18,  2.13s/it]Loss: 11.6250 (SFT: 0.3672, MSE: 5.6250):   1%|▏         | 11/778 [00:32<26:18,  2.06s/it]Logits shape: torch.Size([1, 184, 151669])
+Logits shape: torch.Size([1, 123, 151669])
+Logits shape: torch.Size([1, 178, 151669])
+Logits shape: torch.Size([1, 194, 151669])
+Logits shape: torch.Size([1, 290, 151669])
+Logits shape: torch.Size([1, 419, 151669])
+Logits shape: torch.Size([1, 486, 151669])
+Logits shape: torch.Size([1, 488, 151669])
+Shifted Logits shape: torch.Size([1, 183, 151669])
+Shifted labels shape: torch.Size([1, 183])
+Shifted Logits shape: torch.Size([1, 122, 151669])
+Shifted labels shape: torch.Size([1, 122])
+Shifted Logits shape: torch.Size([1, 177, 151669])
+Shifted labels shape: torch.Size([1, 177])
+Shifted Logits shape: torch.Size([1, 193, 151669])
+Shifted labels shape: torch.Size([1, 193])
+Shifted Logits shape: torch.Size([1, 289, 151669])
+Shifted labels shape: torch.Size([1, 289])
+Shifted Logits shape: torch.Size([1, 418, 151669])
+Shifted labels shape: torch.Size([1, 418])
+Shifted Logits shape: torch.Size([1, 485, 151669])
+Shifted labels shape: torch.Size([1, 485])
+Shifted Logits shape: torch.Size([1, 487, 151669])
+Shifted labels shape: torch.Size([1, 487])
+Loss: 7.4062 (SFT: 0.9922, MSE: 3.2031):   1%|▏         | 11/778 [00:33<26:18,  2.06s/it] Loss: 7.4062 (SFT: 0.9922, MSE: 3.2031):   2%|▏         | 12/778 [00:33<25:41,  2.01s/it]Logits shape: torch.Size([1, 116, 151669])
+Logits shape: torch.Size([1, 204, 151669])
+Logits shape: torch.Size([1, 119, 151669])
+Logits shape: torch.Size([1, 208, 151669])
+Logits shape: torch.Size([1, 284, 151669])
+Logits shape: torch.Size([1, 273, 151669])
+Logits shape: torch.Size([1, 490, 151669])
+Logits shape: torch.Size([1, 583, 151669])
+Shifted Logits shape: torch.Size([1, 115, 151669])
+Shifted labels shape: torch.Size([1, 115])
+Shifted Logits shape: torch.Size([1, 203, 151669])
+Shifted labels shape: torch.Size([1, 203])
+Shifted Logits shape: torch.Size([1, 118, 151669])
+Shifted labels shape: torch.Size([1, 118])
+Shifted Logits shape: torch.Size([1, 207, 151669])
+Shifted labels shape: torch.Size([1, 207])
+Shifted Logits shape: torch.Size([1, 283, 151669])
+Shifted labels shape: torch.Size([1, 283])
+Shifted Logits shape: torch.Size([1, 272, 151669])
+Shifted labels shape: torch.Size([1, 272])
+Shifted Logits shape: torch.Size([1, 489, 151669])
+Shifted labels shape: torch.Size([1, 489])
+Shifted Logits shape: torch.Size([1, 582, 151669])
+Shifted labels shape: torch.Size([1, 582])
+Loss: 8.5000 (SFT: 1.7656, MSE: 3.3594):   2%|▏         | 12/778 [00:35<25:41,  2.01s/it]Loss: 8.5000 (SFT: 1.7656, MSE: 3.3594):   2%|▏         | 13/778 [00:35<25:26,  2.00s/it]Logits shape: torch.Size([1, 119, 151669])
+Logits shape: torch.Size([1, 223, 151669])
+Logits shape: torch.Size([1, 249, 151669])
+Logits shape: torch.Size([1, 232, 151669])
+Logits shape: torch.Size([1, 275, 151669])
+Logits shape: torch.Size([1, 421, 151669])
+Logits shape: torch.Size([1, 490, 151669])
+Logits shape: torch.Size([1, 490, 151669])
+Shifted Logits shape: torch.Size([1, 118, 151669])
+Shifted labels shape: torch.Size([1, 118])
+Shifted Logits shape: torch.Size([1, 222, 151669])
+Shifted labels shape: torch.Size([1, 222])
+Shifted Logits shape: torch.Size([1, 248, 151669])
+Shifted labels shape: torch.Size([1, 248])
+Shifted Logits shape: torch.Size([1, 231, 151669])
+Shifted labels shape: torch.Size([1, 231])
+Shifted Logits shape: torch.Size([1, 274, 151669])
+Shifted labels shape: torch.Size([1, 274])
+Shifted Logits shape: torch.Size([1, 420, 151669])
+Shifted labels shape: torch.Size([1, 420])
+Shifted Logits shape: torch.Size([1, 489, 151669])
+Shifted labels shape: torch.Size([1, 489])
+Shifted Logits shape: torch.Size([1, 489, 151669])
+Shifted labels shape: torch.Size([1, 489])
+Loss: 6.0625 (SFT: 0.1768, MSE: 2.9375):   2%|▏         | 13/778 [00:37<25:26,  2.00s/it]Loss: 6.0625 (SFT: 0.1768, MSE: 2.9375):   2%|▏         | 14/778 [00:37<25:03,  1.97s/it]Logits shape: torch.Size([1, 182, 151669])
+Logits shape: torch.Size([1, 140, 151669])
+Logits shape: torch.Size([1, 118, 151669])
+Logits shape: torch.Size([1, 234, 151669])
+Logits shape: torch.Size([1, 235, 151669])
+Logits shape: torch.Size([1, 488, 151669])
+Logits shape: torch.Size([1, 489, 151669])
+Logits shape: torch.Size([1, 405, 151669])

@@ -1,6 +1,6 @@
 model:
   base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
-  hidden_size: 2560
+  hidden_size: 2048
 
 tokens:
   extract_token: "<|vision_extract_pad|>"
@@ -28,9 +28,9 @@ reasoning_stages:
 training:
   alpha_sft: 1.0
   beta_mse: 2.0
-  batch_size: 1
+  batch_size: 8
   learning_rate: 1e-4
-  gradient_checkpointing: True # 建议开启，用时间换空间，避免OOM
+  gradient_checkpointing: False
 
 attention_control:
   image_visible_to:
