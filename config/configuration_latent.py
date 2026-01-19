@@ -9,7 +9,6 @@ class ReasoningStage:
     count: int
     feature_key: str
     dim: int
-    # 选填字段放在最后
     token_id: Optional[int] = None 
 
 @dataclass
@@ -22,6 +21,9 @@ class LatentConfig:
     extract_count: int
     
     stages: List[ReasoningStage]
+    
+    # 训练参数
+    epochs: int          # <--- 新增字段
     alpha_sft: float
     beta_mse: float
     batch_size: int
@@ -42,6 +44,8 @@ class LatentConfig:
             extract_token=cfg['tokens']['extract_token'],
             extract_count=cfg['tokens']['extract_count'],
             stages=stages,
+            # 读取 training 下的新字段
+            epochs=cfg['training']['epochs'], 
             alpha_sft=cfg['training']['alpha_sft'],
             beta_mse=cfg['training']['beta_mse'],
             batch_size=cfg['training']['batch_size'],

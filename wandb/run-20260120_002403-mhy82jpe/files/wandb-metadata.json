@@ -1,0 +1,36 @@
+{
+  "os": "Linux-4.19.90-vhulk2211.3.0.h1543.eulerosv2r10.aarch64-aarch64-with-glibc2.28",
+  "python": "CPython 3.11.10",
+  "startedAt": "2026-01-19T16:24:03.829706Z",
+  "args": [
+    "--local_rank=0",
+    "--feature_dir",
+    "./data/data_preprocessed/aligned_features",
+    "--deepspeed",
+    "--deepspeed_config",
+    "config/zero2_config.json"
+  ],
+  "program": "/home/ma-user/work/lbx/my_repo/train.py",
+  "codePath": "train.py",
+  "codePathLocal": "train.py",
+  "git": {
+    "remote": "https://github.com/DDDaar/my_repo.git",
+    "commit": "be8dde6dcb82e3524eb06ad91b75253747b567c6"
+  },
+  "email": "libx22@mails.tsinghua.edu.cn",
+  "root": "/home/ma-user/work/lbx/my_repo",
+  "host": "notebook-1412a60d-f4bf-48a6-8f6c-5f7b234b73d5",
+  "executable": "/home/ma-user/anaconda3/envs/my_repo/bin/python3.1",
+  "cpu_count": 192,
+  "cpu_count_logical": 192,
+  "disk": {
+    "/": {
+      "total": "429496729600",
+      "used": "15721906176"
+    }
+  },
+  "memory": {
+    "total": "1622527340544"
+  },
+  "writerId": "xsxcokkok5ll45n6qh532dbsgzf3rqmu"
+}

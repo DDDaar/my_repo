@@ -120,7 +120,7 @@ class LatentReasoningQwen(nn.Module):
         # 解决 RuntimeError: shape invalid 的关键步骤
         logits = outputs.logits # [Batch, Seq, len(tokenizer)]
         
-        print("Logits shape:", logits.shape)
+        # print("Logits shape:", logits.shape)
 
         time.sleep(1)
 
@@ -128,8 +128,8 @@ class LatentReasoningQwen(nn.Module):
         shift_logits = logits[..., :-1, :].contiguous()
         shift_labels = labels[..., 1:].contiguous()
         
-        print("Shifted Logits shape:", shift_logits.shape)
-        print("Shifted labels shape:", shift_labels.shape)
+        # print("Shifted Logits shape:", shift_logits.shape)
+        # print("Shifted labels shape:", shift_labels.shape)
 
         # CrossEntropyLoss 自动忽略 index=-100
         loss_fct = nn.CrossEntropyLoss()

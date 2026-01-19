@@ -1,6 +1,6 @@
 model:
   base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
-  hidden_size: 2048
+  hidden_size: 2048 # Qwen2.5-3B 真实 hidden size
 
 tokens:
   extract_token: "<|vision_extract_pad|>"
@@ -17,7 +17,7 @@ reasoning_stages:
     token: "<|depth_pad|>"
     count: 8
     feature_key: "depth_map_encoded"
-    dim: 768 # 请确认这与你预处理时的特征维度一致(Base:768, Small:384)
+    dim: 768 
     
   - name: "boundaries"
     token: "<|seg_pad|>"
@@ -26,11 +26,12 @@ reasoning_stages:
     dim: 512
 
 training:
+  epochs: 3       
   alpha_sft: 1.0
   beta_mse: 2.0
-  batch_size: 8
+  batch_size: 1
   learning_rate: 1e-4
-  gradient_checkpointing: False
+  gradient_checkpointing: True
 
 attention_control:
   image_visible_to:
