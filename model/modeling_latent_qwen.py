@@ -129,7 +129,7 @@ class LatentReasoningQwen(nn.Module):
         shift_labels = labels[..., 1:].contiguous()
         
         # print("Shifted Logits shape:", shift_logits.shape)
-        # print("Shifted labels shape:", shift_labels.shape)
+        #print("Shifted labels shape:", shift_labels.shape)
 
         # CrossEntropyLoss 自动忽略 index=-100
         loss_fct = nn.CrossEntropyLoss()
