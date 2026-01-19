@@ -40,7 +40,7 @@ def main():
 
     # === 1. Load YAML Config ===
     config = LatentConfig.load("./config/config.yaml")
-    epochs = config.training.epochs   # ✅ 唯一的 epochs 来源
+    epochs = config.epochs   # ✅ 唯一的 epochs 来源
 
     # === WandB 初始化（仅 rank0） ===
     if args.local_rank <= 0:
