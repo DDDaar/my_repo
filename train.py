@@ -197,11 +197,6 @@ def main():
     if args.local_rank <= 0:
         wandb.finish()
 
-        
-
-    if args.local_rank <= 0:
-        wandb.finish()
-
 
 if __name__ == "__main__":
     main()
