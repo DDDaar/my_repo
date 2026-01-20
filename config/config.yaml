@@ -6,7 +6,7 @@ data:
   # 切换数据集: "derek-thomas/ScienceQA" 或 "LightChen2333/M3CoT"
   dataset_name: "LightChen2333/M3CoT"
   # 数据集 split: "train", "validation", "test"
-  dataset_split: "validation"
+  dataset_split: "train"
 
 tokens:
   extract_token: "<|vision_extract_pad|>"
@@ -32,7 +32,7 @@ reasoning_stages:
     dim: 512
 
 training:
-  epochs: 1       
+  epochs: 2       
   alpha_sft: 1.0
   beta_mse: 2.0
   batch_size: 1 # M3CoT 文本较长，可能需要调小 batch

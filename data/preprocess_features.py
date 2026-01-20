@@ -19,7 +19,7 @@ from transformers import (
 
 # 选项 2: M3CoT
 TARGET_DATASET = "LightChen2333/M3CoT"
-TARGET_SPLIT = "test"  # M3CoT 通常用 train 做训练
+TARGET_SPLIT = "train"  # M3CoT 通常用 train 做训练
 
 # 自动生成路径: ./data_preprocessed/M3CoT/aligned_features_M3CoT_train
 SHORT_NAME = TARGET_DATASET.split('/')[-1]

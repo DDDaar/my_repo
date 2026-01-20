@@ -176,7 +176,7 @@ def main():
                 )
 
         # === 保存逻辑 (DeepSpeed Checkpoint + HF Format) ===
-        save_root = f"./checkpoints/"
+        save_root = f"./checkpoints/{dataset_name}_{data_split}/"
         ds_dir = os.path.join(save_root, "deepspeed")
         hf_dir = os.path.join(save_root, "huggingface")
 
