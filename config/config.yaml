@@ -26,7 +26,7 @@ reasoning_stages:
     dim: 512
 
 training:
-  epochs: 3       
+  epochs: 1       
   alpha_sft: 1.0
   beta_mse: 2.0
   batch_size: 4

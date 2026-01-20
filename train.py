@@ -33,10 +33,12 @@ def parse_args():
 def main():
     args = parse_args()
 
+    data_split='validation'
+
     # === 分布式初始化 ===
     if args.local_rank != -1:
         torch.cuda.set_device(args.local_rank)
-        dist.init_process_group(backend="nccl")
+        dist.init_process_group(backend="hccl")
 
     # === 1. Load YAML Config ===
     config = LatentConfig.load("./config/config.yaml")
@@ -78,8 +80,8 @@ def main():
     model.len_tokenizer = len(processor.tokenizer)
 
     # === 4. Dataset ===
-    raw_dataset = load_dataset("derek-thomas/ScienceQA", split="train")
-    raw_dataset = raw_dataset.map(lambda x, i: {"id": f"train_{i}"}, with_indices=True)
+    raw_dataset = load_dataset("derek-thomas/ScienceQA", split=data_split)
+    raw_dataset = raw_dataset.map(lambda x, i: {"id": f"{data_split}_{i}"}, with_indices=True)
     raw_dataset = raw_dataset.filter(lambda x: x["image"] is not None)
 
     train_dataset = LatentReasoningDataset(
@@ -157,11 +159,45 @@ def main():
                     f"(SFT {outputs['sft_loss']:.3f} / MSE {outputs['mse_loss']:.3f})"
                 )
 
-        # === Save Checkpoint (rank0 only) ===
-        if args.local_rank <= 0:
-            save_dir = f"./checkpoints/latent_qwen_epoch_{epoch}训练后"
-            print(f"Saving checkpoint to {save_dir}")
-            model_engine.save_checkpoint(save_dir)
+
+        # save_dir = f"./checkpoints/latent_qwen"
+        # print(f"Saving checkpoint to {save_dir}")
+        # model_engine.save_checkpoint(save_dir)
+
+        # === 保存逻辑 (DeepSpeed Checkpoint + HF Format) ===
+        # ======================================================
+        
+        # 1. 定义保存路径 (所有 rank 都要知道这个变量名)
+        save_root = f"./checkpoints/"
+        ds_dir = os.path.join(save_root, "deepspeed")
+        hf_dir = os.path.join(save_root, "huggingface")
+
+        # 2. 保存 DeepSpeed 全量状态 (包含优化器，所有进程参与)
+        # 注意：save_checkpoint 内部会处理多卡同步，不需要手动判断 rank
+        model_engine.save_checkpoint(ds_dir)
+
+    # 3. 保存 Hugging Face 格式权重 (仅 Rank 0 执行)
+    if args.local_rank <= 0:
+        print(f"--- Exporting HF model to {hf_dir} ---")
+        if not os.path.exists(hf_dir):
+            os.makedirs(hf_dir, exist_ok=True)
+        
+        # [关键] 提取原始模型并保存
+        # 使用 model_engine.module 访问被 DeepSpeed 包装的内部模型
+        model_engine.module.save_pretrained(
+            hf_dir, 
+            safe_serialization=True,  # 保存为 .safetensors 格式，更安全快速
+        )
+        
+        # 保存 Processor (包含 Tokenizer 和图像配置)
+        processor.save_pretrained(hf_dir)
+        print(f"--- HF model saved successfully ---")
+
+
+    if args.local_rank <= 0:
+        wandb.finish()
+
+        
 
     if args.local_rank <= 0:
         wandb.finish()

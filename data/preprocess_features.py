@@ -275,7 +275,9 @@ from transformers import (
 )
 
 DATASET_NAME = "derek-thomas/ScienceQA"
-OUTPUT_DIR = "./data_preprocessed/aligned_features"
+save_data_name=DATASET_NAME.split('/')[-1]
+data_split = 'test'
+OUTPUT_DIR = f"./data_preprocessed/{save_data_name}/aligned_features_ScienceQA_{data_split}"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 def pool_to_1d(hidden_state):
@@ -290,11 +292,11 @@ def extract_all_features():
 
 	print(f"Loading dataset: {DATASET_NAME}...")
 	# 加载原始数据
-	full_dataset = load_dataset(DATASET_NAME, split="train")
+	full_dataset = load_dataset(DATASET_NAME, split=data_split)
 	
 	# 【关键修改】：在过滤前为每一条数据生成唯一 ID，格式为 "train_0", "train_1"...
 	# 这样即便后续过滤掉没有图片的样本，保留下来的样本 ID 依然是固定的
-	full_dataset = full_dataset.map(lambda x, idx: {'id': f"train_{idx}"}, with_indices=True)
+	full_dataset = full_dataset.map(lambda x, idx: {'id': f"{data_split}_{idx}"}, with_indices=True)
 	
 	# 过滤掉没有图片的样本
 	dataset = full_dataset.filter(lambda x: x['image'] is not None)
