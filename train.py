@@ -18,11 +18,13 @@ from data.dataset_latent import LatentReasoningDataset, collate_fn
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--local_rank", type=int, default=int(os.environ.get("LOCAL_RANK", -1)))
-    parser.add_argument("--feature_dir", type=str, required=True)
+    
+    # 可选：如果此处不传，代码会自动根据 config 生成默认路径
+    parser.add_argument("--feature_dir", type=str, default=None)
 
-    # === WandB 参数（运行控制，不是训练超参） ===
-    parser.add_argument("--wandb_project", type=str, default="my_repo")
-    parser.add_argument("--wandb_run_name", type=str, default="first_success")
+    # === WandB 参数 ===
+    parser.add_argument("--wandb_project", type=str, default="latent_reasoning")
+    parser.add_argument("--wandb_run_name", type=str, default="run_v1")
     parser.add_argument("--wandb_entity", type=str, default=None)
     parser.add_argument("--wandb_offline", action="store_true")
 
@@ -33,8 +35,6 @@ def parse_args():
 def main():
     args = parse_args()
 
-    data_split='validation'
-
     # === 分布式初始化 ===
     if args.local_rank != -1:
         torch.cuda.set_device(args.local_rank)
@@ -42,7 +42,24 @@ def main():
 
     # === 1. Load YAML Config ===
     config = LatentConfig.load("./config/config.yaml")
-    epochs = config.epochs   # ✅ 唯一的 epochs 来源
+    epochs = config.epochs
+    
+    # 动态获取 config 中的数据集设置
+    dataset_name = config.dataset_name
+    data_split = config.dataset_split
+    
+    # 自动推导 Feature Dir (如果命令行未指定)
+    # 格式: ./data_preprocessed/{ShortName}/aligned_features_{ShortName}_{Split}
+    if args.feature_dir is None:
+        short_name = dataset_name.split('/')[-1]
+        args.feature_dir = f"./data_preprocessed/{short_name}/aligned_features_{short_name}_{data_split}"
+
+    if args.local_rank <= 0:
+        print(f"--- Training Configuration ---")
+        print(f"Dataset: {dataset_name} (Split: {data_split})")
+        print(f"Feature Dir: {args.feature_dir}")
+        print(f"Epochs: {epochs}")
+        print(f"------------------------------")
 
     # === WandB 初始化（仅 rank0） ===
     if args.local_rank <= 0:
@@ -53,12 +70,9 @@ def main():
             mode="offline" if args.wandb_offline else "online",
             config={
                 "model": config.base_model,
+                "dataset": dataset_name,
                 "batch_size": config.batch_size,
                 "learning_rate": config.alpha_sft,
-                "alpha_sft": config.alpha_sft,
-                "beta_mse": config.beta_mse,
-                "epochs": epochs,
-                "gradient_checkpointing": config.gradient_checkpointing,
                 "stages": [s.name for s in config.stages]
             }
         )
@@ -80,7 +94,10 @@ def main():
     model.len_tokenizer = len(processor.tokenizer)
 
     # === 4. Dataset ===
-    raw_dataset = load_dataset("derek-thomas/ScienceQA", split=data_split)
+    # 动态加载 config 中指定的数据集
+    raw_dataset = load_dataset(dataset_name, split=data_split)
+    
+    # 生成一致的 ID: {split}_{index}
     raw_dataset = raw_dataset.map(lambda x, i: {"id": f"{data_split}_{i}"}, with_indices=True)
     raw_dataset = raw_dataset.filter(lambda x: x["image"] is not None)
 
@@ -149,7 +166,6 @@ def main():
                     "train/mse_loss": outputs["mse_loss"].item(),
                     "train/learning_rate": lr,
                     "train/epoch": epoch + (step + 1) / len(dataloader),
-                    "train/global_step": global_step,
                     "train/progress_percentage": progress_pct
                 })
 
@@ -159,21 +175,11 @@ def main():
                     f"(SFT {outputs['sft_loss']:.3f} / MSE {outputs['mse_loss']:.3f})"
                 )
 
-
-        # save_dir = f"./checkpoints/latent_qwen"
-        # print(f"Saving checkpoint to {save_dir}")
-        # model_engine.save_checkpoint(save_dir)
-
         # === 保存逻辑 (DeepSpeed Checkpoint + HF Format) ===
-        # ======================================================
-        
-        # 1. 定义保存路径 (所有 rank 都要知道这个变量名)
         save_root = f"./checkpoints/"
         ds_dir = os.path.join(save_root, "deepspeed")
         hf_dir = os.path.join(save_root, "huggingface")
 
-        # 2. 保存 DeepSpeed 全量状态 (包含优化器，所有进程参与)
-        # 注意：save_checkpoint 内部会处理多卡同步，不需要手动判断 rank
         model_engine.save_checkpoint(ds_dir)
 
     # 保存 Hugging Face 格式权重 (仅 Rank 0 执行)
@@ -182,23 +188,16 @@ def main():
         if not os.path.exists(hf_dir):
             os.makedirs(hf_dir, exist_ok=True)
         
-        # --- 步骤 A: 保存 Base Model ---
-        # 这里的 .module 访问的是 LatentReasoningQwen，其内部有 base_model (这是 HF 模型)
         model_engine.module.base_model.save_pretrained(
             hf_dir, 
             safe_serialization=True
         )
         
-        # --- 步骤 B: 保存 Projectors ---
-        # 因为 projectors 是普通的 nn.ModuleDict，我们将其 state_dict 单独存为一个文件
         projector_weights_path = os.path.join(hf_dir, "projectors.bin")
         torch.save(model_engine.module.projectors.state_dict(), projector_weights_path)
         
-        # --- 步骤 C: 保存 Processor ---
         processor.save_pretrained(hf_dir)
-        
         print(f"--- HF format export successful ---")
-
 
     if args.local_rank <= 0:
         wandb.finish()
