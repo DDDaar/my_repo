@@ -52,7 +52,8 @@ def main():
     # 格式: ./data_preprocessed/{ShortName}/aligned_features_{ShortName}_{Split}
     if args.feature_dir is None:
         short_name = dataset_name.split('/')[-1]
-        args.feature_dir = f"./data_preprocessed/{short_name}/aligned_features_{short_name}_{data_split}"
+        # 修改为：增加 'data/' 前缀
+        args.feature_dir = f"./data/data_preprocessed/{short_name}/aligned_features_{short_name}_{data_split}"
 
     if args.local_rank <= 0:
         print(f"--- Training Configuration ---")
