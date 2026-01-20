@@ -176,22 +176,28 @@ def main():
         # 注意：save_checkpoint 内部会处理多卡同步，不需要手动判断 rank
         model_engine.save_checkpoint(ds_dir)
 
-    # 3. 保存 Hugging Face 格式权重 (仅 Rank 0 执行)
+    # 保存 Hugging Face 格式权重 (仅 Rank 0 执行)
     if args.local_rank <= 0:
-        print(f"--- Exporting HF model to {hf_dir} ---")
+        print(f"--- Exporting HF format model and projectors to {hf_dir} ---")
         if not os.path.exists(hf_dir):
             os.makedirs(hf_dir, exist_ok=True)
         
-        # [关键] 提取原始模型并保存
-        # 使用 model_engine.module 访问被 DeepSpeed 包装的内部模型
-        model_engine.module.save_pretrained(
+        # --- 步骤 A: 保存 Base Model ---
+        # 这里的 .module 访问的是 LatentReasoningQwen，其内部有 base_model (这是 HF 模型)
+        model_engine.module.base_model.save_pretrained(
             hf_dir, 
-            safe_serialization=True,  # 保存为 .safetensors 格式，更安全快速
+            safe_serialization=True
         )
         
-        # 保存 Processor (包含 Tokenizer 和图像配置)
+        # --- 步骤 B: 保存 Projectors ---
+        # 因为 projectors 是普通的 nn.ModuleDict，我们将其 state_dict 单独存为一个文件
+        projector_weights_path = os.path.join(hf_dir, "projectors.bin")
+        torch.save(model_engine.module.projectors.state_dict(), projector_weights_path)
+        
+        # --- 步骤 C: 保存 Processor ---
         processor.save_pretrained(hf_dir)
-        print(f"--- HF model saved successfully ---")
+        
+        print(f"--- HF format export successful ---")
 
 
     if args.local_rank <= 0:

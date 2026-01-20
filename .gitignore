@@ -3,4 +3,6 @@ kernel_meta/
 training_log.txt
 wandb/
 fusion_result.json
-ge_check_op.json
+ge_check_op.checkpoints
+checkpoints/
+
