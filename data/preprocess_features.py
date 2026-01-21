@@ -1,6 +1,6 @@
 import os
 import torch
-# import torch_npu.contrib.transfer_to_npu 
+import torch_npu.contrib.transfer_to_npu 
 import gc
 from PIL import Image
 from tqdm import tqdm
