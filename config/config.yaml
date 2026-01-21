@@ -2,11 +2,28 @@ model:
   base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
   hidden_size: 2048
 
+
 data:
-  # 切换数据集: "derek-thomas/ScienceQA" 或 "LightChen2333/M3CoT"
-  dataset_name: "derek-thomas/ScienceQA"
-  # 数据集 split: "train", "validation", "test"
+  # # 切换数据集: "derek-thomas/ScienceQA" 或 "LightChen2333/M3CoT"
+  # dataset_name: "derek-thomas/ScienceQA"
+  # # 数据集 split: "train", "validation", "test"
+  # dataset_split: "train"
+
+  # 切换数据集: "Xkev/LLaVA-CoT-100k"
+  dataset_name: "Xkev/LLaVA-CoT-100k"
+  
+# === 数据集 Split 设置 ===
+  # 模式 A: 全量训练
+  # dataset_split: "train"
+  # 模式 B: 快速验证 (仅使用前1000条)
   dataset_split: "train"
+
+  # === 新增：图片根目录 ===
+  # LLaVA-CoT 的 image 字段通常是相对路径 (如 "coco/train2017/xxxx.jpg")
+  # 请将此路径修改为你本地存放这些图片的真实根目录
+  # 如果数据集会自动加载 PIL (如 ScienceQA)，此字段会被忽略，但建议保留以防万一
+  image_folder: "/home/ma-user/.cache/huggingface/hub/LLaVA-CoT-100k"
+
 
 tokens:
   extract_token: "<|vision_extract_pad|>"
@@ -32,10 +49,10 @@ reasoning_stages:
     dim: 512
 
 training:
-  epochs: 2       
+  epochs: 1       # LLaVA 数据量较大，建议先跑 1 epoch
   alpha_sft: 1.0
   beta_mse: 2.0
-  batch_size: 4 # M3CoT 文本较长，可能需要调小 batch
+  batch_size: 2   # CoT 文本较长，显存占用高，建议调小 BS
   learning_rate: 1e-4
   gradient_checkpointing: True
 
@@ -43,3 +60,7 @@ attention_control:
   image_visible_to:
     - "extract_token"
     - "reasoning_tokens"
+
+
+
+

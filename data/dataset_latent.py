@@ -1,5 +1,6 @@
 import torch
 import os
+from PIL import Image
 from torch.utils.data import Dataset
 
 class LatentReasoningDataset(Dataset):
@@ -9,40 +10,48 @@ class LatentReasoningDataset(Dataset):
         self.config = config
         self.feature_dir = feature_dir
         
+        # === 获取 Image Folder 配置 ===
+        # 兼容性处理：尝试从 config 对象或 config 字典中获取 image_folder
+        self.image_folder = None
+        if hasattr(config, 'image_folder'): # 如果你在 Config 类里加了字段
+            self.image_folder = config.image_folder
+        
+        # 备用方案：如果 Config 类没更新，我们假设 config.data 原始字典还在 yaml 里
+        # 但 LatentConfig 可能没把原始 data dict 存下来。
+        # 这里为了稳健，建议直接在 config.yaml 填好，且我们在下面代码里硬编码读取逻辑，或者让 yaml loader 传递进来
+        # 在这里，我们假设 config 对象已经通过某种方式传递了该信息，或者我们尝试读取
+        # 实际上，修改 LatentConfig 类是最规范的，但如果不改 Config 类，我们可以这样：
+        import yaml
+        with open("config/config.yaml", 'r') as f:
+            raw_cfg = yaml.safe_load(f)
+            self.image_folder = raw_cfg.get('data', {}).get('image_folder', None)
+
         self.extract_str = config.extract_token * config.extract_count
         self.reasoning_str = ""
         for stage in config.stages:
             self.reasoning_str += (stage.token * stage.count)
 
-        self.is_m3cot = "M3CoT" in config.dataset_name
+        self.dataset_name = config.dataset_name
+        self.is_m3cot = "M3CoT" in self.dataset_name
+        self.is_llava = "LLaVA" in self.dataset_name
         self.max_pixels = 768*768
 
     def __len__(self):
         return len(self.data)
 
     def _format_scienceqa(self, item):
-        """处理 ScienceQA 格式"""
         choices_str = f" Choices: {', '.join(item['choices'])}." if item['choices'] else ""
         prompt_text = f"Question: {item['question']}{choices_str}"
-        # ScienceQA 的 answer 是 index，需要转换
         answer_text = item['choices'][item['answer']] if item['choices'] else str(item['answer'])
         return prompt_text, answer_text
 
     def _format_m3cot(self, item):
-        """
-        处理 M3CoT 格式
-        Input: Context + Question + Choices
-        Target: Rationale (CoT) + Answer
-        """
-        # 1. 构建 Prompt (Context + Question + Choices)
         prompt_parts = []
         if item.get('context'):
             prompt_parts.append(f"Context: {item['context']}")
-        
         prompt_parts.append(f"Question: {item['question']}")
         
         if item.get('choices'):
-            # M3CoT 的 choices 是一个 list，我们将其格式化为 A. xxx B. xxx
             choices_formatted = []
             labels = ['A', 'B', 'C', 'D', 'E', 'F']
             for i, choice in enumerate(item['choices']):
@@ -51,29 +60,84 @@ class LatentReasoningDataset(Dataset):
             prompt_parts.append(f"Choices: {' '.join(choices_formatted)}")
         
         prompt_text = "\n".join(prompt_parts)
-
-        # 2. 构建 Answer (Rationale + Final Answer)
-        # SFT 包含思考过程
         rationale = item.get('rationale', '')
         final_answer = item.get('answer', '')
-        
-        # 组合：思考过程 -> 结论
         answer_text = f"Thought: {rationale}\nAnswer: {final_answer}"
-        
         return prompt_text, answer_text
+
+    def _format_llava_cot(self, item):
+        conversations = item['conversations']
+        human_input = ""
+        gpt_response = ""
+        for turn in conversations:
+            role = turn['from']
+            content = turn['value']
+            if role == 'human':
+                human_input = content.replace("<image>", "").replace("\n<image>", "").strip()
+            elif role == 'gpt':
+                gpt_response = content
+                break
+        return human_input, gpt_response
+
+    def _load_image(self, item):
+        """
+        统一处理图片加载：
+        1. 如果是 PIL 对象 -> 直接转换 RGB
+        2. 如果是 字符串 -> 拼接路径加载
+        """
+        img_raw = item.get('image')
+        
+        if isinstance(img_raw, Image.Image):
+            return img_raw.convert("RGB")
+        
+        elif isinstance(img_raw, str):
+            if self.image_folder is None:
+                raise ValueError("Dataset contains image paths (strings), but 'image_folder' is not set in config.yaml")
+            
+            full_path = os.path.join(self.image_folder, img_raw)
+            if not os.path.exists(full_path):
+                # 训练时图片缺失是严重错误，建议报错或返回黑色图片
+                # raise FileNotFoundError(f"Image file not found: {full_path}")
+                print(f"Warning: Image missing at {full_path}, using black image.")
+                return Image.new('RGB', (224, 224), (0, 0, 0))
+            
+            return Image.open(full_path).convert("RGB")
+        
+        else:
+            # 如果没有图片 (纯文本数据)，这在多模态训练中可能不合法
+            raise ValueError(f"Unknown image type or missing image: {type(img_raw)}")
 
     def __getitem__(self, idx):
         item = self.data[idx]
-        item_id = item['id']
-        image = item['image'].convert("RGB")
+        
+        # ID 获取逻辑
+        if 'id' in item:
+            item_id = str(item['id'])
+        elif 'unique_id' in item:
+            item_id = str(item['unique_id'])
+        else:
+            # 兜底：只有在非 train.py 流程（如单纯测试 dataset类）时才会用到
+            item_id = f"{self.config.dataset_split}_{idx}"
 
-        # 根据数据集类型选择格式化策略
+        # item_id = f"{self.config.dataset_split}_{idx}"
+
+        # === 核心修改：使用 _load_image 处理字符串路径 ===
+        try:
+            image = self._load_image(item)
+        except Exception as e:
+            print(f"Error loading image for ID {item_id}: {e}")
+            # 返回一个伪造的样本避免 DataLoader 崩溃 (实际工程中常用 trick)
+            image = Image.new('RGB', (224, 224), (0, 0, 0))
+            # 这里的 text 处理也要小心，简单跳过
+
+        # 格式化文本
         if self.is_m3cot:
             prompt_text, answer_text = self._format_m3cot(item)
+        elif self.is_llava:
+            prompt_text, answer_text = self._format_llava_cot(item)
         else:
             prompt_text, answer_text = self._format_scienceqa(item)
 
-        # 构造 Messages
         messages = [
             {
                 "role": "user",
@@ -85,14 +149,7 @@ class LatentReasoningDataset(Dataset):
         ]
         
         base_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        # 插入隐式推理 Token
         full_text = f"{base_prompt}{self.extract_str}{self.reasoning_str}{answer_text}"
-
-
-
-
-
-        ##################
 
         inputs = self.processor(
             text=[full_text], 
@@ -104,19 +161,16 @@ class LatentReasoningDataset(Dataset):
 
         input_ids = inputs.input_ids.squeeze(0)
         attention_mask = inputs.attention_mask.squeeze(0)
-        
-        # 处理 Labels (忽略 Prompt 部分和特殊 Token)
         labels = torch.full_like(input_ids, -100)
+        
         all_special_ids = [self.config.extract_token_id] + [s.token_id for s in self.config.stages]
         
         last_pad_idx = -1
-        # 找到最后一个特殊 reasoning token 的位置
         for i in range(len(input_ids) - 1, -1, -1):
             if input_ids[i].item() in all_special_ids:
                 last_pad_idx = i
                 break
         
-        # 只对推理 Token 之后的内容 (即 Answer/Rationale) 计算 Loss
         if last_pad_idx != -1 and last_pad_idx + 1 < len(input_ids):
             labels[last_pad_idx + 1:] = input_ids[last_pad_idx + 1:]
 
@@ -124,14 +178,16 @@ class LatentReasoningDataset(Dataset):
         image_grid_thw = inputs.image_grid_thw.squeeze(0)
         if image_grid_thw.ndim == 1: image_grid_thw = image_grid_thw.unsqueeze(0)
 
-        # 加载预提取的视觉特征
+        # 加载特征
         feature_path = os.path.join(self.feature_dir, f"{item_id}.pt")
+        print(f'准备加载的特征路径是{feature_path}')
         if os.path.exists(feature_path):
             alignment_dict = torch.load(feature_path, map_location='cpu', weights_only=True)
         else:
-            # 如果文件不存在，给一个空字典，避免报错 (实际训练应确保存在)
             alignment_dict = {} 
-
+            print(f'准备加载的特征路径{feature_path}不存在')
+            import time
+            time.sleep(5)
         return {
             "input_ids": input_ids,
             "attention_mask": attention_mask,
@@ -140,6 +196,7 @@ class LatentReasoningDataset(Dataset):
             "image_grid_thw": image_grid_thw,
             "alignment_features": alignment_dict
         }
+    
 
 def collate_fn(batch):
     from torch.nn.utils.rnn import pad_sequence

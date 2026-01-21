@@ -149,7 +149,9 @@ class LatentReasoningQwen(nn.Module):
         
         for stage in self.config.stages:
             target_feat = alignment_features.get(stage.feature_key)
-            if target_feat is None: continue
+            if target_feat is None: 
+                print('没找到target视觉特征信息')
+                continue
                 
             stage_mask = (input_ids == stage.token_id)
             if stage_mask.sum() == 0: continue
