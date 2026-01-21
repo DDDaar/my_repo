@@ -4,7 +4,7 @@ model:
 
 data:
   # 切换数据集: "derek-thomas/ScienceQA" 或 "LightChen2333/M3CoT"
-  dataset_name: "LightChen2333/M3CoT"
+  dataset_name: "derek-thomas/ScienceQA"
   # 数据集 split: "train", "validation", "test"
   dataset_split: "train"
 
@@ -35,7 +35,7 @@ training:
   epochs: 2       
   alpha_sft: 1.0
   beta_mse: 2.0
-  batch_size: 1 # M3CoT 文本较长，可能需要调小 batch
+  batch_size: 4 # M3CoT 文本较长，可能需要调小 batch
   learning_rate: 1e-4
   gradient_checkpointing: True
 
