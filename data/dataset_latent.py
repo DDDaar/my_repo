@@ -66,6 +66,7 @@ class LatentReasoningDataset(Dataset):
         return prompt_text, answer_text
 
     def _format_llava_cot(self, item):
+        # 目前llava-cot-100k是单轮sft
         conversations = item['conversations']
         human_input = ""
         gpt_response = ""
@@ -180,7 +181,7 @@ class LatentReasoningDataset(Dataset):
 
         # 加载特征
         feature_path = os.path.join(self.feature_dir, f"{item_id}.pt")
-        print(f'准备加载的特征路径是{feature_path}')
+        # print(f'准备加载的特征路径是{feature_path}')
         if os.path.exists(feature_path):
             alignment_dict = torch.load(feature_path, map_location='cpu', weights_only=True)
         else:
@@ -188,6 +189,7 @@ class LatentReasoningDataset(Dataset):
             print(f'准备加载的特征路径{feature_path}不存在')
             import time
             time.sleep(5)
+            
         return {
             "input_ids": input_ids,
             "attention_mask": attention_mask,

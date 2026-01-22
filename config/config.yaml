@@ -51,7 +51,7 @@ reasoning_stages:
 training:
   epochs: 1       # LLaVA 数据量较大，建议先跑 1 epoch
   alpha_sft: 1.0
-  beta_mse: 2.0
+  beta_mse: 0.5
   batch_size: 2   # CoT 文本较长，显存占用高，建议调小 BS
   learning_rate: 1e-4
   gradient_checkpointing: True
