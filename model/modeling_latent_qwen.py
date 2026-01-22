@@ -122,7 +122,7 @@ class LatentReasoningQwen(nn.Module):
         
         # print("Logits shape:", logits.shape)
 
-        time.sleep(1)
+        #time.sleep(1)
 
         # 偏移：用 t 预测 t+1
         shift_logits = logits[..., :-1, :].contiguous()

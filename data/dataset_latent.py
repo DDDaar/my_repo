@@ -188,7 +188,7 @@ class LatentReasoningDataset(Dataset):
             alignment_dict = {} 
             print(f'准备加载的特征路径{feature_path}不存在')
             import time
-            time.sleep(5)
+            #time.sleep(5)
             
         return {
             "input_ids": input_ids,
