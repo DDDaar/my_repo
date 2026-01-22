@@ -157,7 +157,7 @@ class LatentReasoningDataset(Dataset):
             images=[image], 
             return_tensors="pt", 
             padding=False,
-            max_pixels=640*640,
+            max_pixels=self.max_pixels,
         )
 
         input_ids = inputs.input_ids.squeeze(0)
