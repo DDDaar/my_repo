@@ -1,10 +1,11 @@
 import os
 import torch
-from torch_npu.contrib import transfer_to_npu
+from torch_npu.contrib import transfer_to_npu # 如果你是在昇腾环境，保留这个
 import torch.distributed as dist
 import argparse
+import random
+import numpy as np # 【新增】需要导入 numpy
 from tqdm import tqdm
-from datasets import load_dataset
 from torch.utils.data import DataLoader, DistributedSampler
 from transformers import Qwen2_5_VLProcessor
 import deepspeed
@@ -14,73 +15,65 @@ from config.configuration_latent import LatentConfig
 from model.modeling_latent_qwen import LatentReasoningQwen
 from data.dataset_latent import LatentReasoningDataset, collate_fn
 
+# === 【新增】全链路固定种子函数 ===
+def set_seed(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    # 对于 NPU (Ascend)，如果有对应接口也建议加上，通常 torch.manual_seed 会覆盖
+    # 保证 CUDNN 确定性 (会牺牲少量性能，但保证可复现)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+# === 【新增】DataLoader Worker 初始化函数 ===
+def seed_worker(worker_id):
+    # 保证每个 worker 拿到不同的种子，但相对于全局种子是确定的
+    worker_seed = torch.initial_seed() % 2**32
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--local_rank", type=int, default=int(os.environ.get("LOCAL_RANK", -1)))
-    
-    # 可选：如果此处不传，代码会自动根据 config 生成默认路径
-    parser.add_argument("--feature_dir", type=str, default=None)
-
-    # === WandB 参数 ===
     parser.add_argument("--wandb_project", type=str, default="latent_reasoning")
-    parser.add_argument("--wandb_run_name", type=str, default="run_v1")
-    parser.add_argument("--wandb_entity", type=str, default=None)
+    parser.add_argument("--wandb_run_name", type=str, default="run_seed_fixed")
     parser.add_argument("--wandb_offline", action="store_true")
-
     parser = deepspeed.add_config_arguments(parser)
     return parser.parse_args()
-
 
 def main():
     args = parse_args()
 
-    # === 分布式初始化 ===
+    # === 1. 分布式初始化 ===
     if args.local_rank != -1:
         torch.cuda.set_device(args.local_rank)
-        dist.init_process_group(backend="hccl")
+        dist.init_process_group(backend="hccl") # 如果是 Nvidia GPU 请改回 "nccl"
 
-    # === 1. Load YAML Config ===
+    # === 2. 加载配置 & 【关键】设置种子 ===
     config = LatentConfig.load("./config/config.yaml")
-    epochs = config.epochs
     
-    # 动态获取 config 中的数据集设置
-    dataset_name = config.dataset_name
-    data_split = config.dataset_split
-    
-    # 自动推导 Feature Dir (如果命令行未指定)
-    # 格式: ./data_preprocessed/{ShortName}/aligned_features_{ShortName}_{Split}
-    if args.feature_dir is None:
-        short_name = dataset_name.split('/')[-1]
-        # 修改为：增加 'data/' 前缀
-        args.feature_dir = f"./data/data_preprocessed/{short_name}/aligned_features_{short_name}_{data_split}"
+    # 在这里设置种子，确保 Projector 初始化、Dropout 等行为一致
+    # 注意：在 DDP 中，必须确保所有 rank 使用相同的种子初始化模型权重
+    set_seed(config.seed) 
 
     if args.local_rank <= 0:
         print(f"--- Training Configuration ---")
-        print(f"Dataset: {dataset_name} (Split: {data_split})")
-        print(f"Feature Dir: {args.feature_dir}")
-        print(f"Epochs: {epochs}")
+        print(f"Seed Locked: {config.seed}")
+        print(f"Datasets: {[d.name for d in config.train_datasets]}")
+        print(f"Attention Visible To: {config.image_visible_to}")
         print(f"------------------------------")
 
-    # === WandB 初始化（仅 rank0） ===
     if args.local_rank <= 0:
         wandb.init(
             project=args.wandb_project,
             name=args.wandb_run_name,
-            entity=args.wandb_entity,
             mode="offline" if args.wandb_offline else "online",
-            config={
-                "model": config.base_model,
-                "dataset": dataset_name,
-                "batch_size": config.batch_size,
-                "learning_rate": config.alpha_sft,
-                "stages": [s.name for s in config.stages]
-            }
+            config=config.__dict__
         )
 
-    # === 2. Processor / Tokenizer ===
+    # === 3. Processor & Tokenizer ===
     processor = Qwen2_5_VLProcessor.from_pretrained(config.base_model)
-
     new_tokens = [config.extract_token] + [stage.token for stage in config.stages]
     processor.tokenizer.add_special_tokens({"additional_special_tokens": new_tokens})
 
@@ -88,121 +81,89 @@ def main():
     for stage in config.stages:
         stage.token_id = processor.tokenizer.convert_tokens_to_ids(stage.token)
 
-    # === 3. Model ===
+    # === 4. Model ===
+    # 因为前面调用了 set_seed，这里 Projector (nn.Linear) 的初始化权重现在是固定的了
     model = LatentReasoningQwen(config)
-
     model.base_model.resize_token_embeddings(len(processor.tokenizer))
     model.len_tokenizer = len(processor.tokenizer)
 
-    # === 4. Dataset ===
-    # 动态加载 config 中指定的数据集
-    raw_dataset = load_dataset(dataset_name, split=data_split)
-    
-    # 生成一致的 ID: {split}_{index}
-    raw_dataset = raw_dataset.map(lambda x, i: {"id": f"{data_split}_{i}"}, with_indices=True)
-    raw_dataset = raw_dataset.filter(lambda x: x["image"] is not None)
-
-    train_dataset = LatentReasoningDataset(
-        raw_dataset, processor, config, args.feature_dir
-    )
+    # === 5. Dataset & DataLoader ===
+    train_dataset = LatentReasoningDataset(processor, config)
 
     sampler = DistributedSampler(train_dataset) if args.local_rank != -1 else None
+    
+    # 还需要处理 DataLoader 的生成器
+    g = torch.Generator()
+    g.manual_seed(config.seed)
+
     dataloader = DataLoader(
         train_dataset,
         batch_size=config.batch_size,
         sampler=sampler,
-        collate_fn=collate_fn
+        collate_fn=collate_fn,
+        num_workers=4,
+        pin_memory=True,
+        # 【关键】worker_init_fn 和 generator 确保多进程加载顺序一致
+        worker_init_fn=seed_worker,
+        generator=g
     )
 
-    # === 5. DeepSpeed Init ===
+    # === 6. DeepSpeed Init ===
     model_engine, optimizer, _, _ = deepspeed.initialize(
         args=args,
         model=model,
         model_parameters=[p for p in model.parameters() if p.requires_grad]
     )
 
-    total_steps = len(dataloader) * epochs
+    # === 7. Training Loop ===
     global_step = 0
-
-    # === 6. Training Loop ===
-    for epoch in range(epochs):
-        if sampler:
-            sampler.set_epoch(epoch)
-
-        pbar = tqdm(
-            enumerate(dataloader),
-            total=len(dataloader),
-            disable=(args.local_rank > 0)
-        )
-
+    total_steps = len(dataloader) * config.epochs
+    
+    for epoch in range(config.epochs):
+        if sampler: sampler.set_epoch(epoch)
+        
+        pbar = tqdm(enumerate(dataloader), total=len(dataloader), disable=(args.local_rank > 0))
+        
         for step, batch in pbar:
             global_step += 1
-
+            
+            # Move to device
             batch_gpu = {}
             for k, v in batch.items():
                 if isinstance(v, torch.Tensor):
                     batch_gpu[k] = v.to(model_engine.device)
-                elif isinstance(v, dict):
-                    batch_gpu[k] = {
-                        sk: sv.to(model_engine.device, dtype=torch.bfloat16)
-                        if isinstance(sv, torch.Tensor) else sv
-                        for sk, sv in v.items()
-                    }
+                elif isinstance(v, dict): 
+                    batch_gpu[k] = {sk: sv.to(model_engine.device, dtype=torch.bfloat16) for sk, sv in v.items()}
                 else:
                     batch_gpu[k] = v
 
             outputs = model_engine(**batch_gpu)
             loss = outputs["loss"]
-
+            
             model_engine.backward(loss)
             model_engine.step()
 
             if args.local_rank <= 0:
-                lr = model_engine.optimizer.param_groups[0]["lr"]
-                progress_pct = global_step / total_steps * 100.0
-
                 wandb.log({
-                    "train/total_loss": loss.item(),
-                    "train/sft_loss": outputs["sft_loss"].item(),
-                    "train/mse_loss": outputs["mse_loss"].item(),
-                    "train/learning_rate": lr,
-                    "train/epoch": epoch + (step + 1) / len(dataloader),
-                    "train/progress_percentage": progress_pct
+                    "train/loss": loss.item(),
+                    "train/sft": outputs["sft_loss"].item(),
+                    "train/mse": outputs["mse_loss"].item(),
+                    "progress": global_step / total_steps
                 })
+                pbar.set_description(f"Ep {epoch} Loss {loss.item():.4f}")
 
-                pbar.set_description(
-                    f"Ep {epoch} | {progress_pct:.1f}% | "
-                    f"Loss {loss.item():.4f} "
-                    f"(SFT {outputs['sft_loss']:.3f} / MSE {outputs['mse_loss']:.3f})"
-                )
-
-        # === 保存逻辑 (DeepSpeed Checkpoint + HF Format) ===
-        save_root = f"./checkpoints/{dataset_name}_{data_split}/"
-        ds_dir = os.path.join(save_root, "deepspeed")
-        hf_dir = os.path.join(save_root, "huggingface")
-
-        model_engine.save_checkpoint(ds_dir)
-
-    # 保存 Hugging Face 格式权重 (仅 Rank 0 执行)
-    if args.local_rank <= 0:
-        print(f"--- Exporting HF format model and projectors to {hf_dir} ---")
-        if not os.path.exists(hf_dir):
-            os.makedirs(hf_dir, exist_ok=True)
+        # Checkpointing
+        save_path = f"./checkpoints/epoch_{epoch}"
+        model_engine.save_checkpoint(save_path)
         
-        model_engine.module.base_model.save_pretrained(
-            hf_dir, 
-            safe_serialization=True
-        )
-        
-        projector_weights_path = os.path.join(hf_dir, "projectors.bin")
-        torch.save(model_engine.module.projectors.state_dict(), projector_weights_path)
-        
-        processor.save_pretrained(hf_dir)
-        print(f"--- HF format export successful ---")
+        if args.local_rank <= 0:
+            hf_path = os.path.join(save_path, "hf_format")
+            os.makedirs(hf_path, exist_ok=True)
+            model_engine.module.base_model.save_pretrained(hf_path, safe_serialization=True)
+            processor.save_pretrained(hf_path)
+            torch.save(model_engine.module.projectors.state_dict(), os.path.join(hf_path, "projectors.bin"))
 
-    if args.local_rank <= 0:
-        wandb.finish()
-
+    if args.local_rank <= 0: wandb.finish()
 
 if __name__ == "__main__":
     main()

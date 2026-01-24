@@ -2,27 +2,38 @@ model:
   base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
   hidden_size: 2048
 
-
 data:
-  # # 切换数据集: "derek-thomas/ScienceQA" 或 "LightChen2333/M3CoT" 或 "Xkev/LLaVA-CoT-100k"
-  # dataset_name: "derek-thomas/ScienceQA"
-  # # 数据集 split: "train", "validation", "test"
-  # dataset_split: "train"
+  # === 模式选择 ===
+  # "single": 使用下方的 dataset_name/split/image_folder/feature_dir 进行单数据集训练
+  # "mix": 使用 mix_datasets 列表进行混合训练
+  train_mode: "single"  
+  seed: 42  # 数据采样和打乱的随机种子
 
-  # 切换数据集: 
+  # === 单数据集模式配置 (当 train_mode: "single" 时生效) ===
   dataset_name: "derek-thomas/ScienceQA"
-  
-# === 数据集 Split 设置 ===
-  # 模式 A: 全量训练
-  # dataset_split: "train"
-  # 模式 B: 快速验证 (仅使用前1000条)
   dataset_split: "train"
+  image_folder: " "
+  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
-  # === 新增：图片根目录 ===
-  # LLaVA-CoT 的 image 字段通常是相对路径 (如 "coco/train2017/xxxx.jpg")
-  # 请将此路径修改为你本地存放这些图片的真实根目录
-  # 如果数据集会自动加载 PIL (如 ScienceQA)，此字段会被忽略，但建议保留以防万一
-  #image_folder: "/home/ma-user/.cache/huggingface/hub/LLaVA-CoT-100k"
+  # === 混合数据集模式配置 (当 train_mode: "mix" 时生效) ===
+  mix_datasets:
+    # - name: "derek-thomas/ScienceQA"
+    #   split: "train"
+    #   count: 1000        # 采样数量，-1 表示全量
+    #   image_folder: " "
+    #   feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
+
+    # - name: "Xkev/LLaVA-CoT-100k"
+    #   split: "train"
+    #   count: 500
+    #   image_folder: "/home/ma-user/.cache/huggingface/hub/LLaVA-CoT-100k"
+    #   feature_dir: "./data/data_preprocessed/LLaVA-CoT-100k/aligned_features_LLaVA-CoT-100k_train"
+
+    - name: "LightChen2333/M3CoT"
+      split: "train"
+      count: 500
+      image_folder: " "
+      feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_train"
 
 
 tokens:
@@ -49,18 +60,20 @@ reasoning_stages:
     dim: 512
 
 training:
-  epochs: 1       # LLaVA 数据量较大，建议先跑 1 epoch
+  epochs: 1
   alpha_sft: 1.0
   beta_mse: 0.2
-  batch_size: 2   # CoT 文本较长，显存占用高，建议调小 BS
+  batch_size: 1
   learning_rate: 1e-4
   gradient_checkpointing: True
 
+# === 注意力控制 ===
+# 决定哪些 Token 可以在 Attention Mask 中看到原始 Image Token
+# extract_token: 隐式特征提取 Token
+# reasoning_tokens: 各个阶段的推理 Token
+# answer: 最终生成的答案
 attention_control:
   image_visible_to:
     - "extract_token"
     - "reasoning_tokens"
-
-
-
-
+    # - "answer" # 如果注释掉，则 Answer 阶段无法直接 Attend 到图片，必须依赖推理 Token
