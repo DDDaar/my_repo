@@ -6,7 +6,7 @@ data:
   # === 模式选择 ===
   # "single": 使用下方的 dataset_name/split/image_folder/feature_dir 进行单数据集训练
   # "mix": 使用 mix_datasets 列表进行混合训练
-  train_mode: "single"  
+  train_mode: "mix"  
   seed: 42  # 数据采样和打乱的随机种子
 
   # === 单数据集模式配置 (当 train_mode: "single" 时生效) ===
@@ -17,11 +17,11 @@ data:
 
   # === 混合数据集模式配置 (当 train_mode: "mix" 时生效) ===
   mix_datasets:
-    # - name: "derek-thomas/ScienceQA"
-    #   split: "train"
-    #   count: 1000        # 采样数量，-1 表示全量
-    #   image_folder: " "
-    #   feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
+    - name: "derek-thomas/ScienceQA"
+      split: "train"
+      count: 100        # 采样数量，-1 表示全量
+      image_folder: " "
+      feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
     # - name: "Xkev/LLaVA-CoT-100k"
     #   split: "train"
@@ -29,11 +29,11 @@ data:
     #   image_folder: "/home/ma-user/.cache/huggingface/hub/LLaVA-CoT-100k"
     #   feature_dir: "./data/data_preprocessed/LLaVA-CoT-100k/aligned_features_LLaVA-CoT-100k_train"
 
-    - name: "LightChen2333/M3CoT"
-      split: "train"
-      count: 500
-      image_folder: " "
-      feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_train"
+    # - name: "LightChen2333/M3CoT"
+    #   split: "train"
+    #   count: 500
+    #   image_folder: " "
+    #   feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_train"
 
 
 tokens:
