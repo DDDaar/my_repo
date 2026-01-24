@@ -78,6 +78,8 @@ class LatentConfig:
             # 优先读 data 下的，如果没有读根下的 (兼容旧 yaml)
             d_name = data_cfg.get('dataset_name', cfg.get('dataset_name'))
             d_split = data_cfg.get('dataset_split', cfg.get('dataset_split', 'train'))
+
+            d_count = data_cfg.get('count', cfg.get('count', -1))
             # 这里的 image_folder 和 feature_dir 需要用户在单模式下配置好
             d_img_root = data_cfg.get('image_folder', '') 
             d_feat_root = data_cfg.get('feature_dir', '')
@@ -86,7 +88,7 @@ class LatentConfig:
                 unified_datasets.append(SingleDatasetConfig(
                     name=d_name,
                     split=d_split,
-                    count=-1,
+                    count=d_count,
                     image_folder=d_img_root,
                     feature_dir=d_feat_root
                 ))
