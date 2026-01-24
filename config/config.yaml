@@ -4,13 +4,13 @@ model:
 
 
 data:
-  # # 切换数据集: "derek-thomas/ScienceQA" 或 "LightChen2333/M3CoT"
+  # # 切换数据集: "derek-thomas/ScienceQA" 或 "LightChen2333/M3CoT" 或 "Xkev/LLaVA-CoT-100k"
   # dataset_name: "derek-thomas/ScienceQA"
   # # 数据集 split: "train", "validation", "test"
   # dataset_split: "train"
 
-  # 切换数据集: "Xkev/LLaVA-CoT-100k"
-  dataset_name: "Xkev/LLaVA-CoT-100k"
+  # 切换数据集: 
+  dataset_name: "derek-thomas/ScienceQA"
   
 # === 数据集 Split 设置 ===
   # 模式 A: 全量训练
@@ -22,7 +22,7 @@ data:
   # LLaVA-CoT 的 image 字段通常是相对路径 (如 "coco/train2017/xxxx.jpg")
   # 请将此路径修改为你本地存放这些图片的真实根目录
   # 如果数据集会自动加载 PIL (如 ScienceQA)，此字段会被忽略，但建议保留以防万一
-  image_folder: "/home/ma-user/.cache/huggingface/hub/LLaVA-CoT-100k"
+  #image_folder: "/home/ma-user/.cache/huggingface/hub/LLaVA-CoT-100k"
 
 
 tokens:
