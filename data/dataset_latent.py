@@ -10,79 +10,74 @@ class LatentReasoningDataset(Dataset):
         self.processor = processor
         self.config = config
         
-        # 预计算 Token String
-        self.extract_str = config.extract_token * config.extract_count
+        # === 1. 构建完整的思维链模板 ===
+        # 格式: [ExtractPrefix] + [ExtractTokens] + [Stage1Prefix] + [Stage1Tokens] ...
+        
+        # Extract 部分
+        self.extract_str = ""
+        if config.extract_text_prefix:
+            self.extract_str += config.extract_text_prefix
+        self.extract_str += (config.extract_token * config.extract_count)
+        
+        # Reasoning Stages 部分
         self.reasoning_str = ""
         for stage in config.stages:
+            if stage.text_prefix:
+                self.reasoning_str += stage.text_prefix
             self.reasoning_str += (stage.token * stage.count)
             
         self.max_pixels = 768*768
         self.mixed_data = []
         
-        # 独立的随机生成器，保证实验可复现
+        # 随机数生成器
         rng = random.Random(config.seed)
         
         print(f"--- Initializing Dataset (Seed: {config.seed}) ---")
         
+        # 加载数据集逻辑
         for ds_cfg in config.train_datasets:
             print(f"Loading: {ds_cfg.name} | Split: {ds_cfg.split} | Target Count: {ds_cfg.count}")
             try:
-                # 1. 加载 HuggingFace 数据集
                 hf_ds = load_dataset(ds_cfg.name, split=ds_cfg.split)
                 total_len = len(hf_ds)
                 
-                # 2. 生成全量索引并打乱
                 all_indices = list(range(total_len))
                 rng.shuffle(all_indices)
                 
                 print(f" -> Raw dataset size: {total_len}. Scanning for valid features...")
-                
-                # 3. 筛选有效数据 (Core Fix)
-                # 逻辑：遍历打乱后的索引 -> 检查特征文件是否存在 -> 存在则加入 -> 满 Count 个停止
                 
                 current_count = 0
                 target_count = ds_cfg.count if ds_cfg.count > 0 else total_len
                 ds_type = self._detect_type(ds_cfg.name)
                 
                 for idx in all_indices:
-                    # 如果已经收集够了数量，停止扫描
                     if current_count >= target_count:
                         break
                     
-                    # 构造特征文件 ID，必须与 preprocess_features.py 逻辑一致
                     file_id = f"{ds_cfg.split}_{idx}" 
                     
-                    # 构造特征文件完整路径
+                    # 检查特征文件
                     feature_path = ""
                     if ds_cfg.feature_dir:
                         feature_path = os.path.join(ds_cfg.feature_dir, f"{file_id}.pt")
                     
-                    # === 关键检查 ===
-                    # 如果提供了 feature_dir，必须确保文件存在才能作为训练数据
-                    # 如果没有 feature_dir (纯图文训练)，则无需检查
                     if ds_cfg.feature_dir and not os.path.exists(feature_path):
-                        # 文件不存在说明预处理时图片无效，跳过该样本
                         continue
                         
-                    # 添加到训练列表
                     self.mixed_data.append({
                         "raw_item": hf_ds[int(idx)],
                         "cfg": ds_cfg,
                         "file_id": file_id,
                         "ds_type": ds_type,
-                        "feature_path": feature_path # 缓存路径，getitem 直接用
+                        "feature_path": feature_path
                     })
                     current_count += 1
                 
-                print(f" -> Final valid samples loaded: {current_count} (Target: {target_count})")
+                print(f" -> Final valid samples loaded: {current_count}")
                     
             except Exception as e:
                 print(f"[Error] Failed to load {ds_cfg.name}: {e}")
-                # 打印详细错误栈以便调试
-                import traceback
-                traceback.print_exc()
         
-        # 4. 混合所有数据集后再次打乱
         rng.shuffle(self.mixed_data)
         print(f"--- Total Mix Samples Ready: {len(self.mixed_data)} ---")
 
@@ -133,7 +128,6 @@ class LatentReasoningDataset(Dataset):
         ds_cfg = item_wrapper['cfg']
         img_raw = raw_item.get('image')
         
-        # 优先使用 path 加载，避免 dataset 对象懒加载可能的问题
         if isinstance(img_raw, Image.Image):
             return img_raw.convert("RGB")
         elif isinstance(img_raw, str):
@@ -143,7 +137,6 @@ class LatentReasoningDataset(Dataset):
             if os.path.exists(full_path):
                 return Image.open(full_path).convert("RGB")
         
-        # 兜底：黑色图片
         return Image.new('RGB', (224, 224), (0, 0, 0))
 
     def __getitem__(self, idx):
@@ -162,9 +155,17 @@ class LatentReasoningDataset(Dataset):
             }
         ]
         
-        base_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        full_text = f"{base_prompt}{self.extract_str}{self.reasoning_str}{answer_text}"
+        # 1. 生成 User 部分的 Prompt (用于计算 Mask 长度)
+        user_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        
+        # 2. 生成 Assistant 的完整回答
+        # 包含: 提取前缀 + 提取Token + 推理前缀 + 推理Token + 最终答案
+        assistant_response = f"{self.extract_str}{self.reasoning_str}{answer_text}"
+        
+        # 3. 拼接全文
+        full_text = user_prompt + assistant_response
 
+        # 4. Tokenize
         inputs = self.processor(
             text=[full_text], 
             images=[image], 
@@ -175,39 +176,35 @@ class LatentReasoningDataset(Dataset):
 
         input_ids = inputs.input_ids.squeeze(0)
         attention_mask = inputs.attention_mask.squeeze(0)
-        labels = torch.full_like(input_ids, -100)
         
-        all_special_ids = [self.config.extract_token_id] + [s.token_id for s in self.config.stages]
+        # 5. 设置 Labels
+        labels = input_ids.clone()
         
-        # 寻找最后一个特殊 token 的位置，用于设置 labels
-        # 优化遍历效率
-        last_special_pos = -1
-        seq_len = len(input_ids)
-        for i in range(seq_len - 1, -1, -1):
-            if input_ids[i].item() in all_special_ids:
-                last_special_pos = i
-                break
+        # 计算 user_prompt 的 token 长度
+        # 重新 tokenize 以确保准确
+        user_inputs = self.processor(text=[user_prompt], images=[image], return_tensors="pt", padding=False)
+        user_len = user_inputs.input_ids.shape[1]
         
-        if last_special_pos != -1 and last_special_pos + 1 < seq_len:
-            labels[last_special_pos + 1:] = input_ids[last_special_pos + 1:]
+        # Mask 掉 User 部分，保留 Assistant 的思考过程和答案
+        if user_len < len(labels):
+            labels[:user_len] = -100
+        else:
+            labels[:] = -100 
 
         pixel_values = inputs.pixel_values.squeeze(0)
         image_grid_thw = inputs.image_grid_thw.squeeze(0)
         if image_grid_thw.ndim == 1: image_grid_thw = image_grid_thw.unsqueeze(0)
 
-        # === 加载对齐特征 ===
-        # 这里直接使用 __init__ 缓存的路径，且前面已确保存才加入列表
-        # 但为了防止运行时被删除，还是加个 try
+        # 6. 加载特征
         alignment_dict = {}
         feature_path = item_wrapper.get('feature_path')
         
         if feature_path and os.path.exists(feature_path):
             try:
-                # map_location='cpu' 防止多进程加载时的 CUDA 初始化错误
+                # cpu load 避免多进程 CUDA 初始化问题
                 alignment_dict = torch.load(feature_path, map_location='cpu', weights_only=True)
             except Exception as e:
                 print(f"Warning: Corrupt feature file {feature_path}: {e}")
-                # 返回空字典，collate_fn 会处理
         
         return {
             "input_ids": input_ids,
@@ -218,7 +215,6 @@ class LatentReasoningDataset(Dataset):
             "alignment_features": alignment_dict
         }
 
-# collate_fn 保持不变，它已经包含了如果 batch 中缺失特征则跳过 stack 的逻辑
 def collate_fn(batch):
     from torch.nn.utils.rnn import pad_sequence
     
@@ -234,8 +230,6 @@ def collate_fn(batch):
         keys = batch[0]['alignment_features'].keys()
         for k in keys:
             if k in ['id', 'unique_id']: continue 
-            # 只有当 Batch 里每个样本都有这个特征时，才进行 Stack
-            # 由于 __init__ 里的严格过滤，理论上这里应该都有
             tensors = [item['alignment_features'][k] for item in batch if k in item['alignment_features']]
             if len(tensors) == len(batch):
                 alignment_features[k] = torch.stack(tensors)

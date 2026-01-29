@@ -9,6 +9,8 @@ class ReasoningStage:
     count: int
     feature_key: str
     dim: int
+    # 阶段前的文本引导，例如 " Then analyze semantic: "
+    text_prefix: str = "" 
     token_id: Optional[int] = None 
 
 @dataclass
@@ -22,31 +24,35 @@ class SingleDatasetConfig:
 
 @dataclass
 class LatentConfig:
-    # 1. 模型参数
+    # === 1. 模型参数 ===
     base_model: str
     hidden_size: int
     
-    # 2. 数据统一接口
-    # 无论单数据还是混合，最终都解析为这个列表供 Dataset 类使用
+    # === 2. 数据参数 ===
     train_datasets: List[SingleDatasetConfig]
     seed: int
 
-    # 3. Token 参数
+    # === 3. Token 与 前缀参数 ===
     extract_token: str
     extract_count: int
+    # [新增] 提取阶段的自然语言引导前缀
+    extract_text_prefix: str 
+
     stages: List[ReasoningStage]
     
-    # 4. 训练参数
+    # === 4. 训练参数 ===
     epochs: int          
-    alpha_sft: float
-    beta_mse: float
+    alpha_sft: float    # 标准 CE Loss 权重
+    beta_mse: float     # 特征对齐 MSE Loss 权重
+    
+    # [新增] VBC 相关参数
+    lambda_vbc: float   # 视觉瓶颈对比 Loss 权重
+    vbc_margin: float   # 动态权重阈值
+    
     batch_size: int
     gradient_checkpointing: bool
     
-    # 5. Attention 控制
-    image_visible_to: List[str]
-
-    # 6. 运行时字段
+    # === 5. 运行时字段 ===
     extract_token_id: Optional[int] = None
     
     @classmethod
@@ -54,17 +60,25 @@ class LatentConfig:
         with open(path, 'r') as f:
             cfg = yaml.safe_load(f)
         
-        # 解析推理阶段
-        stages = [ReasoningStage(**s) for s in cfg['reasoning_stages']]
+        # 解析各个推理阶段
+        stages = []
+        for s in cfg['reasoning_stages']:
+            stages.append(ReasoningStage(
+                name=s['name'],
+                token=s['token'],
+                count=s['count'],
+                feature_key=s['feature_key'],
+                dim=s['dim'],
+                text_prefix=s.get('text_prefix', "") 
+            ))
         
-        # === 核心修改：统一单/混数据逻辑 ===
+        # 解析数据配置
         data_cfg = cfg.get('data', {})
-        mode = data_cfg.get('train_mode', 'single') # 默认为 single 保持兼容
+        mode = data_cfg.get('train_mode', 'single')
         
         unified_datasets = []
         
         if mode == 'mix' and 'mix_datasets' in data_cfg:
-            # 混合模式
             for item in data_cfg['mix_datasets']:
                 unified_datasets.append(SingleDatasetConfig(
                     name=item['name'],
@@ -74,13 +88,10 @@ class LatentConfig:
                     feature_dir=item.get('feature_dir', '')
                 ))
         else:
-            # 单数据集模式 (回退到根目录或 data 目录下的配置)
-            # 优先读 data 下的，如果没有读根下的 (兼容旧 yaml)
+            # 单数据集兼容模式
             d_name = data_cfg.get('dataset_name', cfg.get('dataset_name'))
             d_split = data_cfg.get('dataset_split', cfg.get('dataset_split', 'train'))
-
             d_count = data_cfg.get('count', cfg.get('count', -1))
-            # 这里的 image_folder 和 feature_dir 需要用户在单模式下配置好
             d_img_root = data_cfg.get('image_folder', '') 
             d_feat_root = data_cfg.get('feature_dir', '')
             
@@ -93,26 +104,29 @@ class LatentConfig:
                     feature_dir=d_feat_root
                 ))
             else:
-                raise ValueError("Config invalid: No dataset_name found for single mode.")
+                # 兜底防止报错，实际使用需配置正确
+                pass
 
-        att_cfg = cfg.get('attention_control', {})
-        
         return cls(
             base_model=cfg['model']['base_model'],
             hidden_size=cfg['model']['hidden_size'],
-            
             train_datasets=unified_datasets,
             seed=data_cfg.get('seed', 42),
-
+            
+            # Token配置
             extract_token=cfg['tokens']['extract_token'],
             extract_count=cfg['tokens']['extract_count'],
+            extract_text_prefix=cfg['tokens'].get('extract_text_prefix', ""),
+            
             stages=stages,
             
+            # 训练超参
             epochs=cfg['training']['epochs'], 
             alpha_sft=cfg['training']['alpha_sft'],
             beta_mse=cfg['training']['beta_mse'],
-            batch_size=cfg['training']['batch_size'],
-            gradient_checkpointing=cfg['training'].get('gradient_checkpointing', False),
+            lambda_vbc=cfg['training'].get('lambda_vbc', 0.5),
+            vbc_margin=cfg['training'].get('vbc_margin', 0.8),
             
-            image_visible_to=att_cfg.get('image_visible_to', ["extract_token", "reasoning_tokens"])
+            batch_size=cfg['training']['batch_size'],
+            gradient_checkpointing=cfg['training'].get('gradient_checkpointing', False)
         )

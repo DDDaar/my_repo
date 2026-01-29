@@ -1,5 +1,6 @@
 model:
-  base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
+  # base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
+  base_model: "/home/ma-user/work/lbx/models/Qwen2.5-VL-7B-Instruct"
   hidden_size: 2048
 
 data:
@@ -35,46 +36,41 @@ data:
       count: 100
       image_folder: " "
       feature_dir: ""
-
-
 tokens:
   extract_token: "<|vision_extract_pad|>"
-  extract_count: 16 
+  extract_count: 4
+  # [新增] 引导 Extract 阶段的前缀
+  extract_text_prefix: " Let's extract global visual information: "
 
 reasoning_stages:
   - name: "semantic"
     token: "<|dino_pad|>"
-    count: 8
+    count: 4
     feature_key: "dino_v2_global"
     dim: 768
+    text_prefix: " Then analyze the semantic features: "
     
   - name: "structure"
     token: "<|depth_pad|>"
-    count: 8
+    count: 4
     feature_key: "depth_map_encoded"
     dim: 768 
+    text_prefix: " Next, looking at the depth structure: "
     
   - name: "boundaries"
     token: "<|seg_pad|>"
-    count: 8
+    count: 4
     feature_key: "segmentation_map_encoded"
     dim: 512
+    text_prefix: " Finally, observing the segmentation boundaries: "
 
 training:
   epochs: 1
-  alpha_sft: 1.0
-  beta_mse: 0.2
+  alpha_sft: 1.0     # 基础生成 Loss
+  beta_mse: 0.2      # 隐层对齐 Loss
+  lambda_vbc: 0.2    # VBC 对比 Loss
+  vbc_margin: 0.5    # VBC 动态权重阈值
+  
   batch_size: 1
-  learning_rate: 1e-4
+  learning_rate: 5e-5
   gradient_checkpointing: True
-
-# === 注意力控制 ===
-# 决定哪些 Token 可以在 Attention Mask 中看到原始 Image Token
-# extract_token: 隐式特征提取 Token
-# reasoning_tokens: 各个阶段的推理 Token
-# answer: 最终生成的答案
-attention_control:
-  image_visible_to:
-    - "extract_token"
-    - "reasoning_tokens"
-    # - "answer" # 如果注释掉，则 Answer 阶段无法直接 Attend 到图片，必须依赖推理 Token

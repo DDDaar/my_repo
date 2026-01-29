@@ -1,10 +1,10 @@
 import os
 import torch
-from torch_npu.contrib import transfer_to_npu # 如果你是在昇腾环境，保留这个
+from torch_npu.contrib import transfer_to_npu # 若非 Ascend NPU 可注释
 import torch.distributed as dist
 import argparse
 import random
-import numpy as np # 【新增】需要导入 numpy
+import numpy as np
 from tqdm import tqdm
 from torch.utils.data import DataLoader, DistributedSampler
 from transformers import Qwen2_5_VLProcessor
@@ -15,20 +15,15 @@ from config.configuration_latent import LatentConfig
 from model.modeling_latent_qwen import LatentReasoningQwen
 from data.dataset_latent import LatentReasoningDataset, collate_fn
 
-# === 【新增】全链路固定种子函数 ===
 def set_seed(seed=42):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    # 对于 NPU (Ascend)，如果有对应接口也建议加上，通常 torch.manual_seed 会覆盖
-    # 保证 CUDNN 确定性 (会牺牲少量性能，但保证可复现)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-# === 【新增】DataLoader Worker 初始化函数 ===
 def seed_worker(worker_id):
-    # 保证每个 worker 拿到不同的种子，但相对于全局种子是确定的
     worker_seed = torch.initial_seed() % 2**32
     np.random.seed(worker_seed)
     random.seed(worker_seed)
@@ -36,8 +31,8 @@ def seed_worker(worker_id):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--local_rank", type=int, default=int(os.environ.get("LOCAL_RANK", -1)))
-    parser.add_argument("--wandb_project", type=str, default="latent_reasoning")
-    parser.add_argument("--wandb_run_name", type=str, default="run_seed_fixed")
+    parser.add_argument("--wandb_project", type=str, default="latent_vbc_full")
+    parser.add_argument("--wandb_run_name", type=str, default="run_autoregressive")
     parser.add_argument("--wandb_offline", action="store_true")
     parser = deepspeed.add_config_arguments(parser)
     return parser.parse_args()
@@ -45,26 +40,23 @@ def parse_args():
 def main():
     args = parse_args()
 
-    # === 1. 分布式初始化 ===
+    # 分布式初始化
     if args.local_rank != -1:
         torch.cuda.set_device(args.local_rank)
-        dist.init_process_group(backend="hccl") # 如果是 Nvidia GPU 请改回 "nccl"
+        # 注意: NVIDIA GPU 请用 "nccl", Ascend NPU 用 "hccl"
+        dist.init_process_group(backend="hccl") 
 
-    # === 2. 加载配置 & 【关键】设置种子 ===
+    # 加载配置与种子
     config = LatentConfig.load("./config/config.yaml")
-    
-    # 在这里设置种子，确保 Projector 初始化、Dropout 等行为一致
-    # 注意：在 DDP 中，必须确保所有 rank 使用相同的种子初始化模型权重
     set_seed(config.seed) 
 
     if args.local_rank <= 0:
         print(f"--- Training Configuration ---")
-        print(f"Seed Locked: {config.seed}")
-        print(f"Datasets: {[d.name for d in config.train_datasets]}")
-        print(f"Attention Visible To: {config.image_visible_to}")
+        print(f"Seed: {config.seed}")
+        print(f"Extract Prefix: '{config.extract_text_prefix}'")
+        print(f"VBC Enabled: Lambda={config.lambda_vbc}, Margin={config.vbc_margin}")
         print(f"------------------------------")
-
-    if args.local_rank <= 0:
+        
         wandb.init(
             project=args.wandb_project,
             name=args.wandb_run_name,
@@ -72,27 +64,27 @@ def main():
             config=config.__dict__
         )
 
-    # === 3. Processor & Tokenizer ===
+    # Processor & Tokenizer
     processor = Qwen2_5_VLProcessor.from_pretrained(config.base_model)
+    
+    # 注册所有特殊 Token
     new_tokens = [config.extract_token] + [stage.token for stage in config.stages]
     processor.tokenizer.add_special_tokens({"additional_special_tokens": new_tokens})
 
+    # 更新 Config ID
     config.extract_token_id = processor.tokenizer.convert_tokens_to_ids(config.extract_token)
     for stage in config.stages:
         stage.token_id = processor.tokenizer.convert_tokens_to_ids(stage.token)
 
-    # === 4. Model ===
-    # 因为前面调用了 set_seed，这里 Projector (nn.Linear) 的初始化权重现在是固定的了
+    # Model
     model = LatentReasoningQwen(config)
     model.base_model.resize_token_embeddings(len(processor.tokenizer))
     model.len_tokenizer = len(processor.tokenizer)
 
-    # === 5. Dataset & DataLoader ===
+    # Dataset & DataLoader
     train_dataset = LatentReasoningDataset(processor, config)
-
     sampler = DistributedSampler(train_dataset) if args.local_rank != -1 else None
     
-    # 还需要处理 DataLoader 的生成器
     g = torch.Generator()
     g.manual_seed(config.seed)
 
@@ -103,19 +95,18 @@ def main():
         collate_fn=collate_fn,
         num_workers=4,
         pin_memory=True,
-        # 【关键】worker_init_fn 和 generator 确保多进程加载顺序一致
         worker_init_fn=seed_worker,
         generator=g
     )
 
-    # === 6. DeepSpeed Init ===
+    # DeepSpeed Init
     model_engine, optimizer, _, _ = deepspeed.initialize(
         args=args,
         model=model,
         model_parameters=[p for p in model.parameters() if p.requires_grad]
     )
 
-    # === 7. Training Loop ===
+    # Training Loop
     global_step = 0
     total_steps = len(dataloader) * config.epochs
     
@@ -146,13 +137,15 @@ def main():
             if args.local_rank <= 0:
                 wandb.log({
                     "train/loss": loss.item(),
-                    "train/sft": outputs["sft_loss"].item(),
+                    "train/sft_ans": outputs["sft_loss"].item(),
+                    "train/latent_ce": outputs["latent_ce"].item(),
                     "train/mse": outputs["mse_loss"].item(),
+                    "train/vbc": outputs["vbc_loss"].item(),
                     "progress": global_step / total_steps
                 })
                 pbar.set_description(f"Ep {epoch} Loss {loss.item():.4f}")
 
-        # Checkpointing
+        # Save Checkpoint
         save_path = f"./checkpoints/epoch_{epoch}"
         model_engine.save_checkpoint(save_path)
         

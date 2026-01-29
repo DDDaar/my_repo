@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from transformers import Qwen2_5_VLForConditionalGeneration
-import time
 
 class LatentReasoningQwen(nn.Module):
     def __init__(self, config_obj):
@@ -10,6 +9,7 @@ class LatentReasoningQwen(nn.Module):
         self.config = config_obj
         self.len_tokenizer = None 
 
+        # 加载 Base Model
         self.base_model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             config_obj.base_model,
             torch_dtype=torch.bfloat16,
@@ -18,6 +18,7 @@ class LatentReasoningQwen(nn.Module):
         
         real_hidden_size = self.base_model.config.hidden_size
         
+        # 冻结视觉塔
         if hasattr(self.base_model, "visual"):
             self.base_model.visual.requires_grad_(False)
             self.base_model.visual.eval()
@@ -25,190 +26,162 @@ class LatentReasoningQwen(nn.Module):
         if config_obj.gradient_checkpointing:
             self.base_model.gradient_checkpointing_enable()
 
+        # Projectors 用于 MSE 对齐
         self.projectors = nn.ModuleDict({
             stage.name: nn.Linear(real_hidden_size, stage.dim)
             for stage in config_obj.stages
         })
         
-        # 缓存 Token ID 用于 Mask 生成
+        # 缓存 Token IDs
         self.extract_token_id = config_obj.extract_token_id
         self.reasoning_token_ids = set([s.token_id for s in config_obj.stages])
-        
-        # 解析可见性集合
-        self.visible_conf = set(config_obj.image_visible_to)
-
-    def _create_custom_mask(self, input_ids, attention_mask):
-        """
-        生成注意力掩码，控制 Question/Extract/Reasoning/Answer 对 Image 的可见性。
-        """
-        B, L = input_ids.shape
-        device = input_ids.device
-        min_dtype = torch.finfo(self.base_model.dtype).min
-        
-        # 1. 基础 Causal Mask (Lower Triangular)
-        causal_mask = torch.tril(torch.ones((L, L), device=device, dtype=torch.bool))
-        
-        # 初始化最终 Mask: [B, 1, L, L] 用于广播
-        final_mask = torch.full((B, 1, L, L), min_dtype, device=device, dtype=self.base_model.dtype)
-        
-        VISION_START_ID = 151652
-        VISION_END_ID = 151653
-        
-        for b in range(B):
-            # 基础 Causal
-            current_causal = torch.zeros((L, L), device=device, dtype=self.base_model.dtype)
-            current_causal.masked_fill_(~causal_mask, min_dtype)
-            
-            # Padding 处理 (attention_mask 为 0 的列不可见)
-            pad_col = attention_mask[b] == 0
-            current_causal[:, pad_col] = min_dtype
-
-            # 寻找图像 Token 区域
-            v_starts = (input_ids[b] == VISION_START_ID).nonzero(as_tuple=True)[0]
-            v_ends = (input_ids[b] == VISION_END_ID).nonzero(as_tuple=True)[0]
-            
-            img_indices = []
-            if len(v_starts) > 0:
-                for start, end in zip(v_starts, v_ends):
-                    img_indices.extend(range(start.item(), end.item() + 1))
-            
-            # 如果没有图片，直接用基础 Causal
-            if not img_indices:
-                final_mask[b, 0, :, :] = current_causal
-                continue
-
-            img_indices_tensor = torch.tensor(img_indices, device=device)
-            is_img_token = torch.zeros(L, device=device, dtype=torch.bool)
-            is_img_token[img_indices_tensor] = True
-
-            # === 划分 Token 类型 ===
-            # 类型定义: 0: Question, 1: Extract, 2: Reasoning, 3: Answer
-            token_types = torch.zeros(L, device=device, dtype=torch.int) 
-            
-            # 标记 Extract
-            token_types[input_ids[b] == self.extract_token_id] = 1
-            
-            # 标记 Reasoning
-            for rid in self.reasoning_token_ids:
-                token_types[input_ids[b] == rid] = 2
-            
-            # 标记 Answer: 位于最后一个 Reasoning/Extract 之后的所有 Token
-            special_indices = torch.where((token_types == 1) | (token_types == 2))[0]
-            if len(special_indices) > 0:
-                last_special = special_indices.max().item()
-                if last_special + 1 < L:
-                    token_types[last_special + 1:] = 3
-            
-            # === 构建可见性向量 ===
-            can_see_image = torch.zeros(L, device=device, dtype=torch.bool)
-            
-            # 规则 1: Question 默认必须看图 (Type 0)
-            can_see_image[token_types == 0] = True
-            
-            # 规则 2: Extract Token (Type 1)
-            if "extract_token" in self.visible_conf:
-                can_see_image[token_types == 1] = True
-                
-            # 规则 3: Reasoning Token (Type 2)
-            if "reasoning_tokens" in self.visible_conf:
-                can_see_image[token_types == 2] = True
-                
-            # 规则 4: Answer (Type 3)
-            if "answer" in self.visible_conf:
-                can_see_image[token_types == 3] = True
-            
-            # 规则 5: Image Token 自身互看
-            can_see_image[is_img_token] = True
-            
-            # === 应用遮罩 ===
-            # Mask 逻辑: 如果某行 (Row) 不能看图，则在该行对应 Image 列 (Col) 填 -inf
-            
-            # mask_rows[i] = True 意味着第 i 个 token 禁止看图
-            mask_rows = ~can_see_image
-            
-            # 构造 Block Map: [L, 1] & [1, L] -> [L, L]
-            block_map = mask_rows.unsqueeze(1) & is_img_token.unsqueeze(0)
-            
-            current_causal.masked_fill_(block_map, min_dtype)
-            final_mask[b, 0, :, :] = current_causal
-
-        return final_mask
 
     def forward(self, input_ids, attention_mask, labels, pixel_values, image_grid_thw, alignment_features=None):
-        # 1. 构建 Mask (包含 Visibility 控制)
-        custom_mask = self._create_custom_mask(input_ids, attention_mask)
+        """
+        VBC Forward:
+        1. Pass 1: Standard (With Image)
+        2. Pass 2: Blind (Image Masked)
+        3. Compute Combined Loss
+        """
         
-        # 2. Base Model Forward
-        outputs = self.base_model(
+        # === 1. Pass 1: Standard Forward (With Image) ===
+        # 使用 standard causal mask
+        outputs_v = self.base_model(
             input_ids=input_ids,
-            attention_mask=custom_mask, 
+            attention_mask=attention_mask, 
             pixel_values=pixel_values,
             image_grid_thw=image_grid_thw,
             output_hidden_states=True,
             return_dict=True,
             use_cache=False 
         )
-
-        logits = outputs.logits 
+        logits_v = outputs_v.logits # [B, L, Vocab]
         
-        # 3. SFT Loss
-        shift_logits = logits[..., :-1, :].contiguous()
-        shift_labels = labels[..., 1:].contiguous()
+        # === 2. Pass 2: Blind Forward (Masking out Images) ===
+        VISION_START_ID = 151652
+        VISION_END_ID = 151653
         
-        loss_fct = nn.CrossEntropyLoss()
+        # 创建 blind mask (深拷贝)
+        blind_attention_mask = attention_mask.clone()
         
-        if self.len_tokenizer is None:
-            self.len_tokenizer = shift_logits.size(-1)
-
-        sft_loss = loss_fct(
-            shift_logits.view(-1, self.len_tokenizer), 
-            shift_labels.view(-1)
-        )
-
-        # 4. MSE Loss (Latent Alignment)
-        avg_mse_loss = torch.tensor(0.0, device=logits.device)
-        
-        if alignment_features and len(alignment_features) > 0:
-            last_hidden_state = outputs.hidden_states[-1]
-            total_mse_loss = 0.0
-            mse_count = 0
+        # 遍历 batch，将 Vision Token 区域的 mask 设为 0
+        for b in range(input_ids.shape[0]):
+            v_starts = (input_ids[b] == VISION_START_ID).nonzero(as_tuple=True)[0]
+            v_ends = (input_ids[b] == VISION_END_ID).nonzero(as_tuple=True)[0]
             
+            if len(v_starts) > 0:
+                for start, end in zip(v_starts, v_ends):
+                    blind_attention_mask[b, start:end+1] = 0
+        
+        # 执行 Blind Forward (no_grad 节省显存，且 VBC 通常 detach baseline)
+        with torch.no_grad():
+            outputs_blind = self.base_model(
+                input_ids=input_ids,
+                attention_mask=blind_attention_mask,
+                pixel_values=None, # Blind 模式下无需图片张量
+                image_grid_thw=None,
+                output_hidden_states=False, 
+                return_dict=True,
+                use_cache=False
+            )
+            logits_blind = outputs_blind.logits.detach() 
+
+        # === 3. 数据准备 (Shift for Next Token Prediction) ===
+        shift_logits_v = logits_v[..., :-1, :].contiguous()
+        shift_logits_blind = logits_blind[..., :-1, :].contiguous()
+        shift_labels = labels[..., 1:].contiguous()
+        shift_input_ids = input_ids[..., 1:].contiguous()
+
+        # Flatten
+        flat_logits_v = shift_logits_v.view(-1, shift_logits_v.size(-1))
+        flat_logits_blind = shift_logits_blind.view(-1, shift_logits_blind.size(-1))
+        flat_labels = shift_labels.view(-1)
+        flat_input_ids = shift_input_ids.view(-1)
+        
+        valid_mask = flat_labels != -100
+        
+        # === 4. 区分 Token 类型 (Special vs Answer) ===
+        is_extract = (flat_input_ids == self.extract_token_id)
+        is_reasoning = torch.zeros_like(flat_input_ids, dtype=torch.bool)
+        for rid in self.reasoning_token_ids:
+            is_reasoning |= (flat_input_ids == rid)
+            
+        # 注意: Text Prefix 被视为普通文本，归入 Answer 类型的 loss (即 Standard CE)
+        # Special Tokens 只有那些 <ext>, <dino>
+        is_special = (is_extract | is_reasoning) & valid_mask
+        is_answer_or_text = (~is_special) & valid_mask
+        
+        # === 5. 计算损失 ===
+        loss_fct = nn.CrossEntropyLoss(reduction='none') 
+        ce_loss_all = loss_fct(flat_logits_v, flat_labels)
+        
+        # --- A. Latent Loss (Special Tokens) ---
+        # 1. CE Loss: 强迫生成特殊 Token
+        latent_ce_loss = torch.tensor(0.0, device=logits_v.device)
+        if is_special.sum() > 0:
+            latent_ce_loss = (ce_loss_all * is_special.float()).sum() / is_special.sum()
+        
+        # 2. MSE Loss: 特征对齐
+        last_hidden_state = outputs_v.hidden_states[-1] # [B, L, H]
+        total_mse_loss = torch.tensor(0.0, device=logits_v.device)
+        mse_cnt = 0
+        
+        if alignment_features:
             for stage in self.config.stages:
                 target_feat = alignment_features.get(stage.feature_key)
                 if target_feat is None: continue
-                    
-                stage_mask = (input_ids == stage.token_id)
-                if stage_mask.sum() == 0: continue
-
-                batch_loss = 0.0
-                valid_b = 0
                 
+                stage_mask = (input_ids == stage.token_id)
                 for b in range(input_ids.size(0)):
                     b_mask = stage_mask[b]
                     if b_mask.sum() > 0:
                         b_hidden = last_hidden_state[b][b_mask]
-                        # 对该 Stage 的所有 Token 取平均后做 MSE
-                        b_pooled = b_hidden.mean(dim=0, keepdim=True)
-                        b_proj = self.projectors[stage.name](b_pooled)
-                        
+                        # Mean Pool
+                        b_proj = self.projectors[stage.name](b_hidden.mean(dim=0, keepdim=True))
                         target = target_feat[b].unsqueeze(0).to(dtype=b_proj.dtype, device=b_proj.device)
-                        batch_loss += F.mse_loss(b_proj, target)
-                        valid_b += 1
-                
-                if valid_b > 0:
-                    total_mse_loss += (batch_loss / valid_b)
-                    mse_count += 1
-            
-            if mse_count > 0:
-                avg_mse_loss = total_mse_loss / mse_count
+                        total_mse_loss += F.mse_loss(b_proj, target)
+                        mse_cnt += 1
+                        
+        if mse_cnt > 0:
+            total_mse_loss /= mse_cnt
 
+        loss_latent = latent_ce_loss + self.config.beta_mse * total_mse_loss
+
+        # --- B. Answer Standard Loss ---
+        ans_ce_loss = torch.tensor(0.0, device=logits_v.device)
+        if is_answer_or_text.sum() > 0:
+            ans_ce_loss = (ce_loss_all * is_answer_or_text.float()).sum() / is_answer_or_text.sum()
+
+        # --- C. VBC Loss (Visual Bottleneck Contrast) ---
+        loss_vbc = torch.tensor(0.0, device=logits_v.device)
+        
+        if is_answer_or_text.sum() > 0:
+            # 1. 计算 Blind Probability P_blind(y_t)
+            probs_blind = F.softmax(flat_logits_blind, dim=-1)
+            p_blind_gt = probs_blind.gather(1, flat_labels.unsqueeze(1)).squeeze(1) # [N]
+            
+            # 2. 动态权重 w_t = max(0, margin - p_blind)
+            weights = F.relu(self.config.vbc_margin - p_blind_gt)
+            
+            # 3. Contrastive Logits = Z_v - Z_blind
+            logits_diff = flat_logits_v - flat_logits_blind
+            
+            # 4. CE(softmax(diff), y)
+            loss_vbc_raw = loss_fct(logits_diff, flat_labels)
+            
+            loss_vbc = (loss_vbc_raw * weights * is_answer_or_text.float()).sum() / (is_answer_or_text.sum() + 1e-8)
+
+        # === 6. Total Loss ===
         total_loss = (
-            self.config.alpha_sft * sft_loss + 
-            self.config.beta_mse * avg_mse_loss
+            loss_latent + 
+            ans_ce_loss + 
+            self.config.lambda_vbc * loss_vbc
         )
 
         return {
             "loss": total_loss,
-            "sft_loss": sft_loss.detach(),
-            "mse_loss": avg_mse_loss.detach()
+            "sft_loss": ans_ce_loss.detach(),
+            "latent_ce": latent_ce_loss.detach(),
+            "mse_loss": total_mse_loss.detach(),
+            "vbc_loss": loss_vbc.detach()
         }
