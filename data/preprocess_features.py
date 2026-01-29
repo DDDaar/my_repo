@@ -13,21 +13,24 @@ from transformers import (
 )
 
 # === 配置区域 ===
-TARGET_DATASET = "Xkev/LLaVA-CoT-100k"
-TARGET_SPLIT = "train" 
+TARGET_DATASET = "LightChen2333/M3CoT"
+TARGET_SPLIT = "test" 
 
 # === 必须配置：本地图片根目录 ===
 # 请指向包含 coco/train2017 等子文件夹的父目录
 # 示例：如果图片路径是 coco/train2017/001.jpg，而文件在 /data/images/coco/train2017/001.jpg
 # 则此处填写 /data/images
-IMAGE_ROOT = "/home/ma-user/.cache/huggingface/hub/LLaVA-CoT-100k" 
+IMAGE_ROOT = "/home/ma-user/work/lbx/dataset/LLaVA-CoT-100k" 
 
 # === 子集验证开关 ===
 USE_SUBSET = False     
 SUBSET_SIZE = 50
 
 # 自动生成路径
-SHORT_NAME = "LLaVA-CoT-100k"
+# 提取最后一个斜杠后的内容
+SHORT_NAME = TARGET_DATASET.split('/')[-1]
+print(f"SHORT_NAME = {SHORT_NAME}") 
+
 OUTPUT_DIR = f"./data/data_preprocessed/{SHORT_NAME}/aligned_features_{SHORT_NAME}_{TARGET_SPLIT}"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 

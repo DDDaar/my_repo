@@ -27,14 +27,14 @@ data:
     - name: "Xkev/LLaVA-CoT-100k"
       split: "train"
       count: 100
-      image_folder: "/home/ma-user/.cache/huggingface/hub/LLaVA-CoT-100k"
+      image_folder: "/home/ma-user/work/lbx/dataset/LLaVA-CoT-100k"
       feature_dir: "./data/data_preprocessed/LLaVA-CoT-100k/aligned_features_LLaVA-CoT-100k_train"
 
     - name: "LightChen2333/M3CoT"
       split: "train"
       count: 100
       image_folder: " "
-      feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_train"
+      feature_dir: ""
 
 
 tokens:

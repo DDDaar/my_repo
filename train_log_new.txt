@@ -1,0 +1,265 @@
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+[2026-01-25 00:30:45,726] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2026-01-25 00:30:45,727] [INFO] [runner.py:630:main] cmd = /home/ma-user/anaconda3/envs/my_repo/bin/python3.1 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train.py --deepspeed_config ./config/zero2_config.json --wandb_project latent_reasoning --wandb_run_name run_seed_fixed
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+[2026-01-25 00:30:58,213] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
+[2026-01-25 00:30:58,213] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=8, node_rank=0
+[2026-01-25 00:30:58,213] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
+[2026-01-25 00:30:58,213] [INFO] [launch.py:180:main] dist_world_size=8
+[2026-01-25 00:30:58,213] [INFO] [launch.py:184:main] Setting ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+[2026-01-25 00:30:58,215] [INFO] [launch.py:272:main] process 93184 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=0', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'latent_reasoning', '--wandb_run_name', 'run_seed_fixed']
+[2026-01-25 00:30:58,216] [INFO] [launch.py:272:main] process 93185 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=1', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'latent_reasoning', '--wandb_run_name', 'run_seed_fixed']
+[2026-01-25 00:30:58,217] [INFO] [launch.py:272:main] process 93186 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=2', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'latent_reasoning', '--wandb_run_name', 'run_seed_fixed']
+[2026-01-25 00:30:58,218] [INFO] [launch.py:272:main] process 93187 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=3', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'latent_reasoning', '--wandb_run_name', 'run_seed_fixed']
+[2026-01-25 00:30:58,219] [INFO] [launch.py:272:main] process 93188 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=4', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'latent_reasoning', '--wandb_run_name', 'run_seed_fixed']
+[2026-01-25 00:30:58,219] [INFO] [launch.py:272:main] process 93189 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=5', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'latent_reasoning', '--wandb_run_name', 'run_seed_fixed']
+[2026-01-25 00:30:58,220] [INFO] [launch.py:272:main] process 93190 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=6', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'latent_reasoning', '--wandb_run_name', 'run_seed_fixed']
+[2026-01-25 00:30:58,221] [INFO] [launch.py:272:main] process 93191 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'latent_reasoning', '--wandb_run_name', 'run_seed_fixed']
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/contrib/transfer_to_npu.py:298: ImportWarning: 
+    *************************************************************************************************************
+    The torch.Tensor.cuda and torch.nn.Module.cuda are replaced with torch.Tensor.npu and torch.nn.Module.npu now..
+    The torch.cuda.DoubleTensor is replaced with torch.npu.FloatTensor cause the double type is not supported now..
+    The backend in torch.distributed.init_process_group set to hccl now..
+    The torch.cuda.* and torch.cuda.amp.* are replaced with torch.npu.* and torch.npu.amp.* now..
+    The device parameters have been replaced with npu in the function below:
+    torch.logspace, torch.randint, torch.hann_window, torch.rand, torch.full_like, torch.ones_like, torch.rand_like, torch.randperm, torch.arange, torch.frombuffer, torch.normal, torch._empty_per_channel_affine_quantized, torch.empty_strided, torch.empty_like, torch.scalar_tensor, torch.tril_indices, torch.bartlett_window, torch.ones, torch.sparse_coo_tensor, torch.randn, torch.kaiser_window, torch.tensor, torch.triu_indices, torch.as_tensor, torch.zeros, torch.randint_like, torch.full, torch.eye, torch._sparse_csr_tensor_unsafe, torch.empty, torch._sparse_coo_tensor_unsafe, torch.blackman_window, torch.zeros_like, torch.range, torch.sparse_csr_tensor, torch.randn_like, torch.from_file, torch._cudnn_init_dropout_state, torch._empty_affine_quantized, torch.linspace, torch.hamming_window, torch.empty_quantized, torch._pin_memory, torch.autocast, torch.load, torch.set_default_device, torch.Tensor.new_empty, torch.Tensor.new_empty_strided, torch.Tensor.new_full, torch.Tensor.new_ones, torch.Tensor.new_tensor, torch.Tensor.new_zeros, torch.Tensor.to, torch.Tensor.pin_memory, torch.nn.Module.to, torch.nn.Module.to_empty
+    *************************************************************************************************************
+    
+  warnings.warn(msg, ImportWarning)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/contrib/transfer_to_npu.py:255: RuntimeWarning: torch.jit.script and torch.jit.script_method will be disabled by transfer_to_npu, which currently does not support them, if you need to enable them, please do not use transfer_to_npu.
+  warnings.warn(msg, RuntimeWarning)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+--- Training Configuration ---
+Seed Locked: 42
+Datasets: ['derek-thomas/ScienceQA']
+Attention Visible To: ['extract_token', 'reasoning_tokens']
+------------------------------
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+wandb: Currently logged in as: libx22 (libx22-tsinghua-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/wandb/analytics/sentry.py:279: DeprecationWarning: The `Scope.user` setter is deprecated in favor of `Scope.set_user()`.
+  self.scope.user = {"email": email}
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+wandb: setting up run vmcjxn2c
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/wandb/analytics/sentry.py:279: DeprecationWarning: The `Scope.user` setter is deprecated in favor of `Scope.set_user()`.
+  self.scope.user = {"email": email}
+wandb: Tracking run with wandb version 0.23.1
+wandb: Run data is saved locally in /home/ma-user/work/lbx/my_repo/wandb/run-20260125_003133-vmcjxn2c
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run run_seed_fixed
+wandb: ⭐️ View project at https://wandb.ai/libx22-tsinghua-university/latent_reasoning
+wandb: 🚀 View run at https://wandb.ai/libx22-tsinghua-university/latent_reasoning/runs/vmcjxn2c
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.17it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.03it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.81it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.08it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.67it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.90it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.15it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.16it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.75it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.41it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.87it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.50it/s]
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.21it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.12it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.96it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.58it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.80it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.44it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.22it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.95it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.58it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.07it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.66it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.32it/s]
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+ -> Raw dataset size: 12726. Scanning for valid features...
+ -> Raw dataset size: 12726. Scanning for valid features...
+ -> Raw dataset size: 12726. Scanning for valid features...
+ -> Raw dataset size: 12726. Scanning for valid features...
+ -> Raw dataset size: 12726. Scanning for valid features...
+ -> Raw dataset size: 12726. Scanning for valid features...
+ -> Raw dataset size: 12726. Scanning for valid features...
+ -> Raw dataset size: 12726. Scanning for valid features...
+ -> Final valid samples loaded: 6218 (Target: 12726)
+ -> Final valid samples loaded: 6218 (Target: 12726)
+--- Total Mix Samples Ready: 6218 ---
+--- Total Mix Samples Ready: 6218 ---
+ -> Final valid samples loaded: 6218 (Target: 12726)
+--- Total Mix Samples Ready: 6218 ---
+ -> Final valid samples loaded: 6218 (Target: 12726)
+--- Total Mix Samples Ready: 6218 ---
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+ -> Final valid samples loaded: 6218 (Target: 12726)
+--- Total Mix Samples Ready: 6218 ---
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+ -> Final valid samples loaded: 6218 (Target: 12726)
+--- Total Mix Samples Ready: 6218 ---
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+ -> Final valid samples loaded: 6218 (Target: 12726)
+--- Total Mix Samples Ready: 6218 ---
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+ -> Final valid samples loaded: 6218 (Target: 12726)
+--- Total Mix Samples Ready: 6218 ---
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+[rank0]:[W125 00:32:41.291695121 compiler_depend.ts:65] Warning: Warning: The torch.npu.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='npu') to create tensors. (function operator())
+Before initializing optimizer states
+MA 8.45 GB         Max_MA 9.16 GB         CA 9.26 GB         Max_CA 9 GB 
+CPU Virtual Memory:  used = 117.98 GB, percent = 7.8%
+After initializing optimizer states
+MA 8.45 GB         Max_MA 9.88 GB         CA 10.7 GB         Max_CA 11 GB 
+CPU Virtual Memory:  used = 119.73 GB, percent = 7.9%
+After initializing ZeRO optimizer
+MA 8.45 GB         Max_MA 8.45 GB         CA 10.7 GB         Max_CA 11 GB 
+CPU Virtual Memory:  used = 120.68 GB, percent = 8.0%
+  0%|          | 0/778 [00:00<?, ?it/s][rank0]:[W125 00:32:50.442728844 compiler_depend.ts:164] Warning: Warning: Device do not support double dtype now, dtype cast repalce with float. (function operator())
+Ep 0 Loss 11.3125:   0%|          | 0/778 [00:12<?, ?it/s]Ep 0 Loss 11.3125:   0%|          | 1/778 [00:12<2:40:49, 12.42s/it]Ep 0 Loss 4.0938:   0%|          | 1/778 [00:13<2:40:49, 12.42s/it] Ep 0 Loss 4.0938:   0%|          | 2/778 [00:13<1:13:08,  5.65s/it]Ep 0 Loss 14.1250:   0%|          | 2/778 [00:14<1:13:08,  5.65s/it]Ep 0 Loss 14.1250:   0%|          | 3/778 [00:14<45:47,  3.54s/it]  Ep 0 Loss 1.6250:   0%|          | 3/778 [00:15<45:47,  3.54s/it] Ep 0 Loss 1.6250:   1%|          | 4/778 [00:15<32:54,  2.55s/it]Ep 0 Loss 1.5781:   1%|          | 4/778 [00:16<32:54,  2.55s/it]Ep 0 Loss 1.5781:   1%|          | 5/778 [00:16<24:50,  1.93s/it]Ep 0 Loss 1.4688:   1%|          | 5/778 [00:17<24:50,  1.93s/it]Ep 0 Loss 1.4688:   1%|          | 6/778 [00:17<20:22,  1.58s/it]Ep 0 Loss 1.5312:   1%|          | 6/778 [00:18<20:22,  1.58s/it]Ep 0 Loss 1.5312:   1%|          | 7/778 [00:18<18:08,  1.41s/it]Ep 0 Loss 0.9531:   1%|          | 7/778 [00:19<18:08,  1.41s/it]Ep 0 Loss 0.9531:   1%|          | 8/778 [00:19<15:44,  1.23s/it]Ep 0 Loss 1.1250:   1%|          | 8/778 [00:19<15:44,  1.23s/it]Ep 0 Loss 1.1250:   1%|          | 9/778 [00:19<14:31,  1.13s/it]Ep 0 Loss 1.5469:   1%|          | 9/778 [00:20<14:31,  1.13s/it]Ep 0 Loss 1.5469:   1%|▏         | 10/778 [00:20<13:21,  1.04s/it]Ep 0 Loss 1.1094:   1%|▏         | 10/778 [00:21<13:21,  1.04s/it]Ep 0 Loss 1.1094:   1%|▏         | 11/778 [00:21<11:58,  1.07it/s]Ep 0 Loss 1.1484:   1%|▏         | 11/778 [00:22<11:58,  1.07it/s]Ep 0 Loss 1.1484:   2%|▏         | 12/778 [00:22<11:54,  1.07it/s]Ep 0 Loss 2.6719:   2%|▏         | 12/778 [00:23<11:54,  1.07it/s]Ep 0 Loss 2.6719:   2%|▏         | 13/778 [00:23<11:30,  1.11it/s]Ep 0 Loss 1.4609:   2%|▏         | 13/778 [00:24<11:30,  1.11it/s]Ep 0 Loss 1.4609:   2%|▏         | 14/778 [00:24<11:59,  1.06it/s]Ep 0 Loss 4.3750:   2%|▏         | 14/778 [00:25<11:59,  1.06it/s]Ep 0 Loss 4.3750:   2%|▏         | 15/778 [00:25<11:29,  1.11it/s]Ep 0 Loss 1.8750:   2%|▏         | 15/778 [00:25<11:29,  1.11it/s]Ep 0 Loss 1.8750:   2%|▏         | 16/778 [00:25<11:04,  1.15it/s]Ep 0 Loss 3.0312:   2%|▏         | 16/778 [00:26<11:04,  1.15it/s]Ep 0 Loss 3.0312:   2%|▏         | 17/778 [00:26<11:01,  1.15it/s]Ep 0 Loss 1.8594:   2%|▏         | 17/778 [00:27<11:01,  1.15it/s]Ep 0 Loss 1.8594:   2%|▏         | 18/778 [00:27<10:58,  1.15it/s]Ep 0 Loss 0.7109:   2%|▏         | 18/778 [00:28<10:58,  1.15it/s]Ep 0 Loss 0.7109:   2%|▏         | 19/778 [00:28<10:53,  1.16it/s]Ep 0 Loss 0.8047:   2%|▏         | 19/778 [00:29<10:53,  1.16it/s]Ep 0 Loss 0.8047:   3%|▎         | 20/778 [00:29<11:06,  1.14it/s]Ep 0 Loss 0.7344:   3%|▎         | 20/778 [00:30<11:06,  1.14it/s]Ep 0 Loss 0.7344:   3%|▎         | 21/778 [00:30<11:10,  1.13it/s]Ep 0 Loss 1.2344:   3%|▎         | 21/778 [00:31<11:10,  1.13it/s]Ep 0 Loss 1.2344:   3%|▎         | 22/778 [00:31<11:55,  1.06it/s]Ep 0 Loss 0.7852:   3%|▎         | 22/778 [00:32<11:55,  1.06it/s]Ep 0 Loss 0.7852:   3%|▎         | 23/778 [00:32<12:32,  1.00it/s]Ep 0 Loss 1.2266:   3%|▎         | 23/778 [00:33<12:32,  1.00it/s]Ep 0 Loss 1.2266:   3%|▎         | 24/778 [00:33<12:37,  1.00s/it]Ep 0 Loss 1.3984:   3%|▎         | 24/778 [00:34<12:37,  1.00s/it]Ep 0 Loss 1.3984:   3%|▎         | 25/778 [00:34<13:44,  1.10s/it]Ep 0 Loss 1.5391:   3%|▎         | 25/778 [00:35<13:44,  1.10s/it]Ep 0 Loss 1.5391:   3%|▎         | 26/778 [00:35<12:58,  1.04s/it]Ep 0 Loss 2.1719:   3%|▎         | 26/778 [00:36<12:58,  1.04s/it]Ep 0 Loss 2.1719:   3%|▎         | 27/778 [00:36<12:38,  1.01s/it]Ep 0 Loss 1.2812:   3%|▎         | 27/778 [00:37<12:38,  1.01s/it]Ep 0 Loss 1.2812:   4%|▎         | 28/778 [00:37<13:01,  1.04s/it]Ep 0 Loss 1.1406:   4%|▎         | 28/778 [00:38<13:01,  1.04s/it]Ep 0 Loss 1.1406:   4%|▎         | 29/778 [00:38<12:46,  1.02s/it]Ep 0 Loss 0.5312:   4%|▎         | 29/778 [00:39<12:46,  1.02s/it]Ep 0 Loss 0.5312:   4%|▍         | 30/778 [00:39<12:59,  1.04s/it]
