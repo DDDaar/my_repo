@@ -23,18 +23,18 @@ class LatentReasoningDataset(Dataset):
             if config.extract_count > 0:
                 if config.extract_text_prefix:
                     self.thought_content += config.extract_text_prefix
-                self.thought_content += config.anchor_start
+                #self.thought_content += config.anchor_start
                 self.thought_content += (config.extract_token * config.extract_count)
-                self.thought_content += config.anchor_end
+                #self.thought_content += config.anchor_end
             
             # Reasoning Stages 阶段
             for stage in config.stages:
                 if stage.count > 0:
                     if stage.text_prefix:
                         self.thought_content += stage.text_prefix
-                    self.thought_content += config.anchor_start
+                    #self.thought_content += config.anchor_start
                     self.thought_content += (stage.token * stage.count)
-                    self.thought_content += config.anchor_end
+                    #self.thought_content += config.anchor_end
             
         self.max_pixels = 768*768
         self.mixed_data = []
@@ -171,8 +171,8 @@ class LatentReasoningDataset(Dataset):
         # === 2. 使用 apply_chat_template 生成完整 Prompt ===
         # Qwen2.5 的 template 会自动处理 <|im_start|>user ... <|im_end|><|im_start|>assistant ... <|im_end|>
         full_text = self.processor.apply_chat_template(messages, tokenize=False)
-        # print(f'训练前的full text为：{full_text}')
-        # sleep(1000)
+        print(f'训练前的full text为：{full_text}')
+        sleep(1000)
 
 
         # === 3. Tokenize ===

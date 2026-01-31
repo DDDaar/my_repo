@@ -6,8 +6,8 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-[2026-01-31 15:13:48,721] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
-[2026-01-31 15:13:48,721] [INFO] [runner.py:630:main] cmd = /home/ma-user/anaconda3/envs/my_repo/bin/python3.1 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train.py --deepspeed_config ./config/zero2_config.json --wandb_project test --wandb_run_name test
+[2026-01-31 15:57:26,979] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2026-01-31 15:57:26,980] [INFO] [runner.py:630:main] cmd = /home/ma-user/anaconda3/envs/my_repo/bin/python3.1 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train.py --deepspeed_config ./config/zero2_config.json --wandb_project test --wandb_run_name test
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
@@ -16,32 +16,24 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-[2026-01-31 15:14:00,167] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
-[2026-01-31 15:14:00,167] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=8, node_rank=0
-[2026-01-31 15:14:00,167] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
-[2026-01-31 15:14:00,167] [INFO] [launch.py:180:main] dist_world_size=8
-[2026-01-31 15:14:00,167] [INFO] [launch.py:184:main] Setting ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-[2026-01-31 15:14:00,169] [INFO] [launch.py:272:main] process 2779103 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=0', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 15:14:00,170] [INFO] [launch.py:272:main] process 2779104 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=1', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 15:14:00,170] [INFO] [launch.py:272:main] process 2779105 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=2', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 15:14:00,171] [INFO] [launch.py:272:main] process 2779106 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=3', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 15:14:00,172] [INFO] [launch.py:272:main] process 2779107 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=4', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 15:14:00,173] [INFO] [launch.py:272:main] process 2779108 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=5', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 15:14:00,174] [INFO] [launch.py:272:main] process 2779109 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=6', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 15:14:00,175] [INFO] [launch.py:272:main] process 2779110 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 15:57:39,012] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
+[2026-01-31 15:57:39,012] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=8, node_rank=0
+[2026-01-31 15:57:39,012] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
+[2026-01-31 15:57:39,012] [INFO] [launch.py:180:main] dist_world_size=8
+[2026-01-31 15:57:39,012] [INFO] [launch.py:184:main] Setting ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+[2026-01-31 15:57:39,013] [INFO] [launch.py:272:main] process 2943536 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=0', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 15:57:39,014] [INFO] [launch.py:272:main] process 2943537 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=1', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 15:57:39,015] [INFO] [launch.py:272:main] process 2943538 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=2', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 15:57:39,016] [INFO] [launch.py:272:main] process 2943539 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=3', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 15:57:39,017] [INFO] [launch.py:272:main] process 2943540 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=4', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 15:57:39,018] [INFO] [launch.py:272:main] process 2943541 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=5', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 15:57:39,019] [INFO] [launch.py:272:main] process 2943542 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=6', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 15:57:39,020] [INFO] [launch.py:272:main] process 2943543 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
@@ -63,9 +55,17 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
@@ -108,8 +108,16 @@
   warnings.warn(msg, RuntimeWarning)
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
@@ -120,23 +128,13 @@
   """
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
   """
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
@@ -145,6 +143,8 @@
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
   """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
   """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
   """
@@ -165,47 +165,45 @@ Using a slow image processor as `use_fast` is unset and a slow processor was sav
 Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
 Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
 Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
 wandb: Currently logged in as: libx22 (libx22-tsinghua-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/wandb/analytics/sentry.py:279: DeprecationWarning: The `Scope.user` setter is deprecated in favor of `Scope.set_user()`.
   self.scope.user = {"email": email}
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
-Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+wandb: setting up run un0gykhi
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
-You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
-wandb: setting up run 1j0vmsiw
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/wandb/analytics/sentry.py:279: DeprecationWarning: The `Scope.user` setter is deprecated in favor of `Scope.set_user()`.
   self.scope.user = {"email": email}
 wandb: Tracking run with wandb version 0.23.1
-wandb: Run data is saved locally in /home/ma-user/work/lbx/my_repo/wandb/run-20260131_151436-1j0vmsiw
+wandb: Run data is saved locally in /home/ma-user/work/lbx/my_repo/wandb/run-20260131_155814-un0gykhi
 wandb: Run `wandb offline` to turn off syncing.
 wandb: Syncing run test
 wandb: ⭐️ View project at https://wandb.ai/libx22-tsinghua-university/test
-wandb: 🚀 View run at https://wandb.ai/libx22-tsinghua-university/test/runs/1j0vmsiw
---- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train
+wandb: 🚀 View run at https://wandb.ai/libx22-tsinghua-university/test/runs/un0gykhi
 Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
 --- Initializing Dataset (Seed: 42) ---
 Loading: derek-thomas/ScienceQA | Split: train
 --- Initializing Dataset (Seed: 42) ---
 Loading: derek-thomas/ScienceQA | Split: train
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train
+--- Initializing Dataset (Seed: 42) ---
+Loading: derek-thomas/ScienceQA | Split: train
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 --- Initializing Dataset (Seed: 42) ---
 Loading: derek-thomas/ScienceQA | Split: train
---- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train
---- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train
-You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
---- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train
---- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train
  -> Valid samples: 6218
- -> Valid samples: 6218
---- Total Samples: 6218 ---
  -> Valid samples: 6218
 --- Total Samples: 6218 ---
 --- Total Samples: 6218 ---
@@ -213,84 +211,634 @@ Loading: derek-thomas/ScienceQA | Split: train
 --- Total Samples: 6218 ---
  -> Valid samples: 6218
 --- Total Samples: 6218 ---
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.38it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.96it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.28it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.14it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.16it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.09it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.83it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.00it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.93it/s]
-Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.65it/s]
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.06it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.03it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.83it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.70it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.33it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.77it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.34it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.00it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.76it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.37it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.01it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.64it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.18it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.84it/s]
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.94it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.70it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.49it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.16it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.23it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.90it/s]
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.48it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.94it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.62it/s]
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+[rank0]:[W131 15:59:18.260776837 compiler_depend.ts:65] Warning: Warning: The torch.npu.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='npu') to create tensors. (function operator())
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: What is the capital of Texas? Choices: Austin, Montpelier, Baton Rouge, Boston.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Austin</answer><|im_end|>
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which bird's beak is also adapted to crack large, hard nuts? Choices: spotted dove, military macaw.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>military macaw</answer><|im_end|>
 
-Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.82it/s]
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.91it/s] -> Valid samples: 6218
---- Total Samples: 6218 ---
-Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.51it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.16it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.71it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.27it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.93it/s]
- -> Valid samples: 6218
---- Total Samples: 6218 ---
- -> Valid samples: 6218
---- Total Samples: 6218 ---
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.67it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.18it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.85it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.78it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.23it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.92it/s]
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-[rank0]:[W131 15:15:41.462236668 compiler_depend.ts:65] Warning: Warning: The torch.npu.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='npu') to create tensors. (function operator())
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: What is the name of the colony shown? Choices: Rhode Island, Kentucky, Florida, Connecticut.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Rhode Island</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which ocean is highlighted? Choices: the Pacific Ocean, the Arctic Ocean, the Southern Ocean, the Atlantic Ocean.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>the Arctic Ocean</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which of these continents does the equator intersect? Choices: Asia, Antarctica, North America.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Asia</answer><|im_end|>
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which of the following organisms is the tertiary consumer in this food web? Choices: grizzly bear, snowy owl, parasitic jaeger.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>snowy owl</answer><|im_end|>
+
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Is the following statement about our solar system true or false?
+Earth is the largest planet that is made mainly of rock. Choices: true, false.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>true</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Will these magnets attract or repel each other? Choices: attract, repel.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>attract</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which property matches this object? Choices: rough, stretchy.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>stretchy</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Is the following statement about our solar system true or false?
+Half of the planets are made mainly of gas or ice. Choices: true, false.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>true</answer><|im_end|>
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: What can Ethan and Grace trade to each get what they want? Choices: Grace can trade her broccoli for Ethan's oranges., Ethan can trade his tomatoes for Grace's carrots., Ethan can trade his tomatoes for Grace's broccoli., Grace can trade her almonds for Ethan's tomatoes..<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Ethan can trade his tomatoes for Grace's broccoli.</answer><|im_end|>
+
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which continent is highlighted? Choices: Australia, Africa, North America, South America.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Africa</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Select the organism in the same species as the spot-fin porcupinefish. Choices: Procambarus clarkii, Syngnathoides biaculeatus, Diodon hystrix.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Diodon hystrix</answer><|im_end|>
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which solution has a higher concentration of yellow particles? Choices: Solution B, neither; their concentrations are the same, Solution A.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Solution A</answer><|im_end|>
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which i in row B? Choices: the theater, the fire department, the grocery store, the fast-food restaurant.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>the fire department</answer><|im_end|>
+
+
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which property do these two objects have in common? Choices: sticky, rough.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>sticky</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Is pumice a mineral? Choices: no, yes.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>no</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which better describes the Gunung Leuser National Park ecosystem? Choices: It has year-round warm temperatures. It also has many different types of organisms., It has soil that is poor in nutrients. It also has only a few types of organisms..<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>It has year-round warm temperatures. It also has many different types of organisms.</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: What is the capital of Illinois? Choices: Burlington, Columbus, Bismarck, Springfield.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Springfield</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which of these states is farthest west? Choices: Wisconsin, New York, South Carolina, South Dakota.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>South Dakota</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which country is highlighted? Choices: Tuvalu, Samoa, the Federated States of Micronesia, Palau.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Palau</answer><|im_end|>
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which of these states is farthest north? Choices: Kansas, New Mexico, Kentucky, New Jersey.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>New Jersey</answer><|im_end|>
+
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which country is highlighted? Choices: Australia, Papua New Guinea, Tonga, Samoa.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Samoa</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Think about the magnetic force between the magnets in each pair. Which of the following statements is true? Choices: The magnitude of the magnetic force is the same in both pairs., The magnitude of the magnetic force is smaller in Pair 2., The magnitude of the magnetic force is smaller in Pair 1..<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>The magnitude of the magnetic force is smaller in Pair 2.</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Select the organism in the same genus as the western crowned pigeon. Choices: Cyanocitta stelleri, Goura scheepmakeri, Larus livens.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Goura scheepmakeri</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Select the organism in the same genus as the agile wallaby. Choices: Macropus rufus, Ovis aries, Castor fiber.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Macropus rufus</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: During this time, thermal energy was transferred from () to (). Choices: each battery . . . the surroundings, the surroundings . . . each battery.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>each battery . . . the surroundings</answer><|im_end|>
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Is milk a solid or a liquid? Choices: a solid, a liquid.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>a liquid</answer><|im_end|>
+
 Before initializing optimizer states
 MA 8.45 GB         Max_MA 9.16 GB         CA 9.26 GB         Max_CA 9 GB 
-CPU Virtual Memory:  used = 133.03 GB, percent = 8.8%
+CPU Virtual Memory:  used = 117.54 GB, percent = 7.8%
 After initializing optimizer states
 MA 8.45 GB         Max_MA 9.88 GB         CA 10.7 GB         Max_CA 11 GB 
-CPU Virtual Memory:  used = 131.17 GB, percent = 8.7%
+CPU Virtual Memory:  used = 117.56 GB, percent = 7.8%
 After initializing ZeRO optimizer
 MA 8.45 GB         Max_MA 8.45 GB         CA 10.7 GB         Max_CA 11 GB 
-CPU Virtual Memory:  used = 128.55 GB, percent = 8.5%
-  0%|          | 0/195 [00:00<?, ?it/s][rank0]:[W131 15:15:53.304588819 compiler_depend.ts:164] Warning: Warning: Device do not support double dtype now, dtype cast repalce with float. (function operator())
-Ep 0 Loss 32.4405:   0%|          | 0/195 [00:15<?, ?it/s]Ep 0 Loss 32.4405:   1%|          | 1/195 [00:15<51:09, 15.82s/it]Ep 0 Loss 25.5062:   1%|          | 1/195 [00:17<51:09, 15.82s/it]Ep 0 Loss 25.5062:   1%|          | 2/195 [00:17<24:54,  7.74s/it]Ep 0 Loss 17.0092:   1%|          | 2/195 [00:20<24:54,  7.74s/it]Ep 0 Loss 17.0092:   2%|▏         | 3/195 [00:20<17:03,  5.33s/it]Ep 0 Loss 14.6237:   2%|▏         | 3/195 [00:22<17:03,  5.33s/it]Ep 0 Loss 14.6237:   2%|▏         | 4/195 [00:22<13:22,  4.20s/it]Ep 0 Loss 12.9663:   2%|▏         | 4/195 [00:24<13:22,  4.20s/it]Ep 0 Loss 12.9663:   3%|▎         | 5/195 [00:24<10:46,  3.40s/it]Ep 0 Loss 11.2278:   3%|▎         | 5/195 [00:27<10:46,  3.40s/it]Ep 0 Loss 11.2278:   3%|▎         | 6/195 [00:27<10:19,  3.28s/it]Ep 0 Loss 16.4394:   3%|▎         | 6/195 [00:30<10:19,  3.28s/it]Ep 0 Loss 16.4394:   4%|▎         | 7/195 [00:30<09:27,  3.02s/it]Ep 0 Loss 18.9054:   4%|▎         | 7/195 [00:31<09:27,  3.02s/it]Ep 0 Loss 18.9054:   4%|▍         | 8/195 [00:31<07:49,  2.51s/it]Ep 0 Loss 9.6681:   4%|▍         | 8/195 [00:33<07:49,  2.51s/it] Ep 0 Loss 9.6681:   5%|▍         | 9/195 [00:33<07:00,  2.26s/it]Ep 0 Loss 9.0171:   5%|▍         | 9/195 [00:36<07:00,  2.26s/it]Ep 0 Loss 9.0171:   5%|▌         | 10/195 [00:36<07:20,  2.38s/it]Ep 0 Loss 6.9483:   5%|▌         | 10/195 [00:37<07:20,  2.38s/it]Ep 0 Loss 6.9483:   6%|▌         | 11/195 [00:37<06:38,  2.17s/it]Ep 0 Loss 5.8869:   6%|▌         | 11/195 [00:40<06:38,  2.17s/it]Ep 0 Loss 5.8869:   6%|▌         | 12/195 [00:40<06:45,  2.22s/it]Ep 0 Loss 5.2217:   6%|▌         | 12/195 [00:42<06:45,  2.22s/it]Ep 0 Loss 5.2217:   7%|▋         | 13/195 [00:42<06:45,  2.23s/it]Ep 0 Loss 4.3774:   7%|▋         | 13/195 [00:44<06:45,  2.23s/it]Ep 0 Loss 4.3774:   7%|▋         | 14/195 [00:44<06:32,  2.17s/it]Ep 0 Loss 3.9205:   7%|▋         | 14/195 [00:46<06:32,  2.17s/it]Ep 0 Loss 3.9205:   8%|▊         | 15/195 [00:46<06:50,  2.28s/it]Ep 0 Loss 3.8478:   8%|▊         | 15/195 [00:49<06:50,  2.28s/it]Ep 0 Loss 3.8478:   8%|▊         | 16/195 [00:49<06:52,  2.30s/it]Ep 0 Loss 3.5690:   8%|▊         | 16/195 [00:52<06:52,  2.30s/it]Ep 0 Loss 3.5690:   9%|▊         | 17/195 [00:52<07:29,  2.52s/it]Ep 0 Loss 3.6088:   9%|▊         | 17/195 [00:54<07:29,  2.52s/it]Ep 0 Loss 3.6088:   9%|▉         | 18/195 [00:54<06:58,  2.36s/it]Ep 0 Loss 3.5402:   9%|▉         | 18/195 [00:57<06:58,  2.36s/it]Ep 0 Loss 3.5402:  10%|▉         | 19/195 [00:57<07:20,  2.50s/it]Ep 0 Loss 3.1256:  10%|▉         | 19/195 [00:59<07:20,  2.50s/it]Ep 0 Loss 3.1256:  10%|█         | 20/195 [00:59<06:50,  2.35s/it]Ep 0 Loss 3.0065:  10%|█         | 20/195 [01:02<06:50,  2.35s/it]Ep 0 Loss 3.0065:  11%|█         | 21/195 [01:02<07:27,  2.57s/it]Ep 0 Loss 3.6028:  11%|█         | 21/195 [01:05<07:27,  2.57s/it]Ep 0 Loss 3.6028:  11%|█▏        | 22/195 [01:05<07:49,  2.71s/it]Ep 0 Loss 2.7012:  11%|█▏        | 22/195 [01:07<07:49,  2.71s/it]Ep 0 Loss 2.7012:  12%|█▏        | 23/195 [01:07<07:13,  2.52s/it]Ep 0 Loss 2.9643:  12%|█▏        | 23/195 [01:09<07:13,  2.52s/it]Ep 0 Loss 2.9643:  12%|█▏        | 24/195 [01:09<07:02,  2.47s/it]Ep 0 Loss 2.6735:  12%|█▏        | 24/195 [01:12<07:02,  2.47s/it]Ep 0 Loss 2.6735:  13%|█▎        | 25/195 [01:12<07:23,  2.61s/it]Ep 0 Loss 2.3764:  13%|█▎        | 25/195 [01:15<07:23,  2.61s/it]Ep 0 Loss 2.3764:  13%|█▎        | 26/195 [01:15<07:26,  2.64s/it]Ep 0 Loss 2.7065:  13%|█▎        | 26/195 [01:17<07:26,  2.64s/it]Ep 0 Loss 2.7065:  14%|█▍        | 27/195 [01:17<06:46,  2.42s/it]Ep 0 Loss 2.4074:  14%|█▍        | 27/195 [01:19<06:46,  2.42s/it]Ep 0 Loss 2.4074:  14%|█▍        | 28/195 [01:19<06:36,  2.38s/it]Ep 0 Loss 3.3197:  14%|█▍        | 28/195 [01:22<06:36,  2.38s/it]Ep 0 Loss 3.3197:  15%|█▍        | 29/195 [01:22<06:44,  2.44s/it]Ep 0 Loss 3.3529:  15%|█▍        | 29/195 [01:24<06:44,  2.44s/it]Ep 0 Loss 3.3529:  15%|█▌        | 30/195 [01:24<06:55,  2.52s/it]Ep 0 Loss 3.0369:  15%|█▌        | 30/195 [01:27<06:55,  2.52s/it]Ep 0 Loss 3.0369:  16%|█▌        | 31/195 [01:27<07:12,  2.64s/it]Ep 0 Loss 2.4027:  16%|█▌        | 31/195 [01:30<07:12,  2.64s/it]Ep 0 Loss 2.4027:  16%|█▋        | 32/195 [01:30<07:12,  2.66s/it]Ep 0 Loss 2.6324:  16%|█▋        | 32/195 [01:33<07:12,  2.66s/it]Ep 0 Loss 2.6324:  17%|█▋        | 33/195 [01:33<07:19,  2.71s/it]Ep 0 Loss 2.4204:  17%|█▋        | 33/195 [01:35<07:19,  2.71s/it]Ep 0 Loss 2.4204:  17%|█▋        | 34/195 [01:35<07:06,  2.65s/it]Ep 0 Loss 2.1083:  17%|█▋        | 34/195 [01:38<07:06,  2.65s/it]Ep 0 Loss 2.1083:  18%|█▊        | 35/195 [01:38<07:17,  2.74s/it]Ep 0 Loss 2.0496:  18%|█▊        | 35/195 [01:41<07:17,  2.74s/it]Ep 0 Loss 2.0496:  18%|█▊        | 36/195 [01:41<07:22,  2.78s/it]Ep 0 Loss 1.9178:  18%|█▊        | 36/195 [01:43<07:22,  2.78s/it]Ep 0 Loss 1.9178:  19%|█▉        | 37/195 [01:43<06:56,  2.64s/it]Ep 0 Loss 1.5664:  19%|█▉        | 37/195 [01:45<06:56,  2.64s/it]Ep 0 Loss 1.5664:  19%|█▉        | 38/195 [01:45<06:25,  2.46s/it]Ep 0 Loss 1.6939:  19%|█▉        | 38/195 [01:49<06:25,  2.46s/it]Ep 0 Loss 1.6939:  20%|██        | 39/195 [01:49<06:56,  2.67s/it]Ep 0 Loss 1.5145:  20%|██        | 39/195 [01:52<06:56,  2.67s/it]Ep 0 Loss 1.5145:  21%|██        | 40/195 [01:52<07:17,  2.82s/it]Ep 0 Loss 1.2568:  21%|██        | 40/195 [01:54<07:17,  2.82s/it]Ep 0 Loss 1.2568:  21%|██        | 41/195 [01:54<06:51,  2.67s/it]Ep 0 Loss 1.2713:  21%|██        | 41/195 [01:57<06:51,  2.67s/it]Ep 0 Loss 1.2713:  22%|██▏       | 42/195 [01:57<06:55,  2.72s/it]Ep 0 Loss 1.2620:  22%|██▏       | 42/195 [02:00<06:55,  2.72s/it]Ep 0 Loss 1.2620:  22%|██▏       | 43/195 [02:00<06:47,  2.68s/it]Ep 0 Loss 0.9873:  22%|██▏       | 43/195 [02:03<06:47,  2.68s/it]Ep 0 Loss 0.9873:  23%|██▎       | 44/195 [02:03<07:26,  2.96s/it]Ep 0 Loss 1.1150:  23%|██▎       | 44/195 [02:06<07:26,  2.96s/it]Ep 0 Loss 1.1150:  23%|██▎       | 45/195 [02:06<07:36,  3.04s/it]Ep 0 Loss 1.0025:  23%|██▎       | 45/195 [02:10<07:36,  3.04s/it]Ep 0 Loss 1.0025:  24%|██▎       | 46/195 [02:10<08:01,  3.23s/it]Ep 0 Loss 0.8368:  24%|██▎       | 46/195 [02:13<08:01,  3.23s/it]Ep 0 Loss 0.8368:  24%|██▍       | 47/195 [02:13<07:45,  3.15s/it]Ep 0 Loss 1.1256:  24%|██▍       | 47/195 [02:15<07:45,  3.15s/it]Ep 0 Loss 1.1256:  25%|██▍       | 48/195 [02:15<07:06,  2.90s/it]Ep 0 Loss 0.6702:  25%|██▍       | 48/195 [02:18<07:06,  2.90s/it]Ep 0 Loss 0.6702:  25%|██▌       | 49/195 [02:18<06:45,  2.78s/it]Ep 0 Loss 0.5328:  25%|██▌       | 49/195 [02:20<06:45,  2.78s/it]Ep 0 Loss 0.5328:  26%|██▌       | 50/195 [02:20<06:24,  2.65s/it]Ep 0 Loss 0.7568:  26%|██▌       | 50/195 [02:23<06:24,  2.65s/it]Ep 0 Loss 0.7568:  26%|██▌       | 51/195 [02:23<06:13,  2.60s/it]Ep 0 Loss 0.5677:  26%|██▌       | 51/195 [02:25<06:13,  2.60s/it]Ep 0 Loss 0.5677:  27%|██▋       | 52/195 [02:25<06:18,  2.65s/it]Ep 0 Loss 0.4834:  27%|██▋       | 52/195 [02:28<06:18,  2.65s/it]Ep 0 Loss 0.4834:  27%|██▋       | 53/195 [02:28<06:08,  2.59s/it]Ep 0 Loss 0.6936:  27%|██▋       | 53/195 [02:30<06:08,  2.59s/it]Ep 0 Loss 0.6936:  28%|██▊       | 54/195 [02:30<05:31,  2.35s/it]Ep 0 Loss 0.7984:  28%|██▊       | 54/195 [02:32<05:31,  2.35s/it]Ep 0 Loss 0.7984:  28%|██▊       | 55/195 [02:32<05:25,  2.33s/it]Ep 0 Loss 0.5121:  28%|██▊       | 55/195 [02:34<05:25,  2.33s/it]Ep 0 Loss 0.5121:  29%|██▊       | 56/195 [02:34<05:08,  2.22s/it]Ep 0 Loss 0.4576:  29%|██▊       | 56/195 [02:36<05:08,  2.22s/it]Ep 0 Loss 0.4576:  29%|██▉       | 57/195 [02:36<04:57,  2.16s/it]Ep 0 Loss 0.4144:  29%|██▉       | 57/195 [02:39<04:57,  2.16s/it]Ep 0 Loss 0.4144:  30%|██▉       | 58/195 [02:39<05:24,  2.37s/it]Ep 0 Loss 0.4595:  30%|██▉       | 58/195 [02:41<05:24,  2.37s/it]Ep 0 Loss 0.4595:  30%|███       | 59/195 [02:41<05:24,  2.39s/it]Ep 0 Loss 0.6721:  30%|███       | 59/195 [02:44<05:24,  2.39s/it]Ep 0 Loss 0.6721:  31%|███       | 60/195 [02:44<05:28,  2.44s/it]Ep 0 Loss 0.4793:  31%|███       | 60/195 [02:46<05:28,  2.44s/it]Ep 0 Loss 0.4793:  31%|███▏      | 61/195 [02:46<05:10,  2.32s/it]Ep 0 Loss 0.6952:  31%|███▏      | 61/195 [02:48<05:10,  2.32s/it]Ep 0 Loss 0.6952:  32%|███▏      | 62/195 [02:48<05:11,  2.34s/it]Ep 0 Loss 0.5869:  32%|███▏      | 62/195 [02:51<05:11,  2.34s/it]Ep 0 Loss 0.5869:  32%|███▏      | 63/195 [02:51<05:23,  2.45s/it]Ep 0 Loss 0.3646:  32%|███▏      | 63/195 [02:54<05:23,  2.45s/it]Ep 0 Loss 0.3646:  33%|███▎      | 64/195 [02:54<05:49,  2.67s/it]Ep 0 Loss 0.4661:  33%|███▎      | 64/195 [02:57<05:49,  2.67s/it]Ep 0 Loss 0.4661:  33%|███▎      | 65/195 [02:57<05:49,  2.69s/it]Ep 0 Loss 0.8046:  33%|███▎      | 65/195 [02:59<05:49,  2.69s/it]Ep 0 Loss 0.8046:  34%|███▍      | 66/195 [02:59<05:35,  2.60s/it]Ep 0 Loss 0.4770:  34%|███▍      | 66/195 [03:02<05:35,  2.60s/it]Ep 0 Loss 0.4770:  34%|███▍      | 67/195 [03:02<05:22,  2.52s/it]Ep 0 Loss 0.4872:  34%|███▍      | 67/195 [03:04<05:22,  2.52s/it]Ep 0 Loss 0.4872:  35%|███▍      | 68/195 [03:04<05:01,  2.37s/it]Ep 0 Loss 0.7152:  35%|███▍      | 68/195 [03:06<05:01,  2.37s/it]Ep 0 Loss 0.7152:  35%|███▌      | 69/195 [03:06<04:45,  2.26s/it]Ep 0 Loss 0.4692:  35%|███▌      | 69/195 [03:08<04:45,  2.26s/it]Ep 0 Loss 0.4692:  36%|███▌      | 70/195 [03:08<05:02,  2.42s/it]Ep 0 Loss 0.4631:  36%|███▌      | 70/195 [03:11<05:02,  2.42s/it]Ep 0 Loss 0.4631:  36%|███▋      | 71/195 [03:11<05:04,  2.46s/it]Ep 0 Loss 0.4024:  36%|███▋      | 71/195 [03:14<05:04,  2.46s/it]Ep 0 Loss 0.4024:  37%|███▋      | 72/195 [03:14<05:12,  2.54s/it]Ep 0 Loss 0.4483:  37%|███▋      | 72/195 [03:17<05:12,  2.54s/it]Ep 0 Loss 0.4483:  37%|███▋      | 73/195 [03:17<05:27,  2.68s/it]Ep 0 Loss 0.5387:  37%|███▋      | 73/195 [03:19<05:27,  2.68s/it]Ep 0 Loss 0.5387:  38%|███▊      | 74/195 [03:19<05:07,  2.54s/it]Ep 0 Loss 0.3434:  38%|███▊      | 74/195 [03:22<05:07,  2.54s/it]Ep 0 Loss 0.3434:  38%|███▊      | 75/195 [03:22<05:24,  2.71s/it]Ep 0 Loss 0.5095:  38%|███▊      | 75/195 [03:25<05:24,  2.71s/it]Ep 0 Loss 0.5095:  39%|███▉      | 76/195 [03:25<05:15,  2.65s/it]Ep 0 Loss 0.4539:  39%|███▉      | 76/195 [03:28<05:15,  2.65s/it]Ep 0 Loss 0.4539:  39%|███▉      | 77/195 [03:28<05:28,  2.79s/it]Ep 0 Loss 0.3871:  39%|███▉      | 77/195 [03:30<05:28,  2.79s/it]Ep 0 Loss 0.3871:  40%|████      | 78/195 [03:30<05:11,  2.66s/it]Ep 0 Loss 0.3192:  40%|████      | 78/195 [03:33<05:11,  2.66s/it]Ep 0 Loss 0.3192:  41%|████      | 79/195 [03:33<05:15,  2.72s/it]Ep 0 Loss 0.4265:  41%|████      | 79/195 [03:35<05:15,  2.72s/it]Ep 0 Loss 0.4265:  41%|████      | 80/195 [03:35<05:01,  2.62s/it]Ep 0 Loss 0.5034:  41%|████      | 80/195 [03:38<05:01,  2.62s/it]Ep 0 Loss 0.5034:  42%|████▏     | 81/195 [03:38<04:47,  2.52s/it]Ep 0 Loss 0.5639:  42%|████▏     | 81/195 [03:39<04:47,  2.52s/it]Ep 0 Loss 0.5639:  42%|████▏     | 82/195 [03:39<04:25,  2.35s/it]Ep 0 Loss 0.6237:  42%|████▏     | 82/195 [03:42<04:25,  2.35s/it]Ep 0 Loss 0.6237:  43%|████▎     | 83/195 [03:42<04:26,  2.38s/it]Ep 0 Loss 0.4970:  43%|████▎     | 83/195 [03:44<04:26,  2.38s/it]Ep 0 Loss 0.4970:  43%|████▎     | 84/195 [03:44<04:09,  2.25s/it]Ep 0 Loss 0.5110:  43%|████▎     | 84/195 [03:46<04:09,  2.25s/it]Ep 0 Loss 0.5110:  44%|████▎     | 85/195 [03:46<04:08,  2.26s/it]Ep 0 Loss 0.5803:  44%|████▎     | 85/195 [03:49<04:08,  2.26s/it]Ep 0 Loss 0.5803:  44%|████▍     | 86/195 [03:49<04:25,  2.44s/it]Ep 0 Loss 0.5375:  44%|████▍     | 86/195 [03:52<04:25,  2.44s/it]Ep 0 Loss 0.5375:  45%|████▍     | 87/195 [03:52<04:29,  2.49s/it]Ep 0 Loss 0.5295:  45%|████▍     | 87/195 [03:54<04:29,  2.49s/it]Ep 0 Loss 0.5295:  45%|████▌     | 88/195 [03:54<04:21,  2.44s/it]Ep 0 Loss 0.3294:  45%|████▌     | 88/195 [03:57<04:21,  2.44s/it]Ep 0 Loss 0.3294:  46%|████▌     | 89/195 [03:57<04:26,  2.51s/it]Ep 0 Loss 0.4487:  46%|████▌     | 89/195 [04:00<04:26,  2.51s/it]Ep 0 Loss 0.4487:  46%|████▌     | 90/195 [04:00<04:35,  2.63s/it]Ep 0 Loss 0.5485:  46%|████▌     | 90/195 [04:03<04:35,  2.63s/it]Ep 0 Loss 0.5485:  47%|████▋     | 91/195 [04:03<04:50,  2.79s/it]Ep 0 Loss 0.4027:  47%|████▋     | 91/195 [04:05<04:50,  2.79s/it]Ep 0 Loss 0.4027:  47%|████▋     | 92/195 [04:05<04:47,  2.79s/it]Ep 0 Loss 0.4857:  47%|████▋     | 92/195 [04:08<04:47,  2.79s/it]Ep 0 Loss 0.4857:  48%|████▊     | 93/195 [04:08<04:48,  2.83s/it]Ep 0 Loss 0.4059:  48%|████▊     | 93/195 [04:11<04:48,  2.83s/it]Ep 0 Loss 0.4059:  48%|████▊     | 94/195 [04:11<04:39,  2.77s/it]Ep 0 Loss 0.8949:  48%|████▊     | 94/195 [04:13<04:39,  2.77s/it]Ep 0 Loss 0.8949:  49%|████▊     | 95/195 [04:13<04:19,  2.60s/it]Ep 0 Loss 0.6497:  49%|████▊     | 95/195 [04:16<04:19,  2.60s/it]Ep 0 Loss 0.6497:  49%|████▉     | 96/195 [04:16<04:19,  2.62s/it]Ep 0 Loss 0.4161:  49%|████▉     | 96/195 [04:18<04:19,  2.62s/it]Ep 0 Loss 0.4161:  50%|████▉     | 97/195 [04:18<04:12,  2.58s/it]Ep 0 Loss 0.3318:  50%|████▉     | 97/195 [04:21<04:12,  2.58s/it]Ep 0 Loss 0.3318:  50%|█████     | 98/195 [04:21<04:24,  2.73s/it]Ep 0 Loss 0.4918:  50%|█████     | 98/195 [04:24<04:24,  2.73s/it]Ep 0 Loss 0.4918:  51%|█████     | 99/195 [04:24<04:30,  2.82s/it]Ep 0 Loss 0.4040:  51%|█████     | 99/195 [04:27<04:30,  2.82s/it]Ep 0 Loss 0.4040:  51%|█████▏    | 100/195 [04:27<04:22,  2.76s/it]Ep 0 Loss 0.3907:  51%|█████▏    | 100/195 [04:29<04:22,  2.76s/it]Ep 0 Loss 0.3907:  52%|█████▏    | 101/195 [04:29<04:05,  2.61s/it]Ep 0 Loss 0.4695:  52%|█████▏    | 101/195 [04:32<04:05,  2.61s/it]Ep 0 Loss 0.4695:  52%|█████▏    | 102/195 [04:32<03:55,  2.53s/it]Ep 0 Loss 0.4087:  52%|█████▏    | 102/195 [04:35<03:55,  2.53s/it]Ep 0 Loss 0.4087:  53%|█████▎    | 103/195 [04:35<04:02,  2.63s/it]Ep 0 Loss 0.4504:  53%|█████▎    | 103/195 [04:37<04:02,  2.63s/it]Ep 0 Loss 0.4504:  53%|█████▎    | 104/195 [04:37<03:50,  2.53s/it]Ep 0 Loss 0.3775:  53%|█████▎    | 104/195 [04:39<03:50,  2.53s/it]Ep 0 Loss 0.3775:  54%|█████▍    | 105/195 [04:39<03:43,  2.48s/it]Ep 0 Loss 0.2560:  54%|█████▍    | 105/195 [04:43<03:43,  2.48s/it]Ep 0 Loss 0.2560:  54%|█████▍    | 106/195 [04:43<04:10,  2.82s/it]Ep 0 Loss 0.5497:  54%|█████▍    | 106/195 [04:45<04:10,  2.82s/it]Ep 0 Loss 0.5497:  55%|█████▍    | 107/195 [04:45<04:01,  2.74s/it]Ep 0 Loss 0.3101:  55%|█████▍    | 107/195 [04:48<04:01,  2.74s/it]Ep 0 Loss 0.3101:  55%|█████▌    | 108/195 [04:48<04:03,  2.80s/it]Ep 0 Loss 0.5563:  55%|█████▌    | 108/195 [04:51<04:03,  2.80s/it]Ep 0 Loss 0.5563:  56%|█████▌    | 109/195 [04:51<04:09,  2.90s/it]Ep 0 Loss 0.3621:  56%|█████▌    | 109/195 [04:54<04:09,  2.90s/it]Ep 0 Loss 0.3621:  56%|█████▋    | 110/195 [04:54<03:46,  2.67s/it]Ep 0 Loss 0.4136:  56%|█████▋    | 110/195 [04:57<03:46,  2.67s/it]Ep 0 Loss 0.4136:  57%|█████▋    | 111/195 [04:57<04:05,  2.93s/it]Ep 0 Loss 0.2680:  57%|█████▋    | 111/195 [05:00<04:05,  2.93s/it]Ep 0 Loss 0.2680:  57%|█████▋    | 112/195 [05:00<03:57,  2.86s/it]Ep 0 Loss 0.5279:  57%|█████▋    | 112/195 [05:02<03:57,  2.86s/it]Ep 0 Loss 0.5279:  58%|█████▊    | 113/195 [05:02<03:37,  2.65s/it]Ep 0 Loss 0.5182:  58%|█████▊    | 113/195 [05:04<03:37,  2.65s/it]Ep 0 Loss 0.5182:  58%|█████▊    | 114/195 [05:04<03:29,  2.59s/it]Ep 0 Loss 0.3156:  58%|█████▊    | 114/195 [05:07<03:29,  2.59s/it]Ep 0 Loss 0.3156:  59%|█████▉    | 115/195 [05:07<03:32,  2.66s/it]Ep 0 Loss 0.6995:  59%|█████▉    | 115/195 [05:10<03:32,  2.66s/it]Ep 0 Loss 0.6995:  59%|█████▉    | 116/195 [05:10<03:39,  2.78s/it]Ep 0 Loss 0.7831:  59%|█████▉    | 116/195 [05:12<03:39,  2.78s/it]Ep 0 Loss 0.7831:  60%|██████    | 117/195 [05:12<03:20,  2.58s/it]Ep 0 Loss 0.4078:  60%|██████    | 117/195 [05:15<03:20,  2.58s/it]Ep 0 Loss 0.4078:  61%|██████    | 118/195 [05:15<03:15,  2.54s/it]Ep 0 Loss 0.3750:  61%|██████    | 118/195 [05:18<03:15,  2.54s/it]Ep 0 Loss 0.3750:  61%|██████    | 119/195 [05:18<03:19,  2.63s/it]Ep 0 Loss 0.4590:  61%|██████    | 119/195 [05:21<03:19,  2.63s/it]Ep 0 Loss 0.4590:  62%|██████▏   | 120/195 [05:21<03:24,  2.72s/it]Ep 0 Loss 0.7358:  62%|██████▏   | 120/195 [05:23<03:24,  2.72s/it]Ep 0 Loss 0.7358:  62%|██████▏   | 121/195 [05:23<03:15,  2.65s/it]Ep 0 Loss 0.4143:  62%|██████▏   | 121/195 [05:26<03:15,  2.65s/it]Ep 0 Loss 0.4143:  63%|██████▎   | 122/195 [05:26<03:08,  2.58s/it]Ep 0 Loss 0.3176:  63%|██████▎   | 122/195 [05:28<03:08,  2.58s/it]Ep 0 Loss 0.3176:  63%|██████▎   | 123/195 [05:28<03:05,  2.57s/it]Ep 0 Loss 0.4664:  63%|██████▎   | 123/195 [05:32<03:05,  2.57s/it]Ep 0 Loss 0.4664:  64%|██████▎   | 124/195 [05:32<03:20,  2.82s/it]Ep 0 Loss 0.5719:  64%|██████▎   | 124/195 [05:34<03:20,  2.82s/it]Ep 0 Loss 0.5719:  64%|██████▍   | 125/195 [05:34<03:13,  2.76s/it]Ep 0 Loss 0.5682:  64%|██████▍   | 125/195 [05:37<03:13,  2.76s/it]Ep 0 Loss 0.5682:  65%|██████▍   | 126/195 [05:37<03:14,  2.82s/it]Ep 0 Loss 0.3035:  65%|██████▍   | 126/195 [05:39<03:14,  2.82s/it]Ep 0 Loss 0.3035:  65%|██████▌   | 127/195 [05:39<03:00,  2.66s/it]Ep 0 Loss 0.5659:  65%|██████▌   | 127/195 [05:41<03:00,  2.66s/it]Ep 0 Loss 0.5659:  66%|██████▌   | 128/195 [05:41<02:45,  2.47s/it]Ep 0 Loss 0.5756:  66%|██████▌   | 128/195 [05:44<02:45,  2.47s/it]Ep 0 Loss 0.5756:  66%|██████▌   | 129/195 [05:44<02:40,  2.43s/it]Ep 0 Loss 0.8868:  66%|██████▌   | 129/195 [05:47<02:40,  2.43s/it]Ep 0 Loss 0.8868:  67%|██████▋   | 130/195 [05:47<02:51,  2.63s/it]Ep 0 Loss 0.4976:  67%|██████▋   | 130/195 [05:50<02:51,  2.63s/it]Ep 0 Loss 0.4976:  67%|██████▋   | 131/195 [05:50<02:53,  2.71s/it]Ep 0 Loss 0.2578:  67%|██████▋   | 131/195 [05:57<02:53,  2.71s/it]Ep 0 Loss 0.2578:  68%|██████▊   | 132/195 [05:57<04:15,  4.05s/it]Ep 0 Loss 0.5172:  68%|██████▊   | 132/195 [05:59<04:15,  4.05s/it]Ep 0 Loss 0.5172:  68%|██████▊   | 133/195 [05:59<03:43,  3.61s/it]Ep 0 Loss 0.3375:  68%|██████▊   | 133/195 [06:03<03:43,  3.61s/it]Ep 0 Loss 0.3375:  69%|██████▊   | 134/195 [06:03<03:38,  3.58s/it]Ep 0 Loss 0.4446:  69%|██████▊   | 134/195 [06:06<03:38,  3.58s/it]Ep 0 Loss 0.4446:  69%|██████▉   | 135/195 [06:06<03:22,  3.37s/it]Ep 0 Loss 0.5946:  69%|██████▉   | 135/195 [06:08<03:22,  3.37s/it]Ep 0 Loss 0.5946:  70%|██████▉   | 136/195 [06:08<03:00,  3.07s/it]Ep 0 Loss 3.4564:  70%|██████▉   | 136/195 [06:11<03:00,  3.07s/it]Ep 0 Loss 3.4564:  70%|███████   | 137/195 [06:11<02:49,  2.91s/it]Ep 0 Loss 3.9769:  70%|███████   | 137/195 [06:13<02:49,  2.91s/it]Ep 0 Loss 3.9769:  71%|███████   | 138/195 [06:13<02:40,  2.81s/it]Ep 0 Loss 4.6067:  71%|███████   | 138/195 [06:15<02:40,  2.81s/it]Ep 0 Loss 4.6067:  71%|███████▏  | 139/195 [06:15<02:23,  2.56s/it]Ep 0 Loss 9.6932:  71%|███████▏  | 139/195 [06:17<02:23,  2.56s/it]Ep 0 Loss 9.6932:  72%|███████▏  | 140/195 [06:17<02:08,  2.33s/it]Ep 0 Loss 3.7916:  72%|███████▏  | 140/195 [06:20<02:08,  2.33s/it]Ep 0 Loss 3.7916:  72%|███████▏  | 141/195 [06:20<02:13,  2.48s/it]Ep 0 Loss 4.2200:  72%|███████▏  | 141/195 [06:23<02:13,  2.48s/it]Ep 0 Loss 4.2200:  73%|███████▎  | 142/195 [06:23<02:21,  2.66s/it]Ep 0 Loss 2.7252:  73%|███████▎  | 142/195 [06:26<02:21,  2.66s/it]Ep 0 Loss 2.7252:  73%|███████▎  | 143/195 [06:26<02:25,  2.80s/it]Ep 0 Loss 2.5732:  73%|███████▎  | 143/195 [06:30<02:25,  2.80s/it]Ep 0 Loss 2.5732:  74%|███████▍  | 144/195 [06:30<02:35,  3.04s/it]Ep 0 Loss 1.9777:  74%|███████▍  | 144/195 [06:33<02:35,  3.04s/it]Ep 0 Loss 1.9777:  74%|███████▍  | 145/195 [06:33<02:27,  2.96s/it]Ep 0 Loss 1.5320:  74%|███████▍  | 145/195 [06:35<02:27,  2.96s/it]Ep 0 Loss 1.5320:  75%|███████▍  | 146/195 [06:35<02:19,  2.85s/it]Ep 0 Loss 1.9278:  75%|███████▍  | 146/195 [06:37<02:19,  2.85s/it]Ep 0 Loss 1.9278:  75%|███████▌  | 147/195 [06:37<02:06,  2.64s/it]Ep 0 Loss 1.4373:  75%|███████▌  | 147/195 [06:40<02:06,  2.64s/it]Ep 0 Loss 1.4373:  76%|███████▌  | 148/195 [06:40<02:02,  2.62s/it]Ep 0 Loss 1.8903:  76%|███████▌  | 148/195 [06:43<02:02,  2.62s/it]Ep 0 Loss 1.8903:  76%|███████▋  | 149/195 [06:43<02:04,  2.72s/it]Ep 0 Loss 1.7624:  76%|███████▋  | 149/195 [06:46<02:04,  2.72s/it]Ep 0 Loss 1.7624:  77%|███████▋  | 150/195 [06:46<02:05,  2.80s/it]Ep 0 Loss 1.4344:  77%|███████▋  | 150/195 [06:48<02:05,  2.80s/it]Ep 0 Loss 1.4344:  77%|███████▋  | 151/195 [06:48<02:01,  2.76s/it]Ep 0 Loss 1.1876:  77%|███████▋  | 151/195 [06:51<02:01,  2.76s/it]Ep 0 Loss 1.1876:  78%|███████▊  | 152/195 [06:51<01:57,  2.74s/it]Ep 0 Loss 1.3575:  78%|███████▊  | 152/195 [06:53<01:57,  2.74s/it]Ep 0 Loss 1.3575:  78%|███████▊  | 153/195 [06:53<01:46,  2.55s/it]Ep 0 Loss 0.9367:  78%|███████▊  | 153/195 [06:55<01:46,  2.55s/it]Ep 0 Loss 0.9367:  79%|███████▉  | 154/195 [06:55<01:37,  2.38s/it]Ep 0 Loss 1.1377:  79%|███████▉  | 154/195 [06:58<01:37,  2.38s/it]Ep 0 Loss 1.1377:  79%|███████▉  | 155/195 [06:58<01:35,  2.38s/it]Ep 0 Loss 1.1306:  79%|███████▉  | 155/195 [07:00<01:35,  2.38s/it]Ep 0 Loss 1.1306:  80%|████████  | 156/195 [07:00<01:29,  2.30s/it]Ep 0 Loss 0.9717:  80%|████████  | 156/195 [07:03<01:29,  2.30s/it]Ep 0 Loss 0.9717:  81%|████████  | 157/195 [07:03<01:36,  2.53s/it]Ep 0 Loss 0.8063:  81%|████████  | 157/195 [07:05<01:36,  2.53s/it]Ep 0 Loss 0.8063:  81%|████████  | 158/195 [07:05<01:30,  2.43s/it]Ep 0 Loss 1.2264:  81%|████████  | 158/195 [07:08<01:30,  2.43s/it]Ep 0 Loss 1.2264:  82%|████████▏ | 159/195 [07:08<01:36,  2.69s/it]Ep 0 Loss 0.6482:  82%|████████▏ | 159/195 [07:10<01:36,  2.69s/it]Ep 0 Loss 0.6482:  82%|████████▏ | 160/195 [07:10<01:26,  2.46s/it]Ep 0 Loss 0.8600:  82%|████████▏ | 160/195 [07:13<01:26,  2.46s/it]Ep 0 Loss 0.8600:  83%|████████▎ | 161/195 [07:13<01:23,  2.45s/it]Ep 0 Loss 0.6084:  83%|████████▎ | 161/195 [07:16<01:23,  2.45s/it]Ep 0 Loss 0.6084:  83%|████████▎ | 162/195 [07:16<01:25,  2.58s/it]Ep 0 Loss 0.5625:  83%|████████▎ | 162/195 [07:18<01:25,  2.58s/it]Ep 0 Loss 0.5625:  84%|████████▎ | 163/195 [07:18<01:24,  2.64s/it]Ep 0 Loss 0.5263:  84%|████████▎ | 163/195 [07:20<01:24,  2.64s/it]Ep 0 Loss 0.5263:  84%|████████▍ | 164/195 [07:20<01:16,  2.48s/it]Ep 0 Loss 0.7282:  84%|████████▍ | 164/195 [07:24<01:16,  2.48s/it]Ep 0 Loss 0.7282:  85%|████████▍ | 165/195 [07:24<01:22,  2.73s/it]Ep 0 Loss 0.6182:  85%|████████▍ | 165/195 [07:27<01:22,  2.73s/it]Ep 0 Loss 0.6182:  85%|████████▌ | 166/195 [07:27<01:20,  2.76s/it]Ep 0 Loss 0.4819:  85%|████████▌ | 166/195 [07:29<01:20,  2.76s/it]Ep 0 Loss 0.4819:  86%|████████▌ | 167/195 [07:29<01:14,  2.66s/it]Ep 0 Loss 0.7891:  86%|████████▌ | 167/195 [07:32<01:14,  2.66s/it]Ep 0 Loss 0.7891:  86%|████████▌ | 168/195 [07:32<01:11,  2.63s/it]Ep 0 Loss 0.4990:  86%|████████▌ | 168/195 [07:33<01:11,  2.63s/it]Ep 0 Loss 0.4990:  87%|████████▋ | 169/195 [07:33<01:01,  2.37s/it]Ep 0 Loss 0.4727:  87%|████████▋ | 169/195 [07:36<01:01,  2.37s/it]Ep 0 Loss 0.4727:  87%|████████▋ | 170/195 [07:36<00:59,  2.38s/it]Ep 0 Loss 1.8943:  87%|████████▋ | 170/195 [07:43<00:59,  2.38s/it]Ep 0 Loss 1.8943:  88%|████████▊ | 171/195 [07:43<01:34,  3.95s/it]Ep 0 Loss 1.2589:  88%|████████▊ | 171/195 [07:46<01:34,  3.95s/it]Ep 0 Loss 1.2589:  88%|████████▊ | 172/195 [07:46<01:22,  3.61s/it]Ep 0 Loss 1.9838:  88%|████████▊ | 172/195 [07:48<01:22,  3.61s/it]Ep 0 Loss 1.9838:  89%|████████▊ | 173/195 [07:48<01:08,  3.13s/it]Ep 0 Loss 1.9460:  89%|████████▊ | 173/195 [07:51<01:08,  3.13s/it]Ep 0 Loss 1.9460:  89%|████████▉ | 174/195 [07:51<01:04,  3.09s/it]Ep 0 Loss 1.6127:  89%|████████▉ | 174/195 [07:53<01:04,  3.09s/it]Ep 0 Loss 1.6127:  90%|████████▉ | 175/195 [07:53<00:55,  2.79s/it]Ep 0 Loss 1.1937:  90%|████████▉ | 175/195 [07:56<00:55,  2.79s/it]Ep 0 Loss 1.1937:  90%|█████████ | 176/195 [07:56<00:55,  2.90s/it]Ep 0 Loss 1.2541:  90%|█████████ | 176/195 [07:59<00:55,  2.90s/it]Ep 0 Loss 1.2541:  91%|█████████ | 177/195 [07:59<00:50,  2.82s/it]Ep 0 Loss 1.0078:  91%|█████████ | 177/195 [08:02<00:50,  2.82s/it]Ep 0 Loss 1.0078:  91%|█████████▏| 178/195 [08:02<00:46,  2.75s/it]Ep 0 Loss 1.0783:  91%|█████████▏| 178/195 [08:04<00:46,  2.75s/it]Ep 0 Loss 1.0783:  92%|█████████▏| 179/195 [08:04<00:42,  2.69s/it]Ep 0 Loss 1.1313:  92%|█████████▏| 179/195 [08:07<00:42,  2.69s/it]Ep 0 Loss 1.1313:  92%|█████████▏| 180/195 [08:07<00:38,  2.58s/it]Ep 0 Loss 0.5796:  92%|█████████▏| 180/195 [08:10<00:38,  2.58s/it]Ep 0 Loss 0.5796:  93%|█████████▎| 181/195 [08:10<00:38,  2.78s/it]Ep 0 Loss 1.2463:  93%|█████████▎| 181/195 [08:12<00:38,  2.78s/it]Ep 0 Loss 1.2463:  93%|█████████▎| 182/195 [08:12<00:34,  2.64s/it]Ep 0 Loss 1.0619:  93%|█████████▎| 182/195 [08:15<00:34,  2.64s/it]Ep 0 Loss 1.0619:  94%|█████████▍| 183/195 [08:15<00:32,  2.68s/it]Ep 0 Loss 0.7688:  94%|█████████▍| 183/195 [08:17<00:32,  2.68s/it]Ep 0 Loss 0.7688:  94%|█████████▍| 184/195 [08:17<00:28,  2.62s/it]Ep 0 Loss 0.4923:  94%|█████████▍| 184/195 [08:20<00:28,  2.62s/it]Ep 0 Loss 0.4923:  95%|█████████▍| 185/195 [08:20<00:25,  2.58s/it]Ep 0 Loss 1.0651:  95%|█████████▍| 185/195 [08:22<00:25,  2.58s/it]Ep 0 Loss 1.0651:  95%|█████████▌| 186/195 [08:22<00:21,  2.44s/it]Ep 0 Loss 0.6632:  95%|█████████▌| 186/195 [08:25<00:21,  2.44s/it]Ep 0 Loss 0.6632:  96%|█████████▌| 187/195 [08:25<00:20,  2.51s/it]Ep 0 Loss 0.4188:  96%|█████████▌| 187/195 [08:28<00:20,  2.51s/it]Ep 0 Loss 0.4188:  96%|█████████▋| 188/195 [08:28<00:18,  2.63s/it]Ep 0 Loss 0.4489:  96%|█████████▋| 188/195 [08:31<00:18,  2.63s/it]Ep 0 Loss 0.4489:  97%|█████████▋| 189/195 [08:31<00:17,  2.87s/it]Ep 0 Loss 1.1152:  97%|█████████▋| 189/195 [08:34<00:17,  2.87s/it]Ep 0 Loss 1.1152:  97%|█████████▋| 190/195 [08:34<00:13,  2.79s/it]Ep 0 Loss 0.5093:  97%|█████████▋| 190/195 [08:36<00:13,  2.79s/it]Ep 0 Loss 0.5093:  98%|█████████▊| 191/195 [08:36<00:10,  2.73s/it]Ep 0 Loss 0.7447:  98%|█████████▊| 191/195 [08:39<00:10,  2.73s/it]Ep 0 Loss 0.7447:  98%|█████████▊| 192/195 [08:39<00:08,  2.77s/it]Ep 0 Loss 0.4698:  98%|█████████▊| 192/195 [08:42<00:08,  2.77s/it]Ep 0 Loss 0.4698:  99%|█████████▉| 193/195 [08:42<00:05,  2.96s/it]Ep 0 Loss 0.4334:  99%|█████████▉| 193/195 [08:45<00:05,  2.96s/it]Ep 0 Loss 0.4334:  99%|█████████▉| 194/195 [08:45<00:02,  2.95s/it]Ep 0 Loss 0.1959:  99%|█████████▉| 194/195 [08:47<00:02,  2.95s/it]Ep 0 Loss 0.1959: 100%|██████████| 195/195 [08:47<00:00,  2.65s/it]Ep 0 Loss 0.1959: 100%|██████████| 195/195 [08:48<00:00,  2.71s/it]
-[2026-01-31 15:25:27,315] [INFO] [launch.py:367:main] Process 2779109 exits successfully.
-[2026-01-31 15:25:27,370] [INFO] [launch.py:367:main] Process 2779107 exits successfully.
-[2026-01-31 15:25:27,371] [INFO] [launch.py:367:main] Process 2779108 exits successfully.
-[2026-01-31 15:25:28,371] [INFO] [launch.py:367:main] Process 2779104 exits successfully.
-[2026-01-31 15:25:29,371] [INFO] [launch.py:367:main] Process 2779105 exits successfully.
-[2026-01-31 15:25:29,372] [INFO] [launch.py:367:main] Process 2779110 exits successfully.
-[2026-01-31 15:25:31,372] [INFO] [launch.py:367:main] Process 2779106 exits successfully.
-wandb: updating run metadata
-wandb: updating run metadata; uploading summary
-wandb: updating run metadata
-wandb: uploading output.log; uploading wandb-summary.json
-wandb: uploading output.log; uploading wandb-summary.json; uploading config.yaml
-wandb: uploading output.log; uploading wandb-summary.json; uploading config.yaml; uploading data
-wandb: uploading output.log; uploading wandb-summary.json; uploading config.yaml
-wandb: uploading output.log; uploading wandb-summary.json; uploading config.yaml; uploading data
-wandb: uploading output.log; uploading wandb-summary.json; uploading config.yaml
-wandb: uploading data
-wandb: 
-wandb: Run history:
-wandb:        progress ▁▁▁▁▁▁▂▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▆▆▆▆▆▆▇▇███
-wandb: train/latent_ce █▇▄▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃▁▂▁▁▁▁▁▁▁▁▁▁▁
-wandb:      train/loss █▆▃▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁▁▁
-wandb:       train/mse █▃▅▃▃▂▂▂▂▂▂▃▂▂▃▂▂▂▂▂▂▁▁▂▂▂▁▂▃▅▄▃▃▂▃▃▂▃▃▂
-wandb:   train/sft_ans █▆▄▄▃▃▅▄▂▂▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▇▂▃▂▂▂▂▁▃▂▁▁▂▁
-wandb:       train/vbc ▃▄▃▂▂▃▂▂▃▃▄▂▂▂▂▂▁▃▂▁▅▄▂▂▃▂▃▆█▆▄▁▂▃▁▃▂▃▆▂
-wandb: 
-wandb: Run summary:
-wandb:        progress 1
-wandb: train/latent_ce 0.00584
-wandb:      train/loss 0.19586
-wandb:       train/mse 0.64128
-wandb:   train/sft_ans 0.06176
-wandb:       train/vbc 0
-wandb: 
-wandb: 🚀 View run test at: https://wandb.ai/libx22-tsinghua-university/test/runs/1j0vmsiw
-wandb: ⭐️ View project at: https://wandb.ai/libx22-tsinghua-university/test
-wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
-wandb: Find logs at: ./wandb/run-20260131_151436-1j0vmsiw/logs
-[2026-01-31 15:28:44,393] [INFO] [launch.py:367:main] Process 2779103 exits successfully.
+CPU Virtual Memory:  used = 117.55 GB, percent = 7.8%
+  0%|          | 0/778 [00:00<?, ?it/s]训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which of these states is farthest south? Choices: California, Maine, Nebraska, Michigan.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>California</answer><|im_end|>
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which of these states is farthest east? Choices: Louisiana, Utah, Alabama, California.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Alabama</answer><|im_end|>
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Which of these states is farthest east? Choices: Maine, Virginia, Arizona, Georgia.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>Maine</answer><|im_end|>
+
+
+
+训练前的full text为：<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+<|vision_start|><|image_pad|><|vision_end|>Question: Will these magnets attract or repel each other? Choices: attract, repel.<|im_end|>
+<|im_start|>assistant
+<think> Let's extract global visual information: <|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|><|vision_extract_pad|> Then analyze the semantic features: <|dino_pad|><|dino_pad|><|dino_pad|><|dino_pad|> Next, looking at the depth structure: <|depth_pad|><|depth_pad|><|depth_pad|><|depth_pad|> Finally, observing the segmentation boundaries: <|seg_pad|><|seg_pad|><|seg_pad|><|seg_pad|></think><answer>repel</answer><|im_end|>
+
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[2026-01-31 16:00:08,382] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
+    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
+    kind, result = conn.recv()
+                   ^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
+    raise EOFError
+EOFError
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
+    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
+    kind, result = conn.recv()
+                   ^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
+Exception in thread     buf = self._recv_bytes()
+          ^^^^^^^^^^^^^^Thread-1^^:
+^^
+Traceback (most recent call last):
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
+    raise EOFError
+EOFError
+    self.run()
+  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
+    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
+                              ^^^^^^^^^^^^^^^^^^^Exception in thread ^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
+Thread-1    :
+kind, result = conn.recv()
+Traceback (most recent call last):
+   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+                  ^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
+        self.run()buf = self._recv_bytes()
+
+     File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
+       ^^^    ^key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)^
+^^^^^^^^ ^ ^ ^ ^ ^ 
+    File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
+                buf = self._recv(4) 
+               ^ ^ ^ ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
+^^^^^^^^^^    ^raise EOFError^
+
+  File "<string>", line 2, in get
+EOFError  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
+
+    kind, result = conn.recv()
+                   ^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
+    raise EOFError
+EOFError
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
+    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
+                      Exception in thread         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
+    kind, result = conn.recv()
+             Thread-1  :
+   Traceback (most recent call last):
+ ^^  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+              ^self.run()^
+^^^^^^^  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
+^^^^^^^^^    
+key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
+          buf = self._recv(4) 
+                        ^ ^ ^ ^ ^ ^ ^ ^ ^ ^^^^^^^^
+^^  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
+^^^^^^^^^^^    ^^raise EOFError^
+^^^^^EOFError^^
+^^^^^
+  File "<string>", line 2, in get
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
+    kind, result = conn.recv()
+                   ^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
+    raise EOFError
+EOFError
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
+    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
+    kind, result = conn.recv()
+                   ^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
+    raise EOFError
+EOFError
+[2026-01-31 16:00:08,888] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[2026-01-31 16:00:08,888] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943537
+Traceback (most recent call last):
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/subprocess.py", line 2053, in _wait
+    (pid, sts) = self._try_wait(0)
+                 ^^^^^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/subprocess.py", line 2011, in _try_wait
+    (pid, sts) = os.waitpid(self.pid, wait_flags)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ma-user/anaconda3/envs/my_repo/bin/deepspeed", line 6, in <module>
+    main()
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/launcher/runner.py", line 646, in main
+    result.wait()
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/subprocess.py", line 1277, in wait
+    self._wait(timeout=sigint_timeout)
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/subprocess.py", line 2047, in _wait
+    time.sleep(delay)
+KeyboardInterrupt
+Exception ignored in atexit callback: <bound method finalize._exitfunc of <class 'weakref.finalize'>>
+Traceback (most recent call last):
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/weakref.py", line 666, in _exitfunc
+[2026-01-31 16:00:08,918] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[2026-01-31 16:00:08,918] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943537
+    f()
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/weakref.py", line 590, in __call__
+    return info.func(*info.args, **(info.kwargs or {}))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/library.py", line 423, in _del_library
+    def _del_library(
+    
+KeyboardInterrupt: 
+[2026-01-31 16:00:08,949] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[2026-01-31 16:00:08,949] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943537
+[2026-01-31 16:00:08,962] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943538
+[2026-01-31 16:00:08,984] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[2026-01-31 16:00:08,984] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943537
+[2026-01-31 16:00:08,984] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943538
+[2026-01-31 16:00:09,009] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[2026-01-31 16:00:09,009] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943537
+[2026-01-31 16:00:09,009] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943538
+[2026-01-31 16:00:09,022] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943539
+[2026-01-31 16:00:09,041] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[2026-01-31 16:00:09,041] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943537
+[2026-01-31 16:00:09,041] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943538
+[2026-01-31 16:00:09,041] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943539
+[2026-01-31 16:00:09,068] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[2026-01-31 16:00:09,068] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943537
+[2026-01-31 16:00:09,069] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943538
+[2026-01-31 16:00:09,069] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943539
+[2026-01-31 16:00:09,079] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943540
+[2026-01-31 16:00:09,104] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943536
+[2026-01-31 16:00:09,104] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943537
+[2026-01-31 16:00:09,105] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943538
+[2026-01-31 16:00:09,105] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943539
+[2026-01-31 16:00:09,105] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943540
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+[rank7]: Traceback (most recent call last):
+[rank7]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 173, in <module>
+[rank7]:     main()
+[rank7]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 129, in main
+[rank7]:     for step, batch in pbar:
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/tqdm/std.py", line 1169, in __iter__
+[rank7]:     for obj in iterable:
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/profiler/_add_mstx_patch.py", line 28, in wrapper
+[rank7]:     out = func(*args, **kwargs)
+[rank7]:           ^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 708, in __next__
+[rank7]:     data = self._next_data()
+[rank7]:            ^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1458, in _next_data
+[rank7]:     idx, data = self._get_data()
+[rank7]:                 ^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1410, in _get_data
+[rank7]:     success, data = self._try_get_data()
+[rank7]:                     ^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1251, in _try_get_data
+[rank7]:     data = self._data_queue.get(timeout=timeout)
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/queue.py", line 180, in get
+[rank7]:     self.not_empty.wait(remaining)
+[rank7]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 331, in wait
+[rank7]:     gotit = waiter.acquire(True, timeout)
+[rank7]:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]: KeyboardInterrupt
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+[rank6]: Traceback (most recent call last):
+[rank6]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 173, in <module>
+[rank6]:     main()
+[rank6]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 129, in main
+[rank6]:     for step, batch in pbar:
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/tqdm/std.py", line 1169, in __iter__
+[rank6]:     for obj in iterable:
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/profiler/_add_mstx_patch.py", line 28, in wrapper
+[rank6]:     out = func(*args, **kwargs)
+[rank6]:           ^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 708, in __next__
+[rank6]:     data = self._next_data()
+[rank6]:            ^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1458, in _next_data
+[rank6]:     idx, data = self._get_data()
+[rank6]:                 ^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1410, in _get_data
+[rank6]:     success, data = self._try_get_data()
+[rank6]:                     ^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1251, in _try_get_data
+[rank6]:     data = self._data_queue.get(timeout=timeout)
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/queue.py", line 180, in get
+[rank6]:     self.not_empty.wait(remaining)
+[rank6]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 331, in wait
+[rank6]:     gotit = waiter.acquire(True, timeout)
+[rank6]:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]: KeyboardInterrupt
+[rank5]: Traceback (most recent call last):
+[rank5]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 173, in <module>
+[rank5]:     main()
+[rank5]:   File "/home/ma-user/work/lbx/my_repo/train.py", line 129, in main
+[rank5]:     for step, batch in pbar:
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/tqdm/std.py", line 1169, in __iter__
+[rank5]:     for obj in iterable:
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/profiler/_add_mstx_patch.py", line 28, in wrapper
+[rank5]:     out = func(*args, **kwargs)
+[rank5]:           ^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 708, in __next__
+[rank5]:     data = self._next_data()
+[rank5]:            ^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1458, in _next_data
+[rank5]:     idx, data = self._get_data()
+[rank5]:                 ^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1410, in _get_data
+[rank5]:     success, data = self._try_get_data()
+[rank5]:                     ^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1251, in _try_get_data
+[rank5]:     data = self._data_queue.get(timeout=timeout)
+[rank5]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/queue.py", line 180, in get
+[rank5]:     self.not_empty.wait(remaining)
+[rank5]:   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 331, in wait
+[rank5]:     gotit = waiter.acquire(True, timeout)
+[rank5]:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank5]: KeyboardInterrupt
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+[2026-01-31 16:00:10,750] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 2943541

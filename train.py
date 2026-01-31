@@ -74,16 +74,6 @@ def main():
     processor = Qwen2_5_VLProcessor.from_pretrained(config.base_model)
     
     new_tokens = config.get_all_special_tokens()
-    # # 收集所有特殊 Token
-    # new_tokens = [
-    #     config.extract_token,
-    #     config.think_start, config.think_end,
-    #     config.answer_start, config.answer_end,
-    #     config.anchor_start, config.anchor_end
-    # ] + [stage.token for stage in config.stages]
-    
-    # # 去重
-    # new_tokens = list(set(new_tokens))
     processor.tokenizer.add_special_tokens({"additional_special_tokens": new_tokens})
 
     # === [关键步骤 2] 将 Token ID 回填到 Config ===
