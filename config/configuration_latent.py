@@ -9,7 +9,6 @@ class ReasoningStage:
     count: int
     feature_key: str
     dim: int
-    # 阶段前的文本引导，例如 " Then analyze semantic: "
     text_prefix: str = "" 
     token_id: Optional[int] = None 
 
@@ -32,11 +31,18 @@ class LatentConfig:
     train_datasets: List[SingleDatasetConfig]
     seed: int
 
-    # === 3. Token 与 前缀参数 ===
+    # === 3. Token 与 结构参数 ===
     extract_token: str
     extract_count: int
-    # [新增] 提取阶段的自然语言引导前缀
     extract_text_prefix: str 
+    
+    # [新增] 结构性 Token
+    think_start: str
+    think_end: str
+    answer_start: str
+    answer_end: str
+    anchor_start: str
+    anchor_end: str
 
     stages: List[ReasoningStage]
     
@@ -44,20 +50,19 @@ class LatentConfig:
     epochs: int          
     alpha_sft: float    # 标准 CE Loss 权重
     beta_mse: float     # 特征对齐 MSE Loss 权重
-    
-    # [新增] VBC 相关参数
     lambda_vbc: float   # 视觉瓶颈对比 Loss 权重
     vbc_margin: float   # 动态权重阈值
     
     batch_size: int
     gradient_checkpointing: bool
     
-    # === 5. 运行时字段 ===
+    # === 5. 运行时字段 (由 train.py 填充) ===
     extract_token_id: Optional[int] = None
-    
-    # [新增] VBC 计算范围: "full" (包括引导词) 或 "answer" (仅最终答案)
     vbc_target_scope: str = "answer" 
     
+    # [新增] 用于 Dataset 定位 Mask 的关键 ID
+    answer_start_id: Optional[int] = None
+    answer_end_id: Optional[int] = None
 
     @classmethod
     def load(cls, path: str):
@@ -108,6 +113,8 @@ class LatentConfig:
                     feature_dir=d_feat_root
                 ))
 
+        tokens_cfg = cfg.get('tokens', {})
+
         return cls(
             base_model=cfg['model']['base_model'],
             hidden_size=cfg['model']['hidden_size'],
@@ -115,9 +122,17 @@ class LatentConfig:
             seed=data_cfg.get('seed', 42),
             
             # Token配置
-            extract_token=cfg['tokens']['extract_token'],
-            extract_count=cfg['tokens']['extract_count'],
-            extract_text_prefix=cfg['tokens'].get('extract_text_prefix', ""),
+            extract_token=tokens_cfg.get('extract_token', "<|vision_extract_pad|>"),
+            extract_count=tokens_cfg.get('extract_count', 0),
+            extract_text_prefix=tokens_cfg.get('extract_text_prefix', ""),
+            
+            # 读取新的标签
+            think_start=tokens_cfg.get('think_start', "<think>"),
+            think_end=tokens_cfg.get('think_end', "</think>"),
+            answer_start=tokens_cfg.get('answer_start', "<answer>"),
+            answer_end=tokens_cfg.get('answer_end', "</answer>"),
+            anchor_start=tokens_cfg.get('anchor_start', "<|anchor_start|>"),
+            anchor_end=tokens_cfg.get('anchor_end', "<|anchor_end|>"),
             
             stages=stages,
             
@@ -127,7 +142,6 @@ class LatentConfig:
             beta_mse=cfg['training']['beta_mse'],
             lambda_vbc=cfg['training'].get('lambda_vbc', 0.5),
             vbc_margin=cfg['training'].get('vbc_margin', 0.8),
-            # 默认只对答案部分计算 VBC，避免惩罚引导词
             vbc_target_scope=cfg['training'].get('vbc_target_scope', "answer"),
             
             batch_size=cfg['training']['batch_size'],

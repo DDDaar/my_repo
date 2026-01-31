@@ -32,7 +32,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--local_rank", type=int, default=int(os.environ.get("LOCAL_RANK", -1)))
     parser.add_argument("--wandb_project", type=str, default="latent_vbc_full")
-    parser.add_argument("--wandb_run_name", type=str, default="run_autoregressive")
+    parser.add_argument("--wandb_run_name", type=str, default="run_standardized")
     parser.add_argument("--wandb_offline", action="store_true")
     parser = deepspeed.add_config_arguments(parser)
     return parser.parse_args()
@@ -43,23 +43,16 @@ def main():
     # 分布式初始化
     if args.local_rank != -1:
         torch.cuda.set_device(args.local_rank)
-        # 注意: NVIDIA GPU 请用 "nccl", Ascend NPU 用 "hccl"
-        dist.init_process_group(backend="hccl") 
+        dist.init_process_group(backend="hccl") # 或 nccl
 
-    # 加载配置与种子
+    # 加载配置
     config = LatentConfig.load("./config/config.yaml")
 
     if len(config.train_datasets) == 1:
-        # 单数据集模式
-        raw_ds_name = config.train_datasets[0].name
-        # 将 "derek-thomas/ScienceQA" 转换为 "derek-thomas_ScienceQA"
-        dataset_dir_name = raw_ds_name.replace("/", "_")
+        dataset_dir_name = config.train_datasets[0].name.replace("/", "_")
     else:
-        # 混合数据集模式
         dataset_dir_name = "mixed_datasets"
-    print(f"--- Checkpoint Output Dir: ./checkpoints/{dataset_dir_name} ---")
-
-
+    
     set_seed(config.seed) 
 
     if args.local_rank <= 0:
@@ -67,7 +60,7 @@ def main():
         print(f"Seed: {config.seed}")
         print(f"Extract Prefix: '{config.extract_text_prefix}'")
         print(f"VBC Enabled: Lambda={config.lambda_vbc}, Margin={config.vbc_margin}")
-        print(f"------------------------------")
+        print(f"Target Scope: {config.vbc_target_scope}")
         
         wandb.init(
             project=args.wandb_project,
@@ -76,25 +69,40 @@ def main():
             config=config.__dict__
         )
 
-    # Processor & Tokenizer
+    # === [关键步骤 1] 初始化 Processor 并注册 Token ===
+    # 必须在 Dataset 初始化之前完成，否则 Config 里没有正确的 Token ID
     processor = Qwen2_5_VLProcessor.from_pretrained(config.base_model)
     
-    # 注册所有特殊 Token
-    new_tokens = [config.extract_token] + [stage.token for stage in config.stages]
+    # 收集所有特殊 Token
+    new_tokens = [
+        config.extract_token,
+        config.think_start, config.think_end,
+        config.answer_start, config.answer_end,
+        config.anchor_start, config.anchor_end
+    ] + [stage.token for stage in config.stages]
+    
+    # 去重
+    new_tokens = list(set(new_tokens))
     processor.tokenizer.add_special_tokens({"additional_special_tokens": new_tokens})
 
-    # 更新 Config ID
+    # === [关键步骤 2] 将 Token ID 回填到 Config ===
     config.extract_token_id = processor.tokenizer.convert_tokens_to_ids(config.extract_token)
+    config.answer_start_id = processor.tokenizer.convert_tokens_to_ids(config.answer_start)
+    config.answer_end_id = processor.tokenizer.convert_tokens_to_ids(config.answer_end)
+    
     for stage in config.stages:
         stage.token_id = processor.tokenizer.convert_tokens_to_ids(stage.token)
 
+    # === [关键步骤 3] 初始化 Dataset (此时 Config 已包含 ID) ===
+    train_dataset = LatentReasoningDataset(processor, config)
+    
     # Model
     model = LatentReasoningQwen(config)
+    # Resize embedding 必须包含所有新 Token
     model.base_model.resize_token_embeddings(len(processor.tokenizer))
     model.len_tokenizer = len(processor.tokenizer)
 
-    # Dataset & DataLoader
-    train_dataset = LatentReasoningDataset(processor, config)
+    # Sampler & Loader
     sampler = DistributedSampler(train_dataset) if args.local_rank != -1 else None
     
     g = torch.Generator()
@@ -158,7 +166,6 @@ def main():
                 pbar.set_description(f"Ep {epoch} Loss {loss.item():.4f}")
 
         # Save Checkpoint
-        # save_path = f"./checkpoints/epoch_{epoch}"
         save_path = f"./checkpoints/{dataset_dir_name}/epoch_{epoch}"
         model_engine.save_checkpoint(save_path)
         

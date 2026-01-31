@@ -4,30 +4,37 @@ import random
 from PIL import Image
 from torch.utils.data import Dataset
 from datasets import load_dataset
+from time import sleep
 
 class LatentReasoningDataset(Dataset):
     def __init__(self, processor, config):
         self.processor = processor
         self.config = config
         
-        # === 1. 构建完整的思维链模板 (带 Count 判断) ===
+        # === 1. 预构建思维链内部内容 (Thought Content) ===
+        # 结构: prefix <|anchor|> tokens <|anchor|>
+        self.thought_content = ""
         
-        # Extract 部分
-        self.extract_str = ""
-        # 只有当 count > 0 时才添加前缀和 Token
-        if config.extract_count > 0:
-            if config.extract_text_prefix:
-                self.extract_str += config.extract_text_prefix
-            self.extract_str += (config.extract_token * config.extract_count)
+        # 检查是否需要生成 latent 部分
+        has_latent = (config.extract_count > 0) or any(s.count > 0 for s in config.stages)
         
-        # Reasoning Stages 部分
-        self.reasoning_str = ""
-        for stage in config.stages:
-            # 只有当 count > 0 时才添加前缀和 Token
-            if stage.count > 0:
-                if stage.text_prefix:
-                    self.reasoning_str += stage.text_prefix
-                self.reasoning_str += (stage.token * stage.count)
+        if has_latent:
+            # Extract 阶段
+            if config.extract_count > 0:
+                if config.extract_text_prefix:
+                    self.thought_content += config.extract_text_prefix
+                self.thought_content += config.anchor_start
+                self.thought_content += (config.extract_token * config.extract_count)
+                self.thought_content += config.anchor_end
+            
+            # Reasoning Stages 阶段
+            for stage in config.stages:
+                if stage.count > 0:
+                    if stage.text_prefix:
+                        self.thought_content += stage.text_prefix
+                    self.thought_content += config.anchor_start
+                    self.thought_content += (stage.token * stage.count)
+                    self.thought_content += config.anchor_end
             
         self.max_pixels = 768*768
         self.mixed_data = []
@@ -55,6 +62,7 @@ class LatentReasoningDataset(Dataset):
                     if ds_cfg.feature_dir:
                         feature_path = os.path.join(ds_cfg.feature_dir, f"{file_id}.pt")
                     
+                    # 如果指定了特征目录但文件不存在，则跳过
                     if ds_cfg.feature_dir and not os.path.exists(feature_path):
                         continue
                         
@@ -97,7 +105,8 @@ class LatentReasoningDataset(Dataset):
                 choices_fmt = [f"{labels[i]}. {c}" for i, c in enumerate(item['choices'])]
                 prompt_parts.append(f"Choices: {' '.join(choices_fmt)}")
             prompt_text = "\n".join(prompt_parts)
-            answer_text = f"Thought: {item.get('rationale','')}\nAnswer: {item.get('answer','')}"
+            # M3CoT 的 rationale 和 answer 组合
+            answer_text = f"{item.get('rationale','')}\nAnswer: {item.get('answer','')}"
 
         elif ds_type == "llava":
             for turn in item['conversations']:
@@ -136,6 +145,15 @@ class LatentReasoningDataset(Dataset):
         image = self._load_image(item_wrapper)
         prompt_text, answer_text = self._format_text(item_wrapper)
 
+        # === 1. 构造标准 Messages ===
+        # Assistant 回复内容 = <think>...</think><answer>...</answer>
+        full_assistant_content = ""
+        
+        if self.thought_content:
+            full_assistant_content += f"{self.config.think_start}{self.thought_content}{self.config.think_end}"
+            
+        full_assistant_content += f"{self.config.answer_start}{answer_text}{self.config.answer_end}"
+
         messages = [
             {
                 "role": "user",
@@ -143,28 +161,21 @@ class LatentReasoningDataset(Dataset):
                     {"type": "image", "image": image},
                     {"type": "text", "text": prompt_text},
                 ],
+            },
+            {
+                "role": "assistant",
+                "content": full_assistant_content
             }
         ]
         
-        # 1. 生成 User Prompt
-        user_prompt = self.processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        
-        # 2. 构造 Assistant 回复的各个部分
-        # extract_str, reasoning_str 已经在 __init__ 里根据 count>0 处理好了
-        assistant_prefix = f"{self.extract_str}{self.reasoning_str}"
-        assistant_full = f"{assistant_prefix}{answer_text}"
-        
-        # 3. 拼接全文
-        full_text = user_prompt + assistant_full
-        
-        # 用于定位答案起始位置的辅助文本 (User + 废话前缀)
-        text_until_answer = user_prompt + assistant_prefix
+        # === 2. 使用 apply_chat_template 生成完整 Prompt ===
+        # Qwen2.5 的 template 会自动处理 <|im_start|>user ... <|im_end|><|im_start|>assistant ... <|im_end|>
+        full_text = self.processor.apply_chat_template(messages, tokenize=False)
+        print(f'训练前的full text为：{full_text}')
+        sleep(1000)
 
-        import time
-        print(full_text)
-        time.sleep(1999)
 
-        # 4. Tokenize 全文
+        # === 3. Tokenize ===
         inputs = self.processor(
             text=[full_text], 
             images=[image], 
@@ -175,40 +186,53 @@ class LatentReasoningDataset(Dataset):
         input_ids = inputs.input_ids.squeeze(0)
         attention_mask = inputs.attention_mask.squeeze(0)
         
-        # === [新增] 计算 Answer Only Mask ===
-        # 先 Tokenize "直到答案之前" 的部分，获取其长度
-        inputs_prefix = self.processor(
-            text=[text_until_answer], 
-            images=[image], 
-            return_tensors="pt", 
-            padding=False,
-            max_pixels=self.max_pixels 
+        # === 4. 设置 Labels (Mask 掉 User 部分) ===
+        # 为了精确计算 User 部分的长度，我们单独 apply 一次 user template
+        user_only_msg = [messages[0]]
+        # add_generation_prompt=True 会加上 "<|im_start|>assistant\n"，确保我们 mask 到了 assistant 开头之前
+        user_prompt_str = self.processor.apply_chat_template(user_only_msg, tokenize=False, add_generation_prompt=True)
+        
+        user_inputs = self.processor(
+            text=[user_prompt_str], images=[image], return_tensors="pt", padding=False, max_pixels=self.max_pixels
         )
-        prefix_len = inputs_prefix.input_ids.shape[1]
-        
-        answer_only_mask = torch.zeros_like(input_ids, dtype=torch.bool)
-        if prefix_len < len(input_ids):
-            # 从 prefix_len 开始到结束，都是真正的答案
-            answer_only_mask[prefix_len:] = True
-
-        # 5. 设置 Labels
-        labels = input_ids.clone()
-        
-        # 获取 user_prompt 长度
-        # 重新 tokenize 以确保准确匹配 processor 逻辑
-        user_inputs = self.processor(text=[user_prompt], images=[image], return_tensors="pt", padding=False, max_pixels=self.max_pixels)
         user_len = user_inputs.input_ids.shape[1]
         
+        labels = input_ids.clone()
         if user_len < len(labels):
             labels[:user_len] = -100
         else:
             labels[:] = -100 
 
+        # === 5. 计算 Answer Only Mask (VBC 用) ===
+        # 通过 Token ID 精确查找 <answer> 和 </answer> 的位置
+        answer_only_mask = torch.zeros_like(input_ids, dtype=torch.bool)
+        
+        if self.config.answer_start_id is not None:
+            # 找到所有 <answer> 标签的位置
+            start_indices = (input_ids == self.config.answer_start_id).nonzero(as_tuple=True)[0]
+            
+            if len(start_indices) > 0:
+                # 假设只有一个 assistant 回复，取最后一个匹配项作为起点
+                start_idx = start_indices[-1]
+                end_idx = len(input_ids)
+                
+                # 尝试寻找对应的 </answer>
+                if self.config.answer_end_id is not None:
+                    end_indices = (input_ids == self.config.answer_end_id).nonzero(as_tuple=True)[0]
+                    # 必须是在 start_idx 之后的结束符
+                    valid_ends = end_indices[end_indices > start_idx]
+                    if len(valid_ends) > 0:
+                        end_idx = valid_ends[0]
+                
+                # 设置 mask: 从 start+1 到 end-1 (不包括标签本身)
+                if start_idx + 1 < end_idx:
+                    answer_only_mask[start_idx + 1 : end_idx] = True
+
         pixel_values = inputs.pixel_values.squeeze(0)
         image_grid_thw = inputs.image_grid_thw.squeeze(0)
         if image_grid_thw.ndim == 1: image_grid_thw = image_grid_thw.unsqueeze(0)
 
-        # 6. 加载特征
+        # 加载对齐特征
         alignment_dict = {}
         feature_path = item_wrapper.get('feature_path')
         if feature_path and os.path.exists(feature_path):
@@ -224,7 +248,7 @@ class LatentReasoningDataset(Dataset):
             "pixel_values": pixel_values,
             "image_grid_thw": image_grid_thw,
             "alignment_features": alignment_dict,
-            "answer_only_mask": answer_only_mask # 新增字段
+            "answer_only_mask": answer_only_mask
         }
 
 def collate_fn(batch):
@@ -233,8 +257,6 @@ def collate_fn(batch):
     input_ids = pad_sequence([item['input_ids'] for item in batch], batch_first=True, padding_value=0)
     attention_mask = pad_sequence([item['attention_mask'] for item in batch], batch_first=True, padding_value=0)
     labels = pad_sequence([item['labels'] for item in batch], batch_first=True, padding_value=-100)
-    
-    # [新增] Padding answer_only_mask
     answer_only_mask = pad_sequence([item['answer_only_mask'] for item in batch], batch_first=True, padding_value=False)
     
     pixel_values = torch.cat([item['pixel_values'] for item in batch], dim=0)
@@ -256,5 +278,5 @@ def collate_fn(batch):
         "pixel_values": pixel_values,
         "image_grid_thw": image_grid_thw,
         "alignment_features": alignment_features,
-        "answer_only_mask": answer_only_mask # 传递给 Model
+        "answer_only_mask": answer_only_mask
     }

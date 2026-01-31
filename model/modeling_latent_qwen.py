@@ -30,10 +30,11 @@ class LatentReasoningQwen(nn.Module):
         })
         
         self.extract_token_id = config_obj.extract_token_id
-        self.reasoning_token_ids = set([s.token_id for s in config_obj.stages])
+        # 仅追踪特征 Token 用于 MSE 对齐，其他 tag 属于文本 SFT 范畴
+        self.feature_token_ids = set([s.token_id for s in config_obj.stages])
 
     def forward(self, input_ids, attention_mask, labels, pixel_values, image_grid_thw, 
-                alignment_features=None, answer_only_mask=None): # [新增参数]
+                alignment_features=None, answer_only_mask=None): 
         
         # === 1. Pass 1: Standard Forward (With Image) ===
         outputs_v = self.base_model(
@@ -47,13 +48,11 @@ class LatentReasoningQwen(nn.Module):
         )
         logits_v = outputs_v.logits
         
-        # === 2. Pass 2: Blind Forward (Image Masked) ===
+        # === 2. Pass 2: Blind Forward (Image Masked for VBC) ===
         VISION_START_ID = 151652
         VISION_END_ID = 151653
         
         blind_attention_mask = attention_mask.clone()
-        
-        # 动态分辨率下的 Blind Mask 生成
         for b in range(input_ids.shape[0]):
             v_starts = (input_ids[b] == VISION_START_ID).nonzero(as_tuple=True)[0]
             v_ends = (input_ids[b] == VISION_END_ID).nonzero(as_tuple=True)[0]
@@ -80,7 +79,6 @@ class LatentReasoningQwen(nn.Module):
         shift_labels = labels[..., 1:].contiguous()
         shift_input_ids = input_ids[..., 1:].contiguous()
         
-        # [新增] Shift answer_only_mask 以对齐预测目标
         if answer_only_mask is not None:
             shift_answer_mask = answer_only_mask[..., 1:].contiguous().view(-1)
         else:
@@ -94,25 +92,28 @@ class LatentReasoningQwen(nn.Module):
         valid_mask = flat_labels != -100
         
         # === 4. 区域划分 ===
-        is_extract = (flat_input_ids == self.extract_token_id)
-        is_reasoning = torch.zeros_like(flat_input_ids, dtype=torch.bool)
-        for rid in self.reasoning_token_ids:
-            is_reasoning |= (flat_input_ids == rid)
-            
-        # 特殊 Token 区域
-        is_special = (is_extract | is_reasoning) & valid_mask
+        # 区分 "Latent Feature Token" 和 "Text/Tag Token"
+        is_feature_token = torch.zeros_like(flat_input_ids, dtype=torch.bool)
+        for rid in self.feature_token_ids:
+            is_feature_token |= (flat_input_ids == rid)
+        if self.extract_token_id is not None:
+             is_feature_token |= (flat_input_ids == self.extract_token_id)
+
+        # 区域定义:
+        # 1. Latent Area: 需要做 MSE 的 Token (同时也会有极小的 CE Loss 保持语言模型能力)
+        is_latent_area = is_feature_token & valid_mask
         
-        # 普通文本区域 (包括前缀废话 + 最终答案)
-        is_answer_or_text = (~is_special) & valid_mask
+        # 2. Text Area: 所有非 Feature 的有效 Token (包括 <think>, <answer> 等结构标签)
+        is_text_area = (~is_feature_token) & valid_mask
         
         # === 5. 计算 Loss ===
         loss_fct = nn.CrossEntropyLoss(reduction='none') 
         ce_loss_all = loss_fct(flat_logits_v, flat_labels)
         
-        # A. Latent Loss (Special Tokens 的 CE Loss)
+        # A. Latent CE Loss (Feature Tokens 的分类 Loss)
         latent_ce_loss = torch.tensor(0.0, device=logits_v.device)
-        if is_special.sum() > 0:
-            latent_ce_loss = (ce_loss_all * is_special.float()).sum() / is_special.sum()
+        if is_latent_area.sum() > 0:
+            latent_ce_loss = (ce_loss_all * is_latent_area.float()).sum() / is_latent_area.sum()
         
         # B. MSE Loss (Feature Alignment)
         last_hidden_state = outputs_v.hidden_states[-1] 
@@ -124,7 +125,6 @@ class LatentReasoningQwen(nn.Module):
                 target_feat = alignment_features.get(stage.feature_key)
                 if target_feat is None: continue
                 
-                # 确保该 batch 中确实存在该 token
                 stage_mask = (input_ids == stage.token_id)
                 if stage_mask.sum() == 0: continue
 
@@ -132,7 +132,7 @@ class LatentReasoningQwen(nn.Module):
                     b_mask = stage_mask[b]
                     if b_mask.sum() > 0:
                         b_hidden = last_hidden_state[b][b_mask]
-                        # Mean Pool: 把多个 token 的隐层平均，去对齐一个 Global Feature
+                        # Mean Pool 对齐
                         b_proj = self.projectors[stage.name](b_hidden.mean(dim=0, keepdim=True))
                         target = target_feat[b].unsqueeze(0).to(dtype=b_proj.dtype, device=b_proj.device)
                         total_mse_loss += F.mse_loss(b_proj, target)
@@ -141,28 +141,27 @@ class LatentReasoningQwen(nn.Module):
         if mse_cnt > 0:
             total_mse_loss /= mse_cnt
 
-        # C. Answer Standard Loss (SFT)
-        # 计算所有非特殊 Token 的文本 Loss
+        # C. SFT Loss (普通文本 + 结构标签)
         ans_ce_loss = torch.tensor(0.0, device=logits_v.device)
-        if is_answer_or_text.sum() > 0:
-            ans_ce_loss = (ce_loss_all * is_answer_or_text.float()).sum() / is_answer_or_text.sum()
+        if is_text_area.sum() > 0:
+            ans_ce_loss = (ce_loss_all * is_text_area.float()).sum() / is_text_area.sum()
 
-        # D. VBC Loss (Visual Bottleneck Contrast)
+        # D. VBC Loss
         loss_vbc = torch.tensor(0.0, device=logits_v.device)
         
-        # [关键逻辑] 确定 VBC 计算范围
-        # 如果 scope 是 'answer' 且有 mask，则取交集：(是普通文本) AND (是最终答案)
+        # 确定 VBC 计算范围
         if self.config.vbc_target_scope == "answer" and shift_answer_mask is not None:
-            vbc_target_mask = is_answer_or_text & shift_answer_mask
+            # 仅在 Answer 标签内部计算 VBC
+            vbc_target_mask = shift_answer_mask & valid_mask
         else:
-            # 否则 (scope='full')，所有普通文本都计算
-            vbc_target_mask = is_answer_or_text
+            # 全文计算
+            vbc_target_mask = is_text_area
             
         if vbc_target_mask.sum() > 0:
             probs_blind = F.softmax(flat_logits_blind, dim=-1)
             p_blind_gt = probs_blind.gather(1, flat_labels.unsqueeze(1)).squeeze(1)
             
-            # ReLU(Margin - P_blind)
+            # 动态 Margin 加权
             weights = F.relu(self.config.vbc_margin - p_blind_gt)
             
             logits_diff = flat_logits_v - flat_logits_blind
@@ -172,7 +171,7 @@ class LatentReasoningQwen(nn.Module):
 
         # === Total ===
         total_loss = (
-            latent_ce_loss +  # [修正点] 之前为 loss_latent
+            latent_ce_loss +  
             ans_ce_loss * self.config.alpha_sft + 
             total_mse_loss * self.config.beta_mse +
             loss_vbc * self.config.lambda_vbc
