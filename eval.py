@@ -95,7 +95,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint", type=str, required=True, help="HF format checkpoint path")
     parser.add_argument("--config", type=str, default="./config/config.yaml")
-    parser.add_argument("--device", type=str, default="cuda")
+    parser.add_argument("--device", type=str, default="cuda:7")
+    # 新增 k1, k2 参数用于指定推理范围
+    parser.add_argument("--k1", type=int, default=10, help="Start index of samples")
+    parser.add_argument("--k2", type=int, default=20, help="End index of samples")
     args = parser.parse_args()
 
     # 1. 加载配置
@@ -106,25 +109,12 @@ def main():
     print(f"Loading Processor from {args.checkpoint}...")
     processor = Qwen2_5_VLProcessor.from_pretrained(args.checkpoint)
     
-    # eval.py 中加载 processor 后必须有这一步
-    # new_tokens = [
-    #     config.extract_token,
-    #     config.think_start, config.think_end,
-    #     config.answer_start, config.answer_end,
-    #     config.anchor_start, config.anchor_end
-    # ] + [stage.token for stage in config.stages]
-    new_tokens = config.get_all_special_tokens()
-
-    # 这一步非常关键！
-    processor.tokenizer.add_special_tokens({"additional_special_tokens": list(set(new_tokens))})
-
         
     # 3. 加载模型
     print("Loading Model...")
     model = LatentReasoningQwen(config)
     model.base_model = model.base_model.from_pretrained(args.checkpoint, torch_dtype=torch.bfloat16)
-    model.base_model.resize_token_embeddings(len(processor.tokenizer))
-    
+
     # 加载 Projector
     proj_path = os.path.join(args.checkpoint, "projectors.bin")
     if os.path.exists(proj_path):
@@ -136,55 +126,85 @@ def main():
     model.to(args.device)
     model.eval()
 
-    # 4. 获取训练集第一条数据
-    image_obj, question_text, ground_truth = get_training_sample(config)
+    # 4. 获取数据集 (优先从 eval_datasets 加载，如果没有则用 train_datasets)
+    ds_cfg = config.eval_datasets[0] if hasattr(config, 'eval_datasets') and config.eval_datasets else config.train_datasets[0]
+    print(f"\n[Data] Loading dataset: {ds_cfg.name} (Split: {ds_cfg.split}) for inference range [{args.k1}, {args.k2}]")
     
-    print("-" * 30)
-    print(f"Input Question: {question_text}")
-    print(f"Ground Truth:   {ground_truth}")
-    print("-" * 30)
+    try:
+        dataset = load_dataset(ds_cfg.name, split=ds_cfg.split)
+    except Exception as e:
+        raise RuntimeError(f"Failed to load dataset {ds_cfg.name}: {e}")
+    
+    ds_type = detect_type(ds_cfg.name)
+    results_summary = []
 
-    # 5. 构造输入
-    messages = [
-        {"role": "user", "content": [
-            {"type": "image", "image": image_obj},
-            {"type": "text", "text": question_text}
-        ]}
-    ]
-    
-    text_prompt = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    
-    inputs = processor(
-        text=[text_prompt],
-        images=[image_obj],
-        return_tensors="pt"
-    )
-    inputs = {k: v.to(args.device) for k, v in inputs.items()}
-    if "image_grid_thw" in inputs:
-        inputs["image_grid_thw"] = inputs["image_grid_thw"].to(args.device)
+    # 5. 循环推理 k1 到 k2 条数据
+    for idx in range(args.k1, args.k2 + 1):
+        if idx >= len(dataset):
+            print(f"Warning: Index {idx} out of range for dataset of size {len(dataset)}. Stopping.")
+            break
 
-    # 6. 生成
-    print("\n--- Start Autoregressive Generation ---")
-    
-    # 增加停止词处理，防止生成过长
-    stop_words = ["<|im_end|>", "<|endoftext|>"]
-    
-    with torch.no_grad():
-        generated_ids = model.base_model.generate(
-            **inputs,
-            max_new_tokens=512, 
-            use_cache=True, 
-            do_sample=False,
-            temperature=0.5,
-            top_p=0.9
+        print(f"\n>>> Processing Sample {idx} <<<")
+        raw_item = dataset[idx]
+        image_obj = load_sample_image(raw_item, ds_cfg)
+        question_text, ground_truth = format_sample_text(raw_item, ds_type)
+
+        # 构造输入
+        messages = [
+            {"role": "user", "content": [
+                {"type": "image", "image": image_obj},
+                {"type": "text", "text": question_text}
+            ]}
+        ]
+        
+        text_prompt = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        
+        inputs = processor(
+            text=[text_prompt],
+            images=[image_obj],
+            return_tensors="pt"
         )
-    
-    input_len = inputs['input_ids'].shape[1]
-    output_ids = generated_ids[0][input_len:]
-    output_text = processor.decode(output_ids, skip_special_tokens=False)
-    
-    print("\n--- Generated Output ---")
-    print(output_text)
+        inputs = {k: v.to(args.device) for k, v in inputs.items()}
+        if "image_grid_thw" in inputs:
+            inputs["image_grid_thw"] = inputs["image_grid_thw"].to(args.device)
+
+        # 生成
+        with torch.no_grad():
+            generated_ids = model.base_model.generate(
+                **inputs,
+                max_new_tokens=512, 
+                use_cache=True, 
+                do_sample=False,
+                temperature=0.5,
+                top_p=0.9
+            )
+        
+        input_len = inputs['input_ids'].shape[1]
+        output_ids = generated_ids[0][input_len:]
+        output_text = processor.decode(output_ids, skip_special_tokens=False)
+        
+        print(f"Input: {question_text[:]}...")
+        print(f"GT:    {ground_truth}")
+        print(f"Pred:  {output_text}")
+        
+        results_summary.append({
+            "idx": idx,
+            "question": question_text,
+            "ground_truth": ground_truth,
+            "prediction": output_text
+        })
+
+    # 6. 汇总打印
+    print("\n" + "="*50)
+    print(f"INFERENCE SUMMARY (Total: {len(results_summary)} samples)")
+    print("="*50)
+    for res in results_summary:
+        # 先在外部处理好换行符替换，避免在 f-string 内部使用反斜杠
+        pred_display = res['prediction'][:].replace('\n', ' ')
+        gt_display = res['ground_truth'][:].replace('\n', ' ')
+        
+        print(f"[{res['idx']}] GT: {gt_display} | PRED: {pred_display}")
+    print("="*50)
 
 if __name__ == "__main__":
     main()

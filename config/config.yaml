@@ -6,33 +6,33 @@ data:
   # === 模式选择 ===
   # "single": 使用 dataset_name 单数据集
   # "mix": 使用 mix_datasets 混合数据集
-  train_mode: "single"  
+  train_mode: "mix"  
   seed: 42
 
   # === 单数据集配置 ===
   dataset_name: "derek-thomas/ScienceQA"
-  dataset_split: "test"
+  dataset_split: "train"
   count: -1
   image_folder: " "
-  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_test"
+  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
   # === 混合数据集配置 ===
   mix_datasets:
     - name: "derek-thomas/ScienceQA"
       split: "train"
-      count: 100
+      count: 2000
       image_folder: " "
       feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
     - name: "Xkev/LLaVA-CoT-100k"
       split: "train"
-      count: 100
+      count: 2000
       image_folder: "/home/ma-user/work/lbx/dataset/LLaVA-CoT-100k"
       feature_dir: "./data/data_preprocessed/LLaVA-CoT-100k/aligned_features_LLaVA-CoT-100k_train"
 
     - name: "LightChen2333/M3CoT"
       split: "train"
-      count: 100
+      count: 2000
       image_folder: " "
       feature_dir: ""
 
