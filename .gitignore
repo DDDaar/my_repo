@@ -5,4 +5,4 @@ wandb/
 fusion_result.json
 ge_check_op.checkpoints
 checkpoints/
-
+./*.txt

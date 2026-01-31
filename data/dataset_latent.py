@@ -13,19 +13,26 @@ class LatentReasoningDataset(Dataset):
         # === 1. 构建完整的思维链模板 ===
         # 格式: [ExtractPrefix] + [ExtractTokens] + [Stage1Prefix] + [Stage1Tokens] ...
         
+        # === 修改后 (建议) ===
         # Extract 部分
         self.extract_str = ""
-        if config.extract_text_prefix:
+        # 【修改点】增加 config.extract_count > 0 的判断
+        if config.extract_count > 0 and config.extract_text_prefix:
             self.extract_str += config.extract_text_prefix
-        self.extract_str += (config.extract_token * config.extract_count)
-        
+            
+        if config.extract_count > 0:
+            self.extract_str += (config.extract_token * config.extract_count)
+
         # Reasoning Stages 部分
         self.reasoning_str = ""
         for stage in config.stages:
-            if stage.text_prefix:
-                self.reasoning_str += stage.text_prefix
-            self.reasoning_str += (stage.token * stage.count)
-            
+            # 【修改点】增加 stage.count > 0 的判断
+            if stage.count > 0:
+                if stage.text_prefix:
+                    self.reasoning_str += stage.text_prefix
+                self.reasoning_str += (stage.token * stage.count)
+
+        ##################################################################################        
         self.max_pixels = 768*768
         self.mixed_data = []
         
@@ -164,6 +171,10 @@ class LatentReasoningDataset(Dataset):
         
         # 3. 拼接全文
         full_text = user_prompt + assistant_response
+
+        # from time import sleep
+        # print(f'full_test是：{full_text}')
+        # sleep(500)
 
         # 4. Tokenize
         inputs = self.processor(
