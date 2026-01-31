@@ -48,6 +48,18 @@ def main():
 
     # 加载配置与种子
     config = LatentConfig.load("./config/config.yaml")
+
+    if len(config.train_datasets) == 1:
+        # 单数据集模式
+        raw_ds_name = config.train_datasets[0].name
+        # 将 "derek-thomas/ScienceQA" 转换为 "derek-thomas_ScienceQA"
+        dataset_dir_name = raw_ds_name.replace("/", "_")
+    else:
+        # 混合数据集模式
+        dataset_dir_name = "mixed_datasets"
+    print(f"--- Checkpoint Output Dir: ./checkpoints/{dataset_dir_name} ---")
+
+
     set_seed(config.seed) 
 
     if args.local_rank <= 0:
@@ -146,7 +158,8 @@ def main():
                 pbar.set_description(f"Ep {epoch} Loss {loss.item():.4f}")
 
         # Save Checkpoint
-        save_path = f"./checkpoints/epoch_{epoch}"
+        # save_path = f"./checkpoints/epoch_{epoch}"
+        save_path = f"./checkpoints/{dataset_dir_name}/epoch_{epoch}"
         model_engine.save_checkpoint(save_path)
         
         if args.local_rank <= 0:
