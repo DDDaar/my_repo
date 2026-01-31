@@ -171,8 +171,8 @@ class LatentReasoningDataset(Dataset):
         # === 2. 使用 apply_chat_template 生成完整 Prompt ===
         # Qwen2.5 的 template 会自动处理 <|im_start|>user ... <|im_end|><|im_start|>assistant ... <|im_end|>
         full_text = self.processor.apply_chat_template(messages, tokenize=False)
-        print(f'训练前的full text为：{full_text}')
-        sleep(1000)
+        # print(f'训练前的full text为：{full_text}')
+        # sleep(1000)
 
 
         # === 3. Tokenize ===

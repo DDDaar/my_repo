@@ -147,3 +147,20 @@ class LatentConfig:
             batch_size=cfg['training']['batch_size'],
             gradient_checkpointing=cfg['training'].get('gradient_checkpointing', False)
         )
+    
+    def get_all_special_tokens(self) -> List[str]:
+        """强制返回一个固定顺序的 Token 列表，确保 ID 永不偏移"""
+        tokens = [
+            self.think_start,
+            self.think_end,
+            self.answer_start,
+            self.answer_end,
+            self.anchor_start,
+            self.anchor_end,
+            self.extract_token
+        ]
+        # 加上推理阶段的 token
+        for stage in self.stages:
+            if stage.token not in tokens:
+                tokens.append(stage.token)
+        return tokens

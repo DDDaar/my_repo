@@ -107,12 +107,13 @@ def main():
     processor = Qwen2_5_VLProcessor.from_pretrained(args.checkpoint)
     
     # eval.py 中加载 processor 后必须有这一步
-    new_tokens = [
-        config.extract_token,
-        config.think_start, config.think_end,
-        config.answer_start, config.answer_end,
-        config.anchor_start, config.anchor_end
-    ] + [stage.token for stage in config.stages]
+    # new_tokens = [
+    #     config.extract_token,
+    #     config.think_start, config.think_end,
+    #     config.answer_start, config.answer_end,
+    #     config.anchor_start, config.anchor_end
+    # ] + [stage.token for stage in config.stages]
+    new_tokens = config.get_all_special_tokens()
 
     # 这一步非常关键！
     processor.tokenizer.add_special_tokens({"additional_special_tokens": list(set(new_tokens))})

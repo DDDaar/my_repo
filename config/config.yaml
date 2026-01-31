@@ -11,10 +11,10 @@ data:
 
   # === 单数据集配置 ===
   dataset_name: "derek-thomas/ScienceQA"
-  dataset_split: "train"
+  dataset_split: "test"
   count: -1
   image_folder: " "
-  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
+  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_test"
 
   # === 混合数据集配置 ===
   mix_datasets:
