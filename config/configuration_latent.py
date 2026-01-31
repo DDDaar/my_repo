@@ -55,6 +55,10 @@ class LatentConfig:
     # === 5. 运行时字段 ===
     extract_token_id: Optional[int] = None
     
+    # [新增] VBC 计算范围: "full" (包括引导词) 或 "answer" (仅最终答案)
+    vbc_target_scope: str = "answer" 
+    
+
     @classmethod
     def load(cls, path: str):
         with open(path, 'r') as f:
@@ -103,9 +107,6 @@ class LatentConfig:
                     image_folder=d_img_root,
                     feature_dir=d_feat_root
                 ))
-            else:
-                # 兜底防止报错，实际使用需配置正确
-                pass
 
         return cls(
             base_model=cfg['model']['base_model'],
@@ -126,6 +127,8 @@ class LatentConfig:
             beta_mse=cfg['training']['beta_mse'],
             lambda_vbc=cfg['training'].get('lambda_vbc', 0.5),
             vbc_margin=cfg['training'].get('vbc_margin', 0.8),
+            # 默认只对答案部分计算 VBC，避免惩罚引导词
+            vbc_target_scope=cfg['training'].get('vbc_target_scope', "answer"),
             
             batch_size=cfg['training']['batch_size'],
             gradient_checkpointing=cfg['training'].get('gradient_checkpointing', False)

@@ -6,8 +6,8 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-[2026-01-31 10:34:43,661] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
-[2026-01-31 10:34:43,662] [INFO] [runner.py:630:main] cmd = /home/ma-user/anaconda3/envs/my_repo/bin/python3.1 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train.py --deepspeed_config ./config/zero2_config.json --wandb_project test --wandb_run_name test
+[2026-01-31 11:00:40,389] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2026-01-31 11:00:40,389] [INFO] [runner.py:630:main] cmd = /home/ma-user/anaconda3/envs/my_repo/bin/python3.1 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train.py --deepspeed_config ./config/zero2_config.json --wandb_project test --wandb_run_name test
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
@@ -16,36 +16,28 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-[2026-01-31 10:34:56,378] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
-[2026-01-31 10:34:56,378] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=8, node_rank=0
-[2026-01-31 10:34:56,378] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
-[2026-01-31 10:34:56,378] [INFO] [launch.py:180:main] dist_world_size=8
-[2026-01-31 10:34:56,378] [INFO] [launch.py:184:main] Setting ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-[2026-01-31 10:34:56,379] [INFO] [launch.py:272:main] process 1846431 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=0', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 10:34:56,380] [INFO] [launch.py:272:main] process 1846432 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=1', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 10:34:56,381] [INFO] [launch.py:272:main] process 1846433 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=2', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 10:34:56,382] [INFO] [launch.py:272:main] process 1846434 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=3', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 10:34:56,383] [INFO] [launch.py:272:main] process 1846435 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=4', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 10:34:56,384] [INFO] [launch.py:272:main] process 1846436 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=5', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 10:34:56,385] [INFO] [launch.py:272:main] process 1846437 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=6', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-[2026-01-31 10:34:56,385] [INFO] [launch.py:272:main] process 1846438 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+[2026-01-31 11:00:52,004] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
+[2026-01-31 11:00:52,004] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=8, node_rank=0
+[2026-01-31 11:00:52,004] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
+[2026-01-31 11:00:52,004] [INFO] [launch.py:180:main] dist_world_size=8
+[2026-01-31 11:00:52,004] [INFO] [launch.py:184:main] Setting ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+[2026-01-31 11:00:52,006] [INFO] [launch.py:272:main] process 1934845 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=0', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 11:00:52,007] [INFO] [launch.py:272:main] process 1934846 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=1', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 11:00:52,007] [INFO] [launch.py:272:main] process 1934848 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=2', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 11:00:52,008] [INFO] [launch.py:272:main] process 1934851 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=3', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 11:00:52,009] [INFO] [launch.py:272:main] process 1934852 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=4', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 11:00:52,010] [INFO] [launch.py:272:main] process 1934853 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=5', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 11:00:52,011] [INFO] [launch.py:272:main] process 1934854 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=6', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
+[2026-01-31 11:00:52,012] [INFO] [launch.py:272:main] process 1934855 spawned with command: ['/home/ma-user/anaconda3/envs/my_repo/bin/python3.1', '-u', 'train.py', '--local_rank=7', '--deepspeed_config', './config/zero2_config.json', '--wandb_project', 'test', '--wandb_run_name', 'test']
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
-  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
@@ -63,13 +55,21 @@
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/latest owner does not match the current owner.
+  warnings.warn(f"Warning: The {path} owner does not match the current owner.")
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/torch_npu/utils/collect_env.py:58: UserWarning: Warning: The /usr/local/Ascend/ascend-toolkit/8.2.RC1/aarch64-linux/ascend_toolkit_install.info owner does not match the current owner.
   warnings.warn(f"Warning: The {path} owner does not match the current owner.")
@@ -112,26 +112,6 @@
   if not dirpath.find("AppData\Local\Temp"):
 /usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
   if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
-  if not dirpath.find("AppData\Local\Temp"):
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
-/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
-  """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
@@ -143,6 +123,26 @@
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
   """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
+  """
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/8.2.RC1/python/site-packages/tbe/tvm/contrib/ccec.py:866: DeprecationWarning: invalid escape sequence '\L'
+  if not dirpath.find("AppData\Local\Temp"):
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
+  """
+/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/classifier/transdata/transdata_classifier.py:222: DeprecationWarning: invalid escape sequence '\B'
   """
 /usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/dsl/unify_schedule/vector/transdata/common/graph/transdata_graph_info.py:143: DeprecationWarning: invalid escape sequence '\c'
   """
@@ -171,710 +171,87 @@ wandb: Currently logged in as: libx22 (libx22-tsinghua-university) to https://ap
   self.scope.user = {"email": email}
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
-wandb: setting up run an5h5fl3
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
 You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+wandb: setting up run 5s9lvzcq
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/wandb/analytics/sentry.py:279: DeprecationWarning: The `Scope.user` setter is deprecated in favor of `Scope.set_user()`.
   self.scope.user = {"email": email}
 wandb: Tracking run with wandb version 0.23.1
-wandb: Run data is saved locally in /home/ma-user/work/lbx/my_repo/wandb/run-20260131_103532-an5h5fl3
+wandb: Run data is saved locally in /home/ma-user/work/lbx/my_repo/wandb/run-20260131_110126-5s9lvzcq
 wandb: Run `wandb offline` to turn off syncing.
 wandb: Syncing run test
 wandb: ⭐️ View project at https://wandb.ai/libx22-tsinghua-university/test
-wandb: 🚀 View run at https://wandb.ai/libx22-tsinghua-university/test/runs/an5h5fl3
-You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+wandb: 🚀 View run at https://wandb.ai/libx22-tsinghua-university/test/runs/5s9lvzcq
 Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.19it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.79it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.33it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.17it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.64it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.97it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.48it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.00it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.43it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.37it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.21it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.00it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.07it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.79it/s]
 
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.90it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.08it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.71it/s]
-Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.42it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.10it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.32it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.06it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.68it/s]
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.99it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.57it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.23it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.07it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.72it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.37it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.22it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.95it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.57it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.22it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.82it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.42it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.18it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.06it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.23it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.84it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.87it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.51it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.64it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.30it/s]
+You have video processor config saved in `preprocessor.json` file which is deprecated. Video processor configs should be saved in their own `video_preprocessor.json` file. You can rename the file or load and save the processor back which renames it automatically. Loading from `preprocessor.json` will be removed in v5.0.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.05it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.62it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.28it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.16it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.86it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  4.49it/s]
 --- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+Loading: derek-thomas/ScienceQA | Split: train
 --- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+Loading: derek-thomas/ScienceQA | Split: train
 --- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+Loading: derek-thomas/ScienceQA | Split: train
 --- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+Loading: derek-thomas/ScienceQA | Split: train
 --- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+Loading: derek-thomas/ScienceQA | Split: train
 --- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
+Loading: derek-thomas/ScienceQA | Split: train
 --- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
- -> Raw dataset size: 12726. Scanning for valid features...
- -> Raw dataset size: 12726. Scanning for valid features...
+Loading: derek-thomas/ScienceQA | Split: train
 --- Initializing Dataset (Seed: 42) ---
-Loading: derek-thomas/ScienceQA | Split: train | Target Count: -1
- -> Raw dataset size: 12726. Scanning for valid features...
- -> Raw dataset size: 12726. Scanning for valid features...
- -> Raw dataset size: 12726. Scanning for valid features...
- -> Raw dataset size: 12726. Scanning for valid features...
- -> Raw dataset size: 12726. Scanning for valid features...
- -> Raw dataset size: 12726. Scanning for valid features...
- -> Final valid samples loaded: 6218
- -> Final valid samples loaded: 6218
---- Total Mix Samples Ready: 6218 ---
---- Total Mix Samples Ready: 6218 ---
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
- -> Final valid samples loaded: 6218 -> Final valid samples loaded: 6218
-
---- Total Mix Samples Ready: 6218 ------ Total Mix Samples Ready: 6218 ---
-
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
-  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
- -> Final valid samples loaded: 6218
---- Total Mix Samples Ready: 6218 ---
+Loading: derek-thomas/ScienceQA | Split: train
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
+ -> Valid samples: 6218
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
+--- Total Samples: 6218 ---
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
   self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
   self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
   self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
- -> Final valid samples loaded: 6218
---- Total Mix Samples Ready: 6218 ---
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
   self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
- -> Final valid samples loaded: 6218
---- Total Mix Samples Ready: 6218 ---
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
   self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
- -> Final valid samples loaded: 6218
---- Total Mix Samples Ready: 6218 ---
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
 /home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
   self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
-[rank0]:[W131 10:36:34.375561960 compiler_depend.ts:65] Warning: Warning: The torch.npu.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='npu') to create tensors. (function operator())
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+ -> Valid samples: 6218
+--- Total Samples: 6218 ---
+/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/runtime/config.py:658: ResourceWarning: unclosed file <_io.TextIOWrapper name='./config/zero2_config.json' mode='r' encoding='UTF-8'>
+  self._param_dict = hjson.load(open(config, "r"), object_pairs_hook=dict_raise_error_on_duplicate_keys)
+[rank0]:[W131 11:02:28.576112493 compiler_depend.ts:65] Warning: Warning: The torch.npu.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='npu') to create tensors. (function operator())
 Before initializing optimizer states
 MA 8.45 GB         Max_MA 9.16 GB         CA 9.26 GB         Max_CA 9 GB 
-CPU Virtual Memory:  used = 116.47 GB, percent = 7.7%
+CPU Virtual Memory:  used = 114.24 GB, percent = 7.6%
 After initializing optimizer states
 MA 8.45 GB         Max_MA 9.88 GB         CA 10.7 GB         Max_CA 11 GB 
-CPU Virtual Memory:  used = 114.23 GB, percent = 7.6%
+CPU Virtual Memory:  used = 115.46 GB, percent = 7.6%
 After initializing ZeRO optimizer
 MA 8.45 GB         Max_MA 8.45 GB         CA 10.7 GB         Max_CA 11 GB 
-CPU Virtual Memory:  used = 114.88 GB, percent = 7.6%
-  0%|          | 0/195 [00:00<?, ?it/s][rank0]:[W131 10:36:46.264191227 compiler_depend.ts:164] Warning: Warning: Device do not support double dtype now, dtype cast repalce with float. (function operator())
-Ep 0 Loss 28.3660:   0%|          | 0/195 [00:14<?, ?it/s]Ep 0 Loss 28.3660:   1%|          | 1/195 [00:14<47:44, 14.76s/it]Ep 0 Loss 19.9398:   1%|          | 1/195 [00:16<47:44, 14.76s/it]Ep 0 Loss 19.9398:   1%|          | 2/195 [00:16<23:29,  7.30s/it]Ep 0 Loss 12.2505:   1%|          | 2/195 [00:19<23:29,  7.30s/it]Ep 0 Loss 12.2505:   2%|▏         | 3/195 [00:19<16:15,  5.08s/it]Ep 0 Loss 11.6850:   2%|▏         | 3/195 [00:21<16:15,  5.08s/it]Ep 0 Loss 11.6850:   2%|▏         | 4/195 [00:21<12:58,  4.07s/it]Ep 0 Loss 13.2153:   2%|▏         | 4/195 [00:23<12:58,  4.07s/it]Ep 0 Loss 13.2153:   3%|▎         | 5/195 [00:23<10:36,  3.35s/it]Ep 0 Loss 9.3307:   3%|▎         | 5/195 [00:27<10:36,  3.35s/it] Ep 0 Loss 9.3307:   3%|▎         | 6/195 [00:27<10:22,  3.30s/it]Ep 0 Loss 8.4187:   3%|▎         | 6/195 [00:29<10:22,  3.30s/it]Ep 0 Loss 8.4187:   4%|▎         | 7/195 [00:29<09:30,  3.03s/it][2026-01-31 10:37:12,510] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 1846431
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-[ERROR] TBE Subprocess[task_distribute] raise error[], main process disappeared!
-Exception in thread Thread-1:
-Traceback (most recent call last):
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-Exception in thread Thread-1:
-Traceback (most recent call last):
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
-    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
-               self.run()   
-          File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
-        ^^^^^^^^^^    ^key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)^
-^^^^^^^^^ ^ ^ ^^ ^ ^^ ^ ^ ^ ^ 
-    File "<string>", line 2, in get
-     File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
-               ^^    ^kind, result = conn.recv()^
-^^^ ^   ^ ^ ^ ^ ^ ^ ^ ^ ^^ ^ ^ ^ ^ ^ ^ ^^^^^^^^^^^^^^^^
-^^  File "<string>", line 2, in get
-^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
-    buf = self._recv_bytes()
-    kind, result = conn.recv() 
-             ^ ^ ^ ^^ ^ ^ ^ ^ ^ ^ ^ ^^ ^ ^ ^ ^^
-^^^  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
-^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
-    buf = self._recv(4)
- Exception in thread        buf = self._recv_bytes() 
-       ^ ^ ^ ^ ^ ^ ^ ^ ^^^^^^^^^^
-^^  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
-^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
-    raise EOFError    
-buf = self._recv(4)
-EOFError  
-        ^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
-    raise EOFError
-EOFError
-Thread-1:
-Traceback (most recent call last):
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
-    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
-                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<string>", line 2, in get
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
-    kind, result = conn.recv()
-                   ^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
-    buf = self._recv_bytes()
-          ^^^^^^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
-    buf = self._recv(4)
-          ^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
-    raise EOFError
-EOFError
-Exception in thread Thread-1:
-Traceback (most recent call last):
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
-    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
-                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<string>", line 2, in get
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
-    kind, result = conn.recv()
-                   ^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
-    buf = self._recv_bytes()
-          ^^^^^^^^^^^Exception in thread ^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
-    buf = self._recv(4)
-Thread-1:
-    Traceback (most recent call last):
-   File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-     ^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
-    raise EOFError
-EOFError
-    self.run()
-  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
-    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
-                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<string>", line 2, in get
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
-    kind, result = conn.recv()
-                   ^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
-    buf = self._recv_bytes()
-          ^^^^^^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
-    buf = self._recv(4)
-          ^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
-    raise EOFError
-EOFError
-Exception in thread Thread-1:
-Traceback (most recent call last):
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
-    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
-     socket.send() raised exception.
-    socket.send() raised exception.
-socket.send() raised exception.
-   socket.send() raised exception.
-socket.send() raised exception.
-   socket.send() raised exception.
- socket.send() raised exception.
-   socket.send() raised exception.
-socket.send() raised exception.
-  socket.send() raised exception.
- socket.send() raised exception.
-   socket.send() raised exception.
- socket.send() raised exception.
-  socket.send() raised exception.
-socket.send() raised exception.
-  ^socket.send() raised exception.
-socket.send() raised exception.
-^^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^^socket.send() raised exception.
-socket.send() raised exception.
-^^socket.send() raised exception.
-socket.send() raised exception.
-^^^^socket.send() raised exception.
-socket.send() raised exception.
-^socket.send() raised exception.
-
-socket.send() raised exception.
-  File "<string>", line 2, in get
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
-socket.send() raised exception.
-socket.send() raised exception.
-Exception in thread Thread-1:
-Traceback (most recent call last):
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
-    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
-                          socket.send() raised exception.
-    ^socket.send() raised exception.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<string>", line 2, in get
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
-        kind, result = conn.recv()
- kind, result = conn.recv()                  ^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
-    buf = self._recv_bytes()
-          ^^^^^^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
-    buf = self._recv(4)
-
-    socket.send() raised exception.
-      ^^^^^^socket.send() raised exception.
-^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
-    raise EOFError
-EOFError
-   socket.send() raised exception.
-socket.send() raised exception.
-    socket.send() raised exception.
- socket.send() raised exception.
-   socket.send() raised exception.
-socket.send() raised exception.
-   socket.send() raised exception.
-socket.send() raised exception.
-   socket.send() raised exception.
-socket.send() raised exception.
-  ^socket.send() raised exception.
-socket.send() raised exception.
-^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^
-socket.send() raised exception.
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
-socket.send() raised exception.
-socket.send() raised exception.
-    socket.send() raised exception.
-buf = self._recv_bytes()
- socket.send() raised exception.
-socket.send() raised exception.
-   socket.send() raised exception.
-socket.send() raised exception.
-    socket.send() raised exception.
-socket.send() raised exception.
-  ^^socket.send() raised exception.
-socket.send() raised exception.
-^^^socket.send() raised exception.
-^socket.send() raised exception.
-^^^^socket.send() raised exception.
-^socket.send() raised exception.
-^^^^^socket.send() raised exception.
-^socket.send() raised exception.
-^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
-socket.send() raised exception.
-socket.send() raised exception.
-    socket.send() raised exception.
-socket.send() raised exception.
-buf = self._recv(4)
-   socket.send() raised exception.
-socket.send() raised exception.
-    socket.send() raised exception.
-socket.send() raised exception.
-   ^^socket.send() raised exception.
-^socket.send() raised exception.
-^^^^^socket.send() raised exception.
-socket.send() raised exception.
-^^^^socket.send() raised exception.
-socket.send() raised exception.
-^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
-socket.send() raised exception.
-socket.send() raised exception.
-    raise EOFErrorsocket.send() raised exception.
-
-socket.send() raised exception.
-EOFError
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-Traceback (most recent call last):
-  File "/home/ma-user/anaconda3/envs/my_repo/bin/deepspeed", line 6, in <module>
-socket.send() raised exception.
-socket.send() raised exception.
-    main()
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/site-packages/deepspeed/launcher/runner.py", line 646, in main
-    result.wait()
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/subprocess.py", line 1264, in wait
-    return self._wait(timeout=timeout)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/subprocess.py", line 2053, in _wait
-    (pid, sts) = self._try_wait(0)
-                 ^^^^^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/subprocess.py", line 2011, in _try_wait
-    (pid, sts) = os.waitpid(self.pid, wait_flags)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-KeyboardInterrupt
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-Exception in thread Thread-1:
-Traceback (most recent call last):
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/usr/local/Ascend/ascend-toolkit/latest/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 91, in run
-    key, func, args, kwargs = self.task_q.get(timeout=TIMEOUT)
-                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<string>", line 2, in get
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/managers.py", line 822, in _callmethod
-    kind, result = conn.recv()
-                   ^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 250, in recv
-    buf = self._recv_bytes()
-          ^^^^^^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 430, in _recv_bytes
-socket.send() raised exception.
-socket.send() raised exception.
-    buf = self._recv(4)
-          ^^^^^^^^^^^^^
-  File "/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/connection.py", line 399, in _recv
-    raise EOFError
-EOFError
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-[2026-01-31 10:37:13,952] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 1846431
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-socket.send() raised exception.
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
-[2026-01-31 10:37:17,535] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 1846432
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
-[2026-01-31 10:37:19,785] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 1846433
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
-[2026-01-31 10:37:22,052] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 1846434
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
-[2026-01-31 10:37:24,474] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 1846435
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
-[2026-01-31 10:37:26,595] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 1846436
-/home/ma-user/anaconda3/envs/my_repo/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 30 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
-[2026-01-31 10:37:28,688] [INFO] [launch.py:335:sigkill_handler] Killing subprocess 1846437
+CPU Virtual Memory:  used = 115.95 GB, percent = 7.7%
+  0%|          | 0/195 [00:00<?, ?it/s][rank0]:[W131 11:02:42.741223788 compiler_depend.ts:164] Warning: Warning: Device do not support double dtype now, dtype cast repalce with float. (function operator())
+Ep 0 Loss 28.3348:   0%|          | 0/195 [00:15<?, ?it/s]Ep 0 Loss 28.3348:   1%|          | 1/195 [00:15<48:48, 15.10s/it]Ep 0 Loss 20.3264:   1%|          | 1/195 [00:17<48:48, 15.10s/it]Ep 0 Loss 20.3264:   1%|          | 2/195 [00:17<23:50,  7.41s/it]Ep 0 Loss 12.4347:   1%|          | 2/195 [00:19<23:50,  7.41s/it]Ep 0 Loss 12.4347:   2%|▏         | 3/195 [00:19<16:17,  5.09s/it]Ep 0 Loss 13.0152:   2%|▏         | 3/195 [00:21<16:17,  5.09s/it]Ep 0 Loss 13.0152:   2%|▏         | 4/195 [00:21<12:55,  4.06s/it]Ep 0 Loss 13.9003:   2%|▏         | 4/195 [00:23<12:55,  4.06s/it]Ep 0 Loss 13.9003:   3%|▎         | 5/195 [00:23<10:34,  3.34s/it]Ep 0 Loss 10.1232:   3%|▎         | 5/195 [00:27<10:34,  3.34s/it]Ep 0 Loss 10.1232:   3%|▎         | 6/195 [00:27<10:18,  3.27s/it]Ep 0 Loss 9.1644:   3%|▎         | 6/195 [00:29<10:18,  3.27s/it] Ep 0 Loss 9.1644:   4%|▎         | 7/195 [00:29<09:24,  3.00s/it]Ep 0 Loss 8.5969:   4%|▎         | 7/195 [00:31<09:24,  3.00s/it]Ep 0 Loss 8.5969:   4%|▍         | 8/195 [00:31<07:46,  2.50s/it]Ep 0 Loss 7.2139:   4%|▍         | 8/195 [00:32<07:46,  2.50s/it]Ep 0 Loss 7.2139:   5%|▍         | 9/195 [00:32<07:01,  2.27s/it]Ep 0 Loss 6.6979:   5%|▍         | 9/195 [00:35<07:01,  2.27s/it]Ep 0 Loss 6.6979:   5%|▌         | 10/195 [00:35<07:14,  2.35s/it]Ep 0 Loss 4.7446:   5%|▌         | 10/195 [00:36<07:14,  2.35s/it]Ep 0 Loss 4.7446:   6%|▌         | 11/195 [00:36<06:30,  2.12s/it]Ep 0 Loss 5.6696:   6%|▌         | 11/195 [00:39<06:30,  2.12s/it]Ep 0 Loss 5.6696:   6%|▌         | 12/195 [00:39<06:42,  2.20s/it]Ep 0 Loss 4.3786:   6%|▌         | 12/195 [00:41<06:42,  2.20s/it]Ep 0 Loss 4.3786:   7%|▋         | 13/195 [00:41<06:43,  2.22s/it]Ep 0 Loss 3.4155:   7%|▋         | 13/195 [00:43<06:43,  2.22s/it]Ep 0 Loss 3.4155:   7%|▋         | 14/195 [00:43<06:36,  2.19s/it]

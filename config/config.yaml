@@ -70,7 +70,12 @@ training:
   beta_mse: 0.2      # 隐层对齐 Loss
   lambda_vbc: 0.2    # VBC 对比 Loss
   vbc_margin: 0.5    # VBC 动态权重阈值
-  
+
   batch_size: 4
   learning_rate: 5e-5
   gradient_checkpointing: True
+
+  vbc_target_scope: "answer"
+
+
+
