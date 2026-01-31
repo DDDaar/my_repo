@@ -160,6 +160,10 @@ class LatentReasoningDataset(Dataset):
         # 用于定位答案起始位置的辅助文本 (User + 废话前缀)
         text_until_answer = user_prompt + assistant_prefix
 
+        import time
+        print(full_text)
+        time.sleep(1999)
+
         # 4. Tokenize 全文
         inputs = self.processor(
             text=[full_text], 

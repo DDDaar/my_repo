@@ -1,22 +1,20 @@
 import os
 import torch
+from torch_npu.contrib import transfer_to_npu # 若非 Ascend NPU 可注释
 import argparse
 from transformers import Qwen2_5_VLProcessor
 from model.modeling_latent_qwen import LatentReasoningQwen
 from config.configuration_latent import LatentConfig
+from data.dataset_latent import LatentReasoningDataset
 from PIL import Image
 
-def load_image(image_path):
-    if not os.path.exists(image_path):
-        return Image.new('RGB', (224, 224), (0, 0, 0))
-    return Image.open(image_path).convert("RGB")
+
+#/home/ma-user/work/lbx/models/Qwen2.5-VL-3B-Instruct
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint", type=str, required=True, help="HF format checkpoint path")
+    parser.add_argument("--checkpoint", type=str, default="/home/ma-user/work/lbx/my_repo/checkpoints/derek-thomas_ScienceQA/epoch_0/hf_format", help="HF format checkpoint path")
     parser.add_argument("--config", type=str, default="./config/config.yaml")
-    parser.add_argument("--image_path", type=str, default="test.jpg")
-    parser.add_argument("--question", type=str, default="Describe the image in detail.")
     parser.add_argument("--device", type=str, default="cuda")
     args = parser.parse_args()
 
@@ -25,15 +23,16 @@ def main():
     config = LatentConfig.load(args.config)
     
     # 2. 加载 Processor 和 Model
-    print(f"Loading Model from {args.checkpoint}...")
+    print(f"Loading Processor & Model from {args.checkpoint}...")
     processor = Qwen2_5_VLProcessor.from_pretrained(args.checkpoint)
     
-    # 确保 config ID 与 tokenizer 同步
+    # 同步 Config ID
     config.extract_token_id = processor.tokenizer.convert_tokens_to_ids(config.extract_token)
     for stage in config.stages:
         stage.token_id = processor.tokenizer.convert_tokens_to_ids(stage.token)
         
     model = LatentReasoningQwen(config)
+    # 加载 base_model 权重
     model.base_model = model.base_model.from_pretrained(args.checkpoint, torch_dtype=torch.bfloat16)
     
     # 加载 Projector 权重
@@ -45,55 +44,67 @@ def main():
     model.to(args.device)
     model.eval()
 
-    # 3. 构造输入 (仅 User Prompt)
+    # 3. 初始化数据集并获取第一条数据
+    print(f"Initializing dataset to fetch the first sample...")
+    dataset = LatentReasoningDataset(processor, config)
+    if len(dataset) == 0:
+        print("❌ Dataset is empty. Check your config.yaml and data paths.")
+        return
+    
+    # 获取第一条数据（包含 raw_item）
+    first_item_wrapper = dataset.mixed_data[0]
+    image = dataset._load_image(first_item_wrapper)
+    prompt_text, ground_truth = dataset._format_text(first_item_wrapper)
+    
+    print("\n--- Input Info ---")
+    print(f"Dataset: {first_item_wrapper['cfg'].name}")
+    print(f"Question: {prompt_text}")
+    print(f"Ground Truth: {ground_truth}")
+
+    # 4. 构造推理输入
     messages = [
         {"role": "user", "content": [
-            {"type": "image", "image": args.image_path},
-            {"type": "text", "text": args.question}
+            {"type": "image", "image": image},
+            {"type": "text", "text": prompt_text}
         ]}
     ]
     
     text_prompt = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    image_obj = load_image(args.image_path)
     
     inputs = processor(
         text=[text_prompt],
-        images=[image_obj],
+        images=[image],
         return_tensors="pt"
     )
     inputs = {k: v.to(args.device) for k, v in inputs.items()}
-    if "image_grid_thw" in inputs:
-        inputs["image_grid_thw"] = inputs["image_grid_thw"].to(args.device)
 
-    # 4. 自回归生成
+    # 5. 自回归生成
     print("\n--- Start Autoregressive Generation ---")
     with torch.no_grad():
-        # max_new_tokens 设置大一点，因为包含了 Reasoning Chain
         generated_ids = model.base_model.generate(
             **inputs,
             max_new_tokens=512, 
             use_cache=True, 
-            do_sample=True,
-            temperature=0.7,
-            top_p=0.9
+            do_sample=False, # 设为 False 以获得更稳定的结果
         )
     
-    # 5. 解码并展示
+    # 6. 解码并展示
     input_len = inputs['input_ids'].shape[1]
     output_ids = generated_ids[0][input_len:]
-    
-    # 不跳过特殊 token，以便观察是否生成了 <ext> 等
     output_text = processor.decode(output_ids, skip_special_tokens=False)
     
-    print("\n--- Generated Output ---")
+    print("\n--- Generated Output (Raw) ---")
     print(output_text)
     print("\n----------------------")
     
-    # 验证是否按照预期生成
-    if config.extract_text_prefix.strip() in output_text:
-        print("✅ Extract Prefix detected.")
+    # 检查隐式推理链是否生效
+    has_prefix = config.extract_text_prefix.strip() in output_text
+    has_stages = any(s.token in output_text for s in config.stages)
+    
+    if has_prefix or has_stages:
+        print("✅ Latent Reasoning Chain detected in output.")
     else:
-        print("❌ Extract Prefix missing (Model might need more training).")
+        print("❌ Model generated direct answer without latent chain.")
 
 if __name__ == "__main__":
     main()
