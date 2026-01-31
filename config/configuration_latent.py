@@ -41,8 +41,8 @@ class LatentConfig:
     think_end: str
     answer_start: str
     answer_end: str
-    # anchor_start: str
-    # anchor_end: str
+    anchor_start: str
+    anchor_end: str
 
     stages: List[ReasoningStage]
     
@@ -63,6 +63,8 @@ class LatentConfig:
     # [新增] 用于 Dataset 定位 Mask 的关键 ID
     answer_start_id: Optional[int] = None
     answer_end_id: Optional[int] = None
+
+    use_anchor: bool = False
 
     @classmethod
     def load(cls, path: str):
@@ -131,9 +133,11 @@ class LatentConfig:
             think_end=tokens_cfg.get('think_end', "</think>"),
             answer_start=tokens_cfg.get('answer_start', "<answer>"),
             answer_end=tokens_cfg.get('answer_end', "</answer>"),
-            # anchor_start=tokens_cfg.get('anchor_start', "<|anchor_start|>"),
-            # anchor_end=tokens_cfg.get('anchor_end', "<|anchor_end|>"),
-            
+            anchor_start=tokens_cfg.get('anchor_start', "<|anchor_start|>"),
+            anchor_end=tokens_cfg.get('anchor_end', "<|anchor_end|>"),
+
+            use_anchor=tokens_cfg.get('use_anchor', False),
+
             stages=stages,
             
             # 训练超参
@@ -155,12 +159,12 @@ class LatentConfig:
             self.think_end,
             self.answer_start,
             self.answer_end,
-            # self.anchor_start,
-            # self.anchor_end,
             self.extract_token
         ]
         # 加上推理阶段的 token
         for stage in self.stages:
             if stage.token not in tokens:
                 tokens.append(stage.token)
+        if self.use_anchor:
+            tokens.extend([self.anchor_start, self.anchor_end])
         return tokens

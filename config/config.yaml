@@ -10,31 +10,39 @@ data:
   seed: 42
 
   # === 单数据集配置 ===
-  dataset_name: "derek-thomas/ScienceQA"
+  dataset_name: "Xkev/LLaVA-CoT-100k"
   dataset_split: "train"
   count: -1
-  image_folder: " "
-  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
+  image_folder: "/home/ma-user/work/lbx/dataset/LLaVA-CoT-100k"
+  feature_dir: "./data/data_preprocessed/LLaVA-CoT-100k/aligned_features_LLaVA-CoT-100k_train"
+
+
+  # # === 单数据集配置 ===
+  # dataset_name: "derek-thomas/ScienceQA"
+  # dataset_split: "train"
+  # count: -1
+  # image_folder: " "
+  # feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
   # === 混合数据集配置 ===
   mix_datasets:
     - name: "derek-thomas/ScienceQA"
       split: "train"
-      count: 2000
+      count: -1
       image_folder: " "
       feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
     - name: "Xkev/LLaVA-CoT-100k"
       split: "train"
-      count: 2000
+      count: -1
       image_folder: "/home/ma-user/work/lbx/dataset/LLaVA-CoT-100k"
       feature_dir: "./data/data_preprocessed/LLaVA-CoT-100k/aligned_features_LLaVA-CoT-100k_train"
 
     - name: "LightChen2333/M3CoT"
       split: "train"
-      count: 2000
+      count: -1
       image_folder: " "
-      feature_dir: ""
+      feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_train"
 
 tokens:
   # Extract 阶段 Token
@@ -47,8 +55,9 @@ tokens:
   think_end: "</think>"
   answer_start: "<answer>"
   answer_end: "</answer>"
-  # anchor_start: "<|anchor_start|>"
-  # anchor_end: "<|anchor_end|>"
+  anchor_start: "<|anchor_start|>"
+  anchor_end: "<|anchor_end|>"
+  use_anchor: false
 
 reasoning_stages:
   - name: "semantic"
@@ -75,12 +84,12 @@ reasoning_stages:
 training:
   epochs: 1
   alpha_sft: 1.0     
-  beta_mse: 0.2      
-  lambda_vbc: 0.2    
-  vbc_margin: 0.5    
+  beta_mse: 0.1      
+  lambda_vbc: 0.1    
+  vbc_margin: 0.6    
 
-  batch_size: 1
-  learning_rate: 5e-5
+  batch_size: 2
+  learning_rate: 5e-8
   gradient_checkpointing: True
 
   # 计算 VBC Loss 的范围: "answer" (仅最终答案) 或 "full" (全部回复)
