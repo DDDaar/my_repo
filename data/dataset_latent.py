@@ -160,6 +160,10 @@ class LatentReasoningDataset(Dataset):
             else:
                 answer_text = str(ans_idx)
 
+            solution = item.get('solution', '')
+            if solution is not None:
+                answer_text = f'{solution}\nSo the answer is '+ answer_text
+
         return prompt_text, answer_text
 
     def _load_image(self, item_wrapper):

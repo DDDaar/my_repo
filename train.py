@@ -356,7 +356,7 @@ def main():
 
         # Save Checkpoint
         save_path = f"./checkpoints/{dataset_dir_name}/epoch_{epoch}"
-        model_engine.save_checkpoint(save_path)
+        # model_engine.save_checkpoint(save_path)
         
         if args.local_rank <= 0:
             hf_path = os.path.join(save_path, "hf_format")
@@ -364,7 +364,7 @@ def main():
             model_engine.module.base_model.save_pretrained(hf_path, safe_serialization=True)
             processor.save_pretrained(hf_path)
             torch.save(model_engine.module.projectors.state_dict(), os.path.join(hf_path, "projectors.bin"))
-            print('hf格式模型保存完毕！')
+            print(f'hf格式模型保存完毕！{hf_path}')
 
     if args.local_rank <= 0: wandb.finish()
 
