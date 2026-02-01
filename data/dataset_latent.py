@@ -99,18 +99,45 @@ class LatentReasoningDataset(Dataset):
         
         prompt_text = ""
         answer_text = ""
+        
+        # 标准选项标签
+        labels_map = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
         if ds_type == "m3cot":
             prompt_parts = []
-            if item.get('context'): prompt_parts.append(f"Context: {item['context']}")
+            # Context
+            if item.get('context'): 
+                prompt_parts.append(f"Context: {item['context']}")
+            
+            # Question
             prompt_parts.append(f"Question: {item['question']}")
+            
+            # Options (Formatted vertically with letters)
             if item.get('choices'):
-                labels = ['A', 'B', 'C', 'D', 'E', 'F']
-                choices_fmt = [f"{labels[i]}. {c}" for i, c in enumerate(item['choices'])]
-                prompt_parts.append(f"Choices: {' '.join(choices_fmt)}")
+                prompt_parts.append("Options:")
+                for i, c in enumerate(item['choices']):
+                    if i < len(labels_map):
+                        prompt_parts.append(f"{labels_map[i]}. {c}")
+            
             prompt_text = "\n".join(prompt_parts)
-            # M3CoT 的 rationale 和 answer 组合
-            answer_text = f"{item.get('rationale','')}\nAnswer: {item.get('answer','')}"
+            
+            # Answer: Rationale + (Letter. Content)
+            # M3CoT answer is usually the content string. We find its index to get the letter.
+            raw_ans = item.get('answer', '')
+            rationale = item.get('rationale', '')
+            
+            ans_str_formatted = raw_ans
+            if item.get('choices'):
+                try:
+                    # 尝试寻找答案在选项中的索引以确定字母
+                    idx = item['choices'].index(raw_ans)
+                    if idx < len(labels_map):
+                        ans_str_formatted = f"{labels_map[idx]}. {raw_ans}"
+                except ValueError:
+                    # 如果找不到精确匹配，保持原样
+                    pass
+
+            answer_text = f"{rationale}\nAnswer: {ans_str_formatted}"
 
         elif ds_type == "llava":
             for turn in item['conversations']:
@@ -121,10 +148,31 @@ class LatentReasoningDataset(Dataset):
                     break
         else: 
             # ScienceQA
-            choices = f" Choices: {', '.join(item['choices'])}." if item.get('choices') else ""
-            prompt_text = f"Question: {item['question']}{choices}"
-            ans_idx = item['answer']
-            answer_text = item['choices'][ans_idx] if item.get('choices') else str(ans_idx)
+            prompt_parts = []
+            
+            # Hint 放在最前面
+            if item.get('hint'):
+                prompt_parts.append(f"{item['hint']}")
+            
+            # Question
+            prompt_parts.append(f"Question: {item['question']}")
+            
+            # Options (Formatted vertically with letters)
+            if item.get('choices'):
+                prompt_parts.append("Options:")
+                for i, c in enumerate(item['choices']):
+                    if i < len(labels_map):
+                        prompt_parts.append(f"{labels_map[i]}. {c}")
+                prompt_parts.append("Please select the correct answer from the options above.")
+            
+            prompt_text = "\n".join(prompt_parts)
+            
+            # Answer: Letter. Content
+            ans_idx = int(item['answer'])
+            if item.get('choices') and ans_idx < len(item['choices']) and ans_idx < len(labels_map):
+                answer_text = f"{labels_map[ans_idx]}. {item['choices'][ans_idx]}"
+            else:
+                answer_text = str(ans_idx)
 
         return prompt_text, answer_text
 

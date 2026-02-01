@@ -35,17 +35,37 @@ def load_sample_image(item, ds_cfg):
 def format_sample_text(item, ds_type):
     prompt_text = ""
     ground_truth = ""
+    
+    labels_map = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
     if ds_type == "m3cot":
         prompt_parts = []
         if item.get('context'): prompt_parts.append(f"Context: {item['context']}")
         prompt_parts.append(f"Question: {item['question']}")
+        
+        # Options
         if item.get('choices'):
-            labels = ['A', 'B', 'C', 'D', 'E', 'F']
-            choices_fmt = [f"{labels[i]}. {c}" for i, c in enumerate(item['choices'])]
-            prompt_parts.append(f"Choices: {' '.join(choices_fmt)}")
+            prompt_parts.append("Options:")
+            for i, c in enumerate(item['choices']):
+                if i < len(labels_map):
+                    prompt_parts.append(f"{labels_map[i]}. {c}")
+        
         prompt_text = "\n".join(prompt_parts)
-        ground_truth = f"{item.get('rationale','')}\nAnswer: {item.get('answer','')}"
+        
+        # Answer
+        raw_ans = item.get('answer', '')
+        rationale = item.get('rationale', '')
+        
+        ans_str_formatted = raw_ans
+        if item.get('choices'):
+            try:
+                idx = item['choices'].index(raw_ans)
+                if idx < len(labels_map):
+                    ans_str_formatted = f"{labels_map[idx]}. {raw_ans}"
+            except ValueError:
+                pass
+        
+        ground_truth = f"{rationale}\nAnswer: {ans_str_formatted}"
 
     elif ds_type == "llava":
         for turn in item['conversations']:
@@ -56,10 +76,27 @@ def format_sample_text(item, ds_type):
                 break
     else: 
         # ScienceQA
-        choices = f" Choices: {', '.join(item['choices'])}." if item.get('choices') else ""
-        prompt_text = f"Question: {item['question']}{choices}"
-        ans_idx = item['answer']
-        ground_truth = item['choices'][ans_idx] if item.get('choices') else str(ans_idx)
+        prompt_parts = []
+        if item.get('hint'):
+            prompt_parts.append(f"{item['hint']}")
+        
+        prompt_parts.append(f"Question: {item['question']}")
+        
+        if item.get('choices'):
+            prompt_parts.append("Options:")
+            for i, c in enumerate(item['choices']):
+                if i < len(labels_map):
+                    prompt_parts.append(f"{labels_map[i]}. {c}")
+            prompt_parts.append("Please select the correct answer from the options above.")
+        
+        prompt_text = "\n".join(prompt_parts)
+        
+        # Answer
+        ans_idx = int(item['answer'])
+        if item.get('choices') and ans_idx < len(item['choices']) and ans_idx < len(labels_map):
+            ground_truth = f"{labels_map[ans_idx]}. {item['choices'][ans_idx]}"
+        else:
+            ground_truth = str(ans_idx)
 
     return prompt_text, ground_truth
 
@@ -73,7 +110,6 @@ def get_training_sample(config):
     print(f"\n[Data] Loading first sample from: {ds_cfg.name} (Split: {ds_cfg.split})")
     
     # 加载数据集 (streaming=False 确保我们可以直接取下标)
-    # 注意：如果网络不好，这里可能会卡住下载，建议确保本地有缓存
     try:
         dataset = load_dataset(ds_cfg.name, split=ds_cfg.split)
     except Exception as e:

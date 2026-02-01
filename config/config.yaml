@@ -62,21 +62,21 @@ tokens:
 reasoning_stages:
   - name: "semantic"
     token: "<|dino_pad|>"
-    count: 4
+    count: 0
     feature_key: "dino_v2_global"
     dim: 768
     text_prefix: " Then analyze the semantic features: "
     
   - name: "structure"
     token: "<|depth_pad|>"
-    count: 4
+    count: 0
     feature_key: "depth_map_encoded"
     dim: 768 
     text_prefix: " Next, looking at the depth structure: "
     
   - name: "boundaries"
     token: "<|seg_pad|>"
-    count: 4
+    count: 0
     feature_key: "segmentation_map_encoded"
     dim: 512
     text_prefix: " Finally, observing the segmentation boundaries: "
