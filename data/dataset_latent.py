@@ -12,7 +12,6 @@ class LatentReasoningDataset(Dataset):
         self.config = config
         
         # === 1. 预构建思维链内部内容 (Thought Content) ===
-        # 结构: prefix <|anchor|> tokens <|anchor|>
         self.thought_content = ""
         
         # 检查是否需要生成 latent 部分
@@ -71,9 +70,6 @@ class LatentReasoningDataset(Dataset):
                     if ds_cfg.feature_dir and os.path.exists(feature_path):
                         has_feature = True
                     
-                    # 逻辑修改：
-                    # 如果 require_vision_features 为 True，则严格过滤，不存在就 continue
-                    # 如果 require_vision_features 为 False，则不存在也加入，但标记 feature_path = None
                     if config.require_vision_features:
                         if not has_feature:
                             continue
@@ -111,31 +107,22 @@ class LatentReasoningDataset(Dataset):
         prompt_text = ""
         answer_text = ""
         
-        # 标准选项标签
         labels_map = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
         if ds_type == "m3cot":
             prompt_parts = []
-            # Context
             if item.get('context'): 
                 prompt_parts.append(f"Context: {item['context']}")
-            
-            # Question
             prompt_parts.append(f"Question: {item['question']}")
-            
-            # Options (Formatted vertically with letters)
             if item.get('choices'):
                 prompt_parts.append("Options:")
                 for i, c in enumerate(item['choices']):
                     if i < len(labels_map):
                         prompt_parts.append(f"{labels_map[i]}. {c}")
-            
             prompt_text = "\n".join(prompt_parts)
             
-            # Answer
             raw_ans = item.get('answer', '')
             rationale = item.get('rationale', '')
-            
             ans_str_formatted = raw_ans
             if item.get('choices'):
                 try:
@@ -144,7 +131,6 @@ class LatentReasoningDataset(Dataset):
                         ans_str_formatted = f"{labels_map[idx]}. {raw_ans}"
                 except ValueError:
                     pass
-
             answer_text = f"{rationale}\nAnswer: {ans_str_formatted}"
 
         elif ds_type == "llava":
@@ -183,14 +169,14 @@ class LatentReasoningDataset(Dataset):
         
         if isinstance(img_raw, Image.Image):
             return img_raw.convert("RGB")
-        elif isinstance(img_raw, str):
+        elif isinstance(img_raw, str) and img_raw.strip():
             if not ds_cfg.image_folder:
-                return Image.new('RGB', (224, 224), (0, 0, 0))
+                return None 
             full_path = os.path.join(ds_cfg.image_folder, img_raw)
             if os.path.exists(full_path):
                 return Image.open(full_path).convert("RGB")
         
-        return Image.new('RGB', (224, 224), (0, 0, 0))
+        return None 
 
     def __getitem__(self, idx):
         item_wrapper = self.mixed_data[idx]
@@ -200,23 +186,31 @@ class LatentReasoningDataset(Dataset):
         feature_path = item_wrapper.get('feature_path')
         has_visual_features = (feature_path is not None)
 
-        # === 1. 构造标准 Messages ===
+        if image is None:
+            has_visual_features = False
+
+        # === 1. 构造 Messages ===
         full_assistant_content = ""
         
-        # 核心逻辑修改：只有当存在视觉特征时，才插入 Latent Thought 过程
-        # 如果没有特征，则只训练文本问答，不进行隐式推理
         if has_visual_features and self.thought_content:
             full_assistant_content += f"{self.config.think_start}{self.thought_content}{self.config.think_end}\n"
             
         full_assistant_content += f"{self.config.answer_start}{answer_text}{self.config.answer_end}"
 
+        if image is not None:
+            content_list = [
+                {"type": "image", "image": image},
+                {"type": "text", "text": prompt_text},
+            ]
+        else:
+            content_list = [
+                {"type": "text", "text": prompt_text},
+            ]
+
         messages = [
             {
                 "role": "user",
-                "content": [
-                    {"type": "image", "image": image},
-                    {"type": "text", "text": prompt_text},
-                ],
+                "content": content_list,
             },
             {
                 "role": "assistant",
@@ -227,22 +221,38 @@ class LatentReasoningDataset(Dataset):
         # === 2. Tokenize ===
         full_text = self.processor.apply_chat_template(messages, tokenize=False)
         
-        inputs = self.processor(
-            text=[full_text], 
-            images=[image], 
-            return_tensors="pt", 
-            padding=False,
-            max_pixels=self.max_pixels,
-        )
+        if image is not None:
+            inputs = self.processor(
+                text=[full_text], 
+                images=[image], 
+                return_tensors="pt", 
+                padding=False,
+                max_pixels=self.max_pixels,
+            )
+        else:
+            inputs = self.processor(
+                text=[full_text], 
+                images=None, 
+                return_tensors="pt", 
+                padding=False,
+            )
+
         input_ids = inputs.input_ids.squeeze(0)
         attention_mask = inputs.attention_mask.squeeze(0)
         
-        # === 3. Labels (Mask User) ===
+        # === 3. Labels ===
         user_only_msg = [messages[0]]
         user_prompt_str = self.processor.apply_chat_template(user_only_msg, tokenize=False, add_generation_prompt=True)
-        user_inputs = self.processor(
-            text=[user_prompt_str], images=[image], return_tensors="pt", padding=False, max_pixels=self.max_pixels
-        )
+        
+        if image is not None:
+            user_inputs = self.processor(
+                text=[user_prompt_str], images=[image], return_tensors="pt", padding=False, max_pixels=self.max_pixels
+            )
+        else:
+            user_inputs = self.processor(
+                text=[user_prompt_str], images=None, return_tensors="pt", padding=False
+            )
+
         user_len = user_inputs.input_ids.shape[1]
         
         labels = input_ids.clone()
@@ -266,9 +276,25 @@ class LatentReasoningDataset(Dataset):
                 if start_idx + 1 < end_idx:
                     answer_only_mask[start_idx + 1 : end_idx] = True
 
-        pixel_values = inputs.pixel_values.squeeze(0)
-        image_grid_thw = inputs.image_grid_thw.squeeze(0)
-        if image_grid_thw.ndim == 1: image_grid_thw = image_grid_thw.unsqueeze(0)
+        # [修正] 处理 pixel_values 和 image_grid_thw
+        pixel_values = getattr(inputs, "pixel_values", None)
+        image_grid_thw = getattr(inputs, "image_grid_thw", None)
+        
+        if pixel_values is not None:
+            # pixel_values 通常是 (1, P, D)，需要 squeeze 变成 (P, D)
+            if pixel_values.ndim == 3:
+                pixel_values = pixel_values.squeeze(0)
+            
+            # image_grid_thw 通常是 (1, 3)（表示1张图）。
+            # 注意：千万不要 squeeze(0) 把它变成 (3,)，否则 collate 后会变成 1D Tensor 导致报错！
+            # 仅当它有额外的 batch 维度时（例如 (1, 1, 3)）才 squeeze。
+            if image_grid_thw is not None:
+                if image_grid_thw.ndim > 2:
+                    image_grid_thw = image_grid_thw.squeeze(0)
+                # 确保最后是 (1, 3) 而不是 (3,)
+                
+            # 兼容性处理：如果 squeeze 后 image_grid_thw 变成了 1D，则显式 unsqueeze 回来
+            # 不过上面去掉强制 squeeze 应该就够了。
 
         # === 5. Load Alignment Features ===
         alignment_dict = {}
@@ -277,25 +303,22 @@ class LatentReasoningDataset(Dataset):
                 alignment_dict = torch.load(feature_path, map_location='cpu', weights_only=True)
             except Exception as e:
                 print(f"Warning: Corrupt feature file {feature_path}: {e}")
-                # 加载失败视同无特征
                 has_visual_features = False
                 alignment_dict = {}
         
-        # 如果没有特征（或加载失败），生成全0的 dummy features 以便 collate
         if not has_visual_features:
             for stage in self.config.stages:
-                # 生成 dummy 向量: [dim]
                 alignment_dict[stage.feature_key] = torch.zeros(stage.dim, dtype=torch.float32)
 
         return {
             "input_ids": input_ids,
             "attention_mask": attention_mask,
             "labels": labels,
-            "pixel_values": pixel_values,
-            "image_grid_thw": image_grid_thw,
+            "pixel_values": pixel_values, 
+            "image_grid_thw": image_grid_thw, 
             "alignment_features": alignment_dict,
             "answer_only_mask": answer_only_mask,
-            "has_visual_features": has_visual_features # 新增标记
+            "has_visual_features": has_visual_features
         }
 
 def collate_fn(batch):
@@ -306,17 +329,22 @@ def collate_fn(batch):
     labels = pad_sequence([item['labels'] for item in batch], batch_first=True, padding_value=-100)
     answer_only_mask = pad_sequence([item['answer_only_mask'] for item in batch], batch_first=True, padding_value=False)
     
-    pixel_values = torch.cat([item['pixel_values'] for item in batch], dim=0)
-    image_grid_thw = torch.cat([item['image_grid_thw'] for item in batch], dim=0)
+    # 过滤 None
+    valid_pixel_values = [item['pixel_values'] for item in batch if item['pixel_values'] is not None]
+    valid_grid_thw = [item['image_grid_thw'] for item in batch if item['image_grid_thw'] is not None]
     
-    # 堆叠 has_visual_features 标记
+    if len(valid_pixel_values) > 0:
+        pixel_values = torch.cat(valid_pixel_values, dim=0)
+        # 这里的 cat 需要 image_grid_thw 是 (1, 3) 才能拼成 (N, 3)
+        image_grid_thw = torch.cat(valid_grid_thw, dim=0)
+    else:
+        pixel_values = None
+        image_grid_thw = None
+    
     has_visual_features = torch.tensor([item['has_visual_features'] for item in batch], dtype=torch.bool)
 
-    # 堆叠 Alignment Features
-    # 注意：__getitem__ 保证了即使无特征也有 dummy zeros，所以 keys 应该是齐全的
     alignment_features = {}
     if batch:
-        # 获取所有可能的 keys (基于第一个样本，因为我们强制填充了)
         keys = batch[0]['alignment_features'].keys()
         for k in keys:
             if k in ['id', 'unique_id']: continue 

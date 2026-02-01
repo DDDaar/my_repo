@@ -12,22 +12,21 @@ data:
   # [新增] 是否要求必须有对齐特征文件
   # true: 严格模式，跳过无特征文件的样本 (旧行为)
   # false: 混合模式，保留无特征样本，对其只计算 Text SFT Loss，不计算 MSE/VBC
-  require_vision_features: Truw
-
-  # === 单数据集配置 ===
-  dataset_name: "LightChen2333/M3CoT"
-  dataset_split: "test"
-  count: -1
-  image_folder: " "
-  feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_test"
-
-
+  require_vision_features: false
   # # === 单数据集配置 ===
-  # dataset_name: "derek-thomas/ScienceQA"
+  # dataset_name: "LightChen2333/M3CoT"
   # dataset_split: "test"
   # count: -1
   # image_folder: " "
-  # feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_test"
+  # feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_test"
+
+
+  # === 单数据集配置 ===
+  dataset_name: "derek-thomas/ScienceQA"
+  dataset_split: "test"
+  count: -1
+  image_folder: " "
+  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_test"
 
   # === 混合数据集配置 ===
   mix_datasets:
@@ -87,7 +86,10 @@ reasoning_stages:
     text_prefix: " Finally, observing the segmentation boundaries: "
 
 training:
-  epochs: 1
+# [新增] 调试打印频率，设置 > 0 即可开启，例如 100 代表每 100 步打印一次
+  debug_print_steps: 20
+
+  epochs: 3
   alpha_sft: 1.0     
   beta_mse: 0.1      
   lambda_vbc: 0.0    

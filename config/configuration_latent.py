@@ -53,6 +53,7 @@ class LatentConfig:
     
     # === 4. 训练参数 ===
     epochs: int          
+    debug_print_steps: int
     alpha_sft: float    # 标准 CE Loss 权重
     beta_mse: float     # 特征对齐 MSE Loss 权重
     lambda_vbc: float   # 视觉瓶颈对比 Loss 权重
@@ -148,6 +149,7 @@ class LatentConfig:
             
             # 训练超参
             epochs=cfg['training']['epochs'], 
+            debug_print_steps=cfg['training']['debug_print_steps'], 
             alpha_sft=cfg['training']['alpha_sft'],
             beta_mse=cfg['training']['beta_mse'],
             lambda_vbc=cfg['training'].get('lambda_vbc', 0.5),
