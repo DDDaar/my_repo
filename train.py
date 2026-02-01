@@ -174,7 +174,6 @@
 
 
 
-
 import os
 import torch
 from torch_npu.contrib import transfer_to_npu # 若非 Ascend NPU 可注释
@@ -288,6 +287,7 @@ def main():
         print(f"--- Training Configuration ---")
         print(f"Seed: {config.seed}")
         print(f"VBC Enabled: Lambda={config.lambda_vbc}")
+        print(f"Require Vision Features: {config.require_vision_features}")
         
         wandb.init(
             project=args.wandb_project,
@@ -328,8 +328,6 @@ def main():
             target_ds_cfg.split = split_name
             
             # 2. 修正 Feature Dir
-            # 逻辑：如果原路径包含 "train"，尝试替换为当前的 split (如 "test")
-            # 假设路径格式类似: .../aligned_features_ScienceQA_train
             original_feat_dir = target_ds_cfg.feature_dir
             if original_feat_dir and "train" in original_feat_dir:
                 new_feat_dir = original_feat_dir.replace("train", split_name)
@@ -340,10 +338,11 @@ def main():
                     if args.local_rank <= 0:
                         print(f" -> [Auto-Fix] 将验证集 feature_dir 修正为: {new_feat_dir}")
                 else:
-                    # 如果找不到对应的验证集特征目录，设为空，防止加载时因找不到文件而过滤所有数据
                     if args.local_rank <= 0:
-                        print(f" -> [Warning] 找不到目录 {new_feat_dir}。验证集将不加载对齐特征(MSE无效)，但保留数据用于计算 Loss。")
-                    target_ds_cfg.feature_dir = ""
+                        print(f" -> [Warning] 找不到目录 {new_feat_dir}。验证集将缺失对齐特征。")
+                    # 验证集也遵循 require_vision_features 逻辑，如果为 False，则不强求
+                    if not config.require_vision_features:
+                         target_ds_cfg.feature_dir = ""
             
             try:
                 temp_ds = LatentReasoningDataset(processor, val_config)

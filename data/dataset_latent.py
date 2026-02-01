@@ -44,7 +44,7 @@ class LatentReasoningDataset(Dataset):
         self.mixed_data = []
         
         rng = random.Random(config.seed)
-        print(f"--- Initializing Dataset (Seed: {config.seed}) ---")
+        print(f"--- Initializing Dataset (Seed: {config.seed}, Require Features: {config.require_vision_features}) ---")
         
         for ds_cfg in config.train_datasets:
             print(f"Loading: {ds_cfg.name} | Split: {ds_cfg.split}")
@@ -66,10 +66,21 @@ class LatentReasoningDataset(Dataset):
                     if ds_cfg.feature_dir:
                         feature_path = os.path.join(ds_cfg.feature_dir, f"{file_id}.pt")
                     
-                    # 如果指定了特征目录但文件不存在，则跳过
-                    if ds_cfg.feature_dir and not os.path.exists(feature_path):
-                        continue
-                        
+                    # 检查特征文件是否存在
+                    has_feature = False
+                    if ds_cfg.feature_dir and os.path.exists(feature_path):
+                        has_feature = True
+                    
+                    # 逻辑修改：
+                    # 如果 require_vision_features 为 True，则严格过滤，不存在就 continue
+                    # 如果 require_vision_features 为 False，则不存在也加入，但标记 feature_path = None
+                    if config.require_vision_features:
+                        if not has_feature:
+                            continue
+                    else:
+                        if not has_feature:
+                            feature_path = None # 标记为无特征
+
                     self.mixed_data.append({
                         "raw_item": hf_ds[int(idx)],
                         "cfg": ds_cfg,
@@ -121,20 +132,17 @@ class LatentReasoningDataset(Dataset):
             
             prompt_text = "\n".join(prompt_parts)
             
-            # Answer: Rationale + (Letter. Content)
-            # M3CoT answer is usually the content string. We find its index to get the letter.
+            # Answer
             raw_ans = item.get('answer', '')
             rationale = item.get('rationale', '')
             
             ans_str_formatted = raw_ans
             if item.get('choices'):
                 try:
-                    # 尝试寻找答案在选项中的索引以确定字母
                     idx = item['choices'].index(raw_ans)
                     if idx < len(labels_map):
                         ans_str_formatted = f"{labels_map[idx]}. {raw_ans}"
                 except ValueError:
-                    # 如果找不到精确匹配，保持原样
                     pass
 
             answer_text = f"{rationale}\nAnswer: {ans_str_formatted}"
@@ -149,25 +157,17 @@ class LatentReasoningDataset(Dataset):
         else: 
             # ScienceQA
             prompt_parts = []
-            
-            # Hint 放在最前面
             if item.get('hint'):
                 prompt_parts.append(f"{item['hint']}")
-            
-            # Question
             prompt_parts.append(f"Question: {item['question']}")
-            
-            # Options (Formatted vertically with letters)
             if item.get('choices'):
                 prompt_parts.append("Options:")
                 for i, c in enumerate(item['choices']):
                     if i < len(labels_map):
                         prompt_parts.append(f"{labels_map[i]}. {c}")
                 prompt_parts.append("Please select the correct answer from the options above.")
-            
             prompt_text = "\n".join(prompt_parts)
             
-            # Answer: Letter. Content
             ans_idx = int(item['answer'])
             if item.get('choices') and ans_idx < len(item['choices']) and ans_idx < len(labels_map):
                 answer_text = f"{labels_map[ans_idx]}. {item['choices'][ans_idx]}"
@@ -197,11 +197,15 @@ class LatentReasoningDataset(Dataset):
         image = self._load_image(item_wrapper)
         prompt_text, answer_text = self._format_text(item_wrapper)
 
+        feature_path = item_wrapper.get('feature_path')
+        has_visual_features = (feature_path is not None)
+
         # === 1. 构造标准 Messages ===
-        # Assistant 回复内容 = <think>...</think><answer>...</answer>
         full_assistant_content = ""
         
-        if self.thought_content:
+        # 核心逻辑修改：只有当存在视觉特征时，才插入 Latent Thought 过程
+        # 如果没有特征，则只训练文本问答，不进行隐式推理
+        if has_visual_features and self.thought_content:
             full_assistant_content += f"{self.config.think_start}{self.thought_content}{self.config.think_end}\n"
             
         full_assistant_content += f"{self.config.answer_start}{answer_text}{self.config.answer_end}"
@@ -220,14 +224,9 @@ class LatentReasoningDataset(Dataset):
             }
         ]
         
-        # === 2. 使用 apply_chat_template 生成完整 Prompt ===
-        # Qwen2.5 的 template 会自动处理 <|im_start|>user ... <|im_end|><|im_start|>assistant ... <|im_end|>
+        # === 2. Tokenize ===
         full_text = self.processor.apply_chat_template(messages, tokenize=False)
-        # print(f'训练前的full text为：{full_text}')
-        # sleep(1000)
-
-
-        # === 3. Tokenize ===
+        
         inputs = self.processor(
             text=[full_text], 
             images=[image], 
@@ -238,12 +237,9 @@ class LatentReasoningDataset(Dataset):
         input_ids = inputs.input_ids.squeeze(0)
         attention_mask = inputs.attention_mask.squeeze(0)
         
-        # === 4. 设置 Labels (Mask 掉 User 部分) ===
-        # 为了精确计算 User 部分的长度，我们单独 apply 一次 user template
+        # === 3. Labels (Mask User) ===
         user_only_msg = [messages[0]]
-        # add_generation_prompt=True 会加上 "<|im_start|>assistant\n"，确保我们 mask 到了 assistant 开头之前
         user_prompt_str = self.processor.apply_chat_template(user_only_msg, tokenize=False, add_generation_prompt=True)
-        
         user_inputs = self.processor(
             text=[user_prompt_str], images=[image], return_tensors="pt", padding=False, max_pixels=self.max_pixels
         )
@@ -255,28 +251,18 @@ class LatentReasoningDataset(Dataset):
         else:
             labels[:] = -100 
 
-        # === 5. 计算 Answer Only Mask (VBC 用) ===
-        # 通过 Token ID 精确查找 <answer> 和 </answer> 的位置
+        # === 4. Answer Mask ===
         answer_only_mask = torch.zeros_like(input_ids, dtype=torch.bool)
-        
         if self.config.answer_start_id is not None:
-            # 找到所有 <answer> 标签的位置
             start_indices = (input_ids == self.config.answer_start_id).nonzero(as_tuple=True)[0]
-            
             if len(start_indices) > 0:
-                # 假设只有一个 assistant 回复，取最后一个匹配项作为起点
                 start_idx = start_indices[-1]
                 end_idx = len(input_ids)
-                
-                # 尝试寻找对应的 </answer>
                 if self.config.answer_end_id is not None:
                     end_indices = (input_ids == self.config.answer_end_id).nonzero(as_tuple=True)[0]
-                    # 必须是在 start_idx 之后的结束符
                     valid_ends = end_indices[end_indices > start_idx]
                     if len(valid_ends) > 0:
                         end_idx = valid_ends[0]
-                
-                # 设置 mask: 从 start+1 到 end-1 (不包括标签本身)
                 if start_idx + 1 < end_idx:
                     answer_only_mask[start_idx + 1 : end_idx] = True
 
@@ -284,15 +270,23 @@ class LatentReasoningDataset(Dataset):
         image_grid_thw = inputs.image_grid_thw.squeeze(0)
         if image_grid_thw.ndim == 1: image_grid_thw = image_grid_thw.unsqueeze(0)
 
-        # 加载对齐特征
+        # === 5. Load Alignment Features ===
         alignment_dict = {}
-        feature_path = item_wrapper.get('feature_path')
-        if feature_path and os.path.exists(feature_path):
+        if has_visual_features:
             try:
                 alignment_dict = torch.load(feature_path, map_location='cpu', weights_only=True)
             except Exception as e:
                 print(f"Warning: Corrupt feature file {feature_path}: {e}")
+                # 加载失败视同无特征
+                has_visual_features = False
+                alignment_dict = {}
         
+        # 如果没有特征（或加载失败），生成全0的 dummy features 以便 collate
+        if not has_visual_features:
+            for stage in self.config.stages:
+                # 生成 dummy 向量: [dim]
+                alignment_dict[stage.feature_key] = torch.zeros(stage.dim, dtype=torch.float32)
+
         return {
             "input_ids": input_ids,
             "attention_mask": attention_mask,
@@ -300,7 +294,8 @@ class LatentReasoningDataset(Dataset):
             "pixel_values": pixel_values,
             "image_grid_thw": image_grid_thw,
             "alignment_features": alignment_dict,
-            "answer_only_mask": answer_only_mask
+            "answer_only_mask": answer_only_mask,
+            "has_visual_features": has_visual_features # 新增标记
         }
 
 def collate_fn(batch):
@@ -313,13 +308,19 @@ def collate_fn(batch):
     
     pixel_values = torch.cat([item['pixel_values'] for item in batch], dim=0)
     image_grid_thw = torch.cat([item['image_grid_thw'] for item in batch], dim=0)
+    
+    # 堆叠 has_visual_features 标记
+    has_visual_features = torch.tensor([item['has_visual_features'] for item in batch], dtype=torch.bool)
 
+    # 堆叠 Alignment Features
+    # 注意：__getitem__ 保证了即使无特征也有 dummy zeros，所以 keys 应该是齐全的
     alignment_features = {}
-    if batch and batch[0]['alignment_features']:
+    if batch:
+        # 获取所有可能的 keys (基于第一个样本，因为我们强制填充了)
         keys = batch[0]['alignment_features'].keys()
         for k in keys:
             if k in ['id', 'unique_id']: continue 
-            tensors = [item['alignment_features'][k] for item in batch if k in item['alignment_features']]
+            tensors = [item['alignment_features'][k] for item in batch]
             if len(tensors) == len(batch):
                 alignment_features[k] = torch.stack(tensors)
 
@@ -330,5 +331,6 @@ def collate_fn(batch):
         "pixel_values": pixel_values,
         "image_grid_thw": image_grid_thw,
         "alignment_features": alignment_features,
-        "answer_only_mask": answer_only_mask
+        "answer_only_mask": answer_only_mask,
+        "has_visual_features": has_visual_features
     }

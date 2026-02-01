@@ -30,13 +30,18 @@ class LatentConfig:
     # === 2. 数据参数 ===
     train_datasets: List[SingleDatasetConfig]
     seed: int
+    
+    # [新增] 是否要求必须有预提取的视觉特征
+    # True: 过滤掉没有特征文件的样本 (旧模式)
+    # False: 保留所有样本。无特征样本只计算 SFT Loss (新模式)
+    require_vision_features: bool
 
     # === 3. Token 与 结构参数 ===
     extract_token: str
     extract_count: int
     extract_text_prefix: str 
     
-    # [新增] 结构性 Token
+    # 结构性 Token
     think_start: str
     think_end: str
     answer_start: str
@@ -60,7 +65,7 @@ class LatentConfig:
     extract_token_id: Optional[int] = None
     vbc_target_scope: str = "answer" 
     
-    # [新增] 用于 Dataset 定位 Mask 的关键 ID
+    # 用于 Dataset 定位 Mask 的关键 ID
     answer_start_id: Optional[int] = None
     answer_end_id: Optional[int] = None
 
@@ -122,6 +127,7 @@ class LatentConfig:
             hidden_size=cfg['model']['hidden_size'],
             train_datasets=unified_datasets,
             seed=data_cfg.get('seed', 42),
+            require_vision_features=data_cfg.get('require_vision_features', True),
             
             # Token配置
             extract_token=tokens_cfg.get('extract_token', "<|vision_extract_pad|>"),
