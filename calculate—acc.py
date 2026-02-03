@@ -112,36 +112,37 @@ def run_evaluation(file_path):
             print(f">>> 评估方法 {m_id}: {m_name}")
             print(f"{'='*80}")
 
-            # 计算当前方法的预测
+            # 计算预测
             df[f'pred_m{m_id}'] = df['prediction'].apply(lambda x: extract_prediction(x, m_id))
             
-            # 判断当前方法是否正确
+            # 判断是否正确 (排除真值为空的情况)
             df[f'correct_m{m_id}'] = (df[f'pred_m{m_id}'] == df['cleaned_answer']) & (df['cleaned_answer'] != "")
             
-            # --- 核心统计：Hit=0 但方法正确的案例 ---
-            # 这里的逻辑是：原始评测认为错(hit=0)，但我们的方法提取后与真值一致
-            recovery_df = df[(df['hit_num'] == 0) & (df[f'correct_m{m_id}'] == True)]
-            recovery_count = len(recovery_df)
-
-            # 1. 打印预览 (前10条基础信息)
-            print(f"【前10条数据提取预览】")
-            for i in range(min(10, len(df))):
+            # 1. 打印前5条基础信息 (预览)
+            print(f"【前5条提取预览】")
+            for i in range(min(5, len(df))):
                 t, p = df['cleaned_answer'].iloc[i], df[f'pred_m{m_id}'].iloc[i]
                 h = df['hit_num'].iloc[i]
                 status = "✅" if t == p and t != "" else "❌"
                 print(f"Idx: {i:<4} | True: {t:<2} | Pred: {p:<2} | 原Hit: {h} | 状态: {status}")
 
-            # 2. 打印恢复案例 (Hit=0 -> Correct)
-            print(f"\n💡 恢复分析: 原始 Hit=0 但 [{m_name}] 提取正确的数量: {recovery_count}")
-            if recovery_count > 0:
-                print(f"--- 前 5 条恢复案例详情 ---")
-                sample_recovery = recovery_df.head(5)
-                for _, row in sample_recovery.iterrows():
-                    print(f"Index: {row.name} | True: {row['cleaned_answer']} | Pred: {row[f'pred_m{m_id}']}")
-                    print(f"Full Prediction: {str(row['prediction']).strip()}")
-                    print("-" * 40)
+            # 2. 统计并展示恢复案例 (Hit=0 -> Correct)
+            recovery_df = df[(df['hit_num'] == 0) & (df[f'correct_m{m_id}'] == True)]
+            print(f"\n💡 恢复分析: 原始 Hit=0 但 [{m_name}] 提取正确的数量: {len(recovery_df)}")
+            
+            if not recovery_df.empty:
+                print(f"--- 展示前 15 个恢复案例明细 ---")
+                sample_recovery = recovery_df.head(15)
+                for idx, row in sample_recovery.iterrows():
+                    print(f"Index: {idx} | True Answer: {row['cleaned_answer']} | [{m_name}] Pred: {row[f'pred_m{m_id}']}")
+                    # 打印原始模型输出的前150个字符，方便快速核对
+                    raw_pred = str(row['prediction']).strip().replace('\n', ' ')
+                    print(f"Raw Prediction: {raw_pred[:200]}...") 
+                    print("-" * 60)
+            else:
+                print("未发现恢复案例（该方法未能在 Hit=0 的样本中提取出正确答案）。")
 
-            # 计算该方法的总准确率
+            # 计算准确率
             valid_mask = df['cleaned_answer'] != ""
             acc = (df[f'correct_m{m_id}'].sum() / valid_mask.sum() * 100) if valid_mask.sum() > 0 else 0
             overall_results[m_name] = acc
@@ -162,5 +163,7 @@ def run_evaluation(file_path):
         traceback.print_exc()
 
 if __name__ == "__main__":
-    target_file = r'/home/ma-user/work/lbx/VLMEvalKit/outputs/Qwen2.5-VL-3B-Instruct/T20260201_Ga186fad8/bak_20260201134714_ScienceQA_TEST/Qwen2.5-VL-3B-Instruct_ScienceQA_TEST_exact_matching_result.xlsx'
+    # 请确保路径正确
+    target_file = r'/home/ma-user/work/lbx/VLMEvalKit/outputs/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_ScienceQA_TEST_exact_matching_result.xlsx'
+    # target_file = r'/home/ma-user/work/lbx/VLMEvalKit/outputs/Qwen2.5-VL-7B-Instruct/T20260203_Ga186fad8/bak_20260203103608_ScienceQA_TEST/Qwen2.5-VL-7B-Instruct_ScienceQA_TEST_exact_matching_result.xlsx'
     run_evaluation(target_file)

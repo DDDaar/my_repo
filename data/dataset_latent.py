@@ -222,8 +222,15 @@ class LatentReasoningDataset(Dataset):
             }
         ]
         
+ 
+        # print(f'原始聊天模版：{messages}')
+        # sleep(1)
+        
         # === 2. Tokenize ===
         full_text = self.processor.apply_chat_template(messages, tokenize=False)
+        
+        # print(f'经过processor聊天模版：{full_text}')
+        # sleep(1000)
         
         if image is not None:
             inputs = self.processor(

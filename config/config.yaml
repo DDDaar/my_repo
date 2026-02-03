@@ -12,7 +12,7 @@ data:
   # [新增] 是否要求必须有对齐特征文件
   # true: 严格模式，跳过无特征文件的样本 (旧行为)
   # false: 混合模式，保留无特征样本，对其只计算 Text SFT Loss，不计算 MSE/VBC
-  require_vision_features: false
+  require_vision_features: true
   # # === 单数据集配置 ===
   # dataset_name: "LightChen2333/M3CoT"
   # dataset_split: "test"
@@ -23,10 +23,10 @@ data:
 
   # === 单数据集配置 ===
   dataset_name: "derek-thomas/ScienceQA"
-  dataset_split: "test"
+  dataset_split: "train"
   count: -1
   image_folder: " "
-  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_test"
+  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
   # === 混合数据集配置 ===
   mix_datasets:
@@ -87,16 +87,16 @@ reasoning_stages:
 
 training:
 # [新增] 调试打印频率，设置 > 0 即可开启，例如 100 代表每 100 步打印一次
-  debug_print_steps: 10
+  debug_print_steps: 50
 
-  epochs: 3
+  epochs: 10
   alpha_sft: 1.0     
   beta_mse: 0.1      
   lambda_vbc: 0.0    
   vbc_margin: 0.6    
 
   batch_size: 2
-  learning_rate: 5e-6
+  learning_rate: 1e-7
   gradient_checkpointing: True
 
   # 计算 VBC Loss 的范围: "answer" (仅最终答案) 或 "full" (全部回复)
