@@ -137,7 +137,7 @@ def run_evaluation(file_path):
                     print(f"Index: {idx} | True Answer: {row['cleaned_answer']} | [{m_name}] Pred: {row[f'pred_m{m_id}']}")
                     # 打印原始模型输出的前150个字符，方便快速核对
                     raw_pred = str(row['prediction']).strip().replace('\n', ' ')
-                    print(f"Raw Prediction: {raw_pred[:200]}...") 
+                    print(f"Raw Prediction: {raw_pred[:]}...") 
                     print("-" * 60)
             else:
                 print("未发现恢复案例（该方法未能在 Hit=0 的样本中提取出正确答案）。")
@@ -164,6 +164,7 @@ def run_evaluation(file_path):
 
 if __name__ == "__main__":
     # 请确保路径正确
-    target_file = r'/home/ma-user/work/lbx/VLMEvalKit/outputs/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_ScienceQA_TEST_exact_matching_result.xlsx'
+    target_file = r'/home/ma-user/work/lbx/VLMEvalKit/outputs/Qwen2.5-VL-3B-Instruct/T20260203_Ga186fad8/Qwen2.5-VL-3B-Instruct_ScienceQA_TEST_exact_matching_result.xlsx'
+    
     # target_file = r'/home/ma-user/work/lbx/VLMEvalKit/outputs/Qwen2.5-VL-7B-Instruct/T20260203_Ga186fad8/bak_20260203103608_ScienceQA_TEST/Qwen2.5-VL-7B-Instruct_ScienceQA_TEST_exact_matching_result.xlsx'
     run_evaluation(target_file)

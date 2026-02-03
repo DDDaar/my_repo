@@ -1,5 +1,5 @@
 model:
-  base_model: "Qwen/Qwen2.5-VL-7B-Instruct"
+  base_model: "Qwen/Qwen2.5-VL-3B-Instruct"
   hidden_size: 2048
 
 data:
@@ -89,7 +89,7 @@ training:
 # [新增] 调试打印频率，设置 > 0 即可开启，例如 100 代表每 100 步打印一次
   debug_print_steps: 50
 
-  epochs: 10
+  epochs: 5
   alpha_sft: 1.0     
   beta_mse: 0.1      
   lambda_vbc: 0.0    

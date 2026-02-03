@@ -37,8 +37,8 @@ def parse_args():
     parser.add_argument("--wandb_offline", action="store_true")
     
     # 控制验证频率和采样数量
-    parser.add_argument("--eval_steps", type=int, default=10, help="每隔多少步进行一次验证")
-    parser.add_argument("--eval_max_batches", type=int, default=10, help="每次验证最多跑多少个 batch")
+    parser.add_argument("--eval_steps", type=int, default=20, help="每隔多少步进行一次验证")
+    parser.add_argument("--eval_max_batches", type=int, default=5, help="每次验证最多跑多少个 batch")
 
     parser = deepspeed.add_config_arguments(parser)
     return parser.parse_args()
