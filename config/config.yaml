@@ -6,7 +6,7 @@ data:
   # === 模式选择 ===
   # "single": 使用 dataset_name 单数据集
   # "mix": 使用 mix_datasets 混合数据集
-  train_mode: "single"  
+  train_mode: "mix"  
   seed: 42
   
   # [新增] 是否要求必须有对齐特征文件
@@ -14,19 +14,19 @@ data:
   # false: 混合模式，保留无特征样本，对其只计算 Text SFT Loss，不计算 MSE/VBC
   require_vision_features: true
   # # === 单数据集配置 ===
-  # dataset_name: "LightChen2333/M3CoT"
-  # dataset_split: "test"
-  # count: -1
-  # image_folder: " "
-  # feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_test"
-
-
-  # === 单数据集配置 ===
-  dataset_name: "derek-thomas/ScienceQA"
+  dataset_name: "LightChen2333/M3CoT"
   dataset_split: "train"
   count: -1
   image_folder: " "
-  feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
+  feature_dir: "./data/data_preprocessed/M3CoT/aligned_features_M3CoT_train"
+
+
+#   # === 单数据集配置 ===
+#   dataset_name: "derek-thomas/ScienceQA"
+#   dataset_split: "train"
+#   count: -1
+#   image_folder: " "
+#   feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
   # === 混合数据集配置 ===
   mix_datasets:
@@ -36,11 +36,11 @@ data:
       image_folder: " "
       feature_dir: "./data/data_preprocessed/ScienceQA/aligned_features_ScienceQA_train"
 
-    - name: "Xkev/LLaVA-CoT-100k"
-      split: "train"
-      count: -1
-      image_folder: "/home/ma-user/work/lbx/dataset/LLaVA-CoT-100k"
-      feature_dir: "./data/data_preprocessed/LLaVA-CoT-100k/aligned_features_LLaVA-CoT-100k_train"
+    # - name: "Xkev/LLaVA-CoT-100k"
+    #   split: "train"
+    #   count: -1
+    #   image_folder: "/home/ma-user/work/lbx/dataset/LLaVA-CoT-100k"
+    #   feature_dir: "./data/data_preprocessed/LLaVA-CoT-100k/aligned_features_LLaVA-CoT-100k_train"
 
     - name: "LightChen2333/M3CoT"
       split: "train"
@@ -89,7 +89,7 @@ training:
 # [新增] 调试打印频率，设置 > 0 即可开启，例如 100 代表每 100 步打印一次
   debug_print_steps: 50
 
-  epochs: 5
+  epochs: 10
   alpha_sft: 1.0     
   beta_mse: 0.1      
   lambda_vbc: 0.0    
